@@ -31,7 +31,7 @@ class LayoutPart extends Record {
 	public $name = '';
 	public $title = '';
 
-	public static function findByLayoutId( $layout_id )
+	public static function findAllByLayoutId( $layout_id )
 	{
 		return self::findAllFrom( 'LayoutPart', 'layout_id=' . (int) $layout_id . ' ORDER BY id' );
 	}

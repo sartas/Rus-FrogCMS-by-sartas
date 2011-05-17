@@ -25,7 +25,7 @@ class PartText extends Record {
 	const TABLE_NAME = 'part_text';
 
 
-	public $page_id = '';
+	public $part_id = '';
 	public $filter_id = '';
 	public $content = '';
 	public $content_html = '';
@@ -59,14 +59,19 @@ class PartText extends Record {
 		return true;
 	}
 
-	public static function findByLayoutId( $id )
+	public static function findAllByLayoutId( $id )
 	{
 		return self::findAllFrom( 'PartText', 'layout_id=' . (int) $id . ' ORDER BY id' );
 	}
 
-	public static function findByPageId( $id )
+	public static function findOneByPartId( $id )
 	{
-		return self::findAllFrom( 'PartText', 'page_id=' . (int) $id . ' ORDER BY id' );
+		return self::findOneFrom( 'PartText', 'part_id=' . (int) $id );
+	}
+
+	public static function findOneByPageId( $id, $offset = 0 )
+	{
+		return self::findOneFrom( 'PartText', 'page_id=' . (int) $id . ' ORDER BY id ASC LIMIT 1 OFFSET ' . $offset );
 	}
 
 	public static function deleteByLayoutId( $id )

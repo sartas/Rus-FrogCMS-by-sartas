@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html class="val-2"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><!-- base --><script>var VER_LOAD=24, code, T_LOADER=1291316736774, T_RUN=1291316737342, MS_WAIT = 0, PARSEURL=function parseURL(url) {
+    var parts = /^(?:(.+?):\/\/(?:[^\/]+@)?(([^:\/]+)[:\d]*))?([^?#]*(\?[^#]*)?)(#.*)?/.exec(url);
+    return {scheme: parts[1], host: parts[2] || location.host, hostname: parts[3] || location.hostname, pathquery: parts[4] || "", search: parts[5] || "", hash: parts[6] || ""};
+}, D=function(){};try { D(); fetch(); } catch(e) { D("error: "+ (e&&e.message||e)); }
+function fetch() {
+  D("fetch code.js");
+  if ((code = code || document.getElementById("code"))) return;
+  (code = document.createElement("script")).id = "code";
+  code.className = "ml-smartlinks";
+  code.addEventListener("load", codeLoaded, false);
+  code.src = "http://api.getsmartlinks.com/code.min.js?v_loader=24#"+ (+new Date);
+  document.getElementsByTagName("head")[0].appendChild(code);
+  D("fetching C...");
+}
+function codeLoaded() { D("Code fetched!");
+  code.removeEventListener("load", codeLoaded, false);
+  var msg = parent.document.createEvent("Events");
+  msg.initEvent("finishLoading", true, false);
+  frameElement.dispatchEvent(msg);
+}</script><style>html{color:#000;background:transparent;border:0;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}input,button,textarea,select{font-size:100%;}
+body{width:100%;font-size:12px;font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;background:transparent;overflow:hidden;}.link{font-weight:bold;float:left;display:block;position:relative;text-decoration:none;background:transparent;color:#1B1B1B;}.bg#l{background-position:0 0;}.bg#r{background-position:-72px 0;}.bg#span-text{background-position:0 -184px;}#link:hover .bg#l{background-position:0 -46px;}#link:hover .bg#r{background-position:-72px -46px;}#link:hover .bg#span-text{background-position:0 -138px;}#from .bg#l{background-position:0 -92px;}#from .bg#r{background-position:-72px -92px;}#from .bg#span-text{background-position:0 -184px;}.bg{background-image:url("http://api.getsmartlinks.com/images/tooltip/val-2.png");background-repeat:no-repeat;position:absolute;display:block;height:46px;top:0;}.bg#span-text{white-space:nowrap;position:relative;background-repeat:repeat-x;color:transparent;}#span-text #hide-text{visibility:hidden;}#span-text #min{clear:left;width:61px;height:1px;}#show-text{z-index:2;position:absolute;left:11px;top:16px;text-shadow:#FFF 0 1px 0;white-space:nowrap;}#link .source{display:none;}#from .target{display:none;}#l{z-index:1;width:72px;left:0;}#m{position:relative;float:left;left:11px;}#r{z-index:1;width:34px;margin:0 -34px 0 0;right:0;}</style></head><body></body></html>

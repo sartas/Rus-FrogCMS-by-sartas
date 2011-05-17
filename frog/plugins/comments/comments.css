@@ -1,0 +1,88 @@
+#body_plugin_comments_index {
+	background:#fff;
+}
+
+
+/*
+	comments
+*/
+
+th.comment-actions {
+	text-align:left;
+	width:80px;
+}
+
+.comment-page {
+	width:200px;
+}
+
+.comment-status {
+	width:50px;
+}
+
+.comment-date {
+	width:180px;
+}
+
+td.comment-date {
+	text-align:center;
+	font-size:80%;
+}
+
+.comment-status,
+.comment-page {
+	text-align:center;
+}
+
+.comment-summary {
+	font-size:75%;
+	text-align:left;
+}
+
+.comment-author-name {
+	margin-right:10px;
+}
+
+.comment-author-email {
+	border-right:1px solid silver;
+	font-weight:normal;
+	font-size:85%;
+	background:silver;
+	padding:2px 5px;
+	border-radius:2px 0 0 2px;
+	-moz-border-radius:2px 0 0 2px;
+	-webkit-border-radius:2px 0 0 2px;
+	color:#fff;
+}
+
+.comment-author-link {
+	font-weight:normal;
+	font-size:85%;
+	background:silver;
+	padding:2px 5px;
+	border-radius:0 2px 2px 0;
+	-moz-border-radius:0 2px 2px 0;
+	-webkit-border-radius:0 2px 2px 0;
+	margin-left:-3px;
+	color:#fff;
+}
+
+.comment-actions a {
+	margin-right:10px;
+}
+
+.comment-status-approved {
+	color:green;
+}
+
+.comment-status-unupproved {
+	color:maroon;
+}
+
+.comment-approved td {
+	
+}
+
+.comment-unapproved {
+	
+}

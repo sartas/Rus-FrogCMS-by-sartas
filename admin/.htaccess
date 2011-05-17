@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	
+	#RewriteBase /admin/
+	
+	# Allow any files or directories that exist to be displayed directly
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+
+	# Rewrite all admin/ dir URLs to index.php?/URL
+	RewriteRule .* index.php?$0 [L,PT,QSA]
+</IfModule>

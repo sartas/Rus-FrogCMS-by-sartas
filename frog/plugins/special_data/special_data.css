@@ -1,0 +1,38 @@
+#body_plugin_special_data_index {
+	background-color:#fff;
+}
+
+#special-data-table th.name,
+#special-data-table th.value,
+#special-data-table th.modify {
+	text-align:left;
+}
+
+#special-data-table td.name {
+	vertical-align:top;
+}
+
+#special-data-table td.name em {
+	color:silver;
+}
+
+#special-data-table .value {
+	width:60%;
+}
+
+#special-data-table td.modify {
+	vertical-align:top;
+	width:100px;
+}
+
+#special-data-table td.modify a {
+	margin-right:10px;
+}
+
+#special-data-value-file-text {
+	background:silver;
+	padding:4px 8px;
+	border-radius:3px;
+	-mox-border-radius:3px;
+	-webkit-border-radius:3px;
+}

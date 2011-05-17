@@ -1,0 +1,228 @@
+/**
+ * Frog CMS - Content Management Simplified. <http://www.madebyfrog.com>
+ * Copyright (C) 2008 Philippe Archambault <philippe.archambault@gmail.com>
+ * Copyright (C) 2008 Martijn van der Kleijn <martijn.niji@gmail.com>
+ * Copyright (C) 2008 Maslakov Alexander <jmas.ukraine@gmail.com>
+ *
+ * This file is part of Frog CMS.
+ *
+ * Frog CMS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Frog CMS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Frog CMS.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Frog CMS has made an exception to the GNU General Public License for plugins.
+ * See exception.txt for details and the full text.
+ */
+
+/**
+ * @package frog
+ * @subpackage stylesheets
+ *
+ * @author Maslakov Alexandr <jmas.ukraine@gmail.com>
+ * @version 0.1
+ * @license http://www.gnu.org/licenses/gpl.html GPL License
+ * @copyright Maslakov Alexander, 2010
+ */
+ 
+body {
+	background-color:#9e9e9e;
+}
+
+a { color: red; }
+
+.input-text,
+.input-textarea,
+.input-text:hover,
+.input-textarea:hover,
+.input-text:focus,
+.input-textarea:focus,
+.input-select {
+	border: 1px inset #EEF4F7;
+}
+
+#header {
+	background:#a40000 url(images/header-bg.gif) repeat-x;
+}
+ 
+#navigation {
+	
+}
+
+#navigation a {
+	background-color:#cc4d4d;
+	color:#fff;
+}
+
+#navigation li:hover a,
+#navigation li.current a {
+	color:#000;
+}
+
+#navigation li:hover .navigation-sub a,
+#navigation li.current .navigation-sub a {
+	color:#555;
+}
+
+#site_links .site-links-view {
+	background-color:#6b0000;
+}
+
+.dtable-def {
+	background:#9e9e9e url(images/dtable-bg.gif) repeat-x;
+	text-shadow: #666 1px 1px 0px;
+}
+
+.dtable-label label {
+	text-shadow:1px 1px 0 #666666;
+}
+
+.dform-buttons {
+	box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+#content h1 {
+	background:#7e7e7e url(images/h1-bg.gif) repeat-x;
+	border-color:#ababab;
+	text-shadow: #666 1px 1px 0px;
+}
+
+#page_edit_items {
+	box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	background:#F5F1E2 url(images/vertical_tan_gradient.png) repeat-x;
+	border-radius:0 5px 5px 5px;
+	-moz-border-radius:0 5px 5px 5px;
+	-webkit-border-radius:0 5px 5px 5px;
+}
+
+.page-edit-part {
+	background:transparent;
+}
+
+.page-edit-tab {
+	background-color:#CAC8C0;
+	color:#7F7F7F;
+}
+
+.page-edit-tactive {
+	background-color:#fff;
+	color:#000;
+	text-shadow:none;
+}
+
+#page_more_button a {
+	background:#7E7E7E;
+	text-shadow:1px 1px 0 #666666
+}
+
+#page_edit_options table td {
+	border-bottom:1px solid #999;
+}
+
+#page_edit_options table {
+	background:#7e7e7e url(images/h1-bg.gif) repeat-x;
+}
+
+#page_edit_addtab {
+	background-color: #CAC8C0;
+}
+
+.page-edit-filter label {
+	color:#555;
+	text-shadow:none;
+	margin-right:5px;
+}
+
+#page_edit_title,
+#page_edit_title:hover {
+	border: 1px inset #EEF4F7;
+}
+
+.view-button a {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.148438) 2px 2px 3px;
+}
+
+.dform-label,
+.dform label {
+	text-shadow:none !important;
+}
+
+.dform-buttons a {
+	color:red;
+}
+
+table.dform-table th {
+	background: #7E7E7E;
+}
+
+table.dform-table tr:hover td {
+	background-color:#ababab;
+}
+
+table.dtable thead th {
+	background:#9e9e9e url(images/dtable-bg.gif) repeat-x;
+	text-shadow: #666 1px 1px 0px;
+}
+
+.frog-d-content h1 {
+	background: #a40000;
+}
+
+.files-uploader {
+	background: #7E7E7E !important;
+}
+
+#files_switcher {
+	border-color: #ABABAB !important;
+}
+
+.snippet-content {
+	box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	background:#F5F1E2 url(images/vertical_tan_gradient.png) repeat-x;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+#content .content-area {
+	box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow:2px 2px 3px rgba(0, 0, 0, 0.15);
+	background:#F5F1E2 url(images/vertical_tan_gradient.png) repeat-x;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+#content .content-area label {
+	color:#555;
+	text-shadow:none;
+	margin-right:5px;
+}
+
+#actions {
+	background: #777 url(images/shadow_grey.png) repeat-x;
+}
+
+#actions a {
+	-webkit-box-shadow: #333 1px 2px 4px;
+}
+
+.file-perm a,
+.plugin-settings a {
+	color:#000;
+}

@@ -1,0 +1,11 @@
+/*
+	CodeMirror code editor
+*/
+.CodeMirror-wrapping {
+	background-color:#fff;
+	width:100%;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border:1px solid #cccccc !important;
+}

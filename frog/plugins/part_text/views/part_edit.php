@@ -13,8 +13,8 @@ if ( !defined( 'DEBUG' ) )
 <div id="page_edit_items">
 	<div class="page-edit-item page-edit-pactive" id="page_edit_<?php echo $index; ?>" title="<?php echo $part->title; ?>">
 		<div class="page-edit-part content-area" id="part_<?php echo $index; ?>">
-			<input id="part_<?php echo ($index - 1); ?>_name" name="part[<?php echo ($index - 1); ?>][title]" type="hidden" value="<?php echo $part->title; ?>" />
-			<input id="part_<?php echo ($index - 1); ?>_name" name="part[<?php echo ($index - 1); ?>][name]" type="hidden" value="<?php echo $part->name; ?>" />
+			<input id="part_<?php echo ($index - 1); ?>_name" name="part[<?php echo ($index - 1); ?>][type]" type="hidden" value="<?php echo $part->type; ?>" />
+			<input id="part_<?php echo ($index - 1); ?>_name" name="part[<?php echo ($index - 1); ?>][part_id]" type="hidden" value="<?php echo $part->part_id; ?>" />
 
 			<input id="part_<?php echo ($index - 1); ?>_id" name="part[<?php echo ($index - 1); ?>][id]" type="hidden" value="<?php echo $part->id; ?>" />
 

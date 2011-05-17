@@ -252,11 +252,6 @@ class PageController extends Controller {
 
 		$page_parts = PagePart::getParts( $page );
 
-
-		/* TODO: надо ли?
-		  if ( empty( $page_parts ) )
-		  $page_parts = array();
-		 */
 		// display things ...
 		$this->setLayout( 'backend' );
 		$this->display( 'page/edit', array(
@@ -299,6 +294,8 @@ class PageController extends Controller {
 			// get data for parts of this page
 			$data_parts = $_POST['part'];
 
+			PagePart::saveParts($data_parts);
+/*
 			foreach ( $data_parts as $data )
 			{
 				$part_class = Inflector::camelize( 'page_' . $data['name'] );
@@ -308,7 +305,7 @@ class PageController extends Controller {
 				$part->page_id = $id;
 				$part->save();
 			}
-
+*/
 			// save tags
 			$page->saveTags( $_POST['page_tag']['tags'] );
 

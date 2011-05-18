@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 19, 2011 at 01:17 AM
+-- Generation Time: May 19, 2011 at 01:52 AM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -92,9 +92,8 @@ CREATE TABLE `layout_part` (
 --
 
 INSERT INTO `layout_part` (`id`, `layout_id`, `type`, `name`, `title`) VALUES
-(1, 2, 'text', 'text_val', 'Супертекст'),
-(20, 2, 'text', 'block', 'Второй текстовой блок'),
-(17, 1, 'image', 'rt', 'rt');
+(1, 2, 'text', 'text_val', 'РЎСѓРїРµСЂС‚РµРєСЃС‚'),
+(20, 2, 'text', 'block', 'Р’С‚РѕСЂРѕР№ С‚РµРєСЃС‚РѕРІРѕР№ Р±Р»РѕРє');
 
 -- --------------------------------------------------------
 

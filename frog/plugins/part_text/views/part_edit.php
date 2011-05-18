@@ -14,15 +14,15 @@ if ( !defined( 'DEBUG' ) )
 	<div class="page-edit-item page-edit-pactive" id="page_edit_<?php echo $index; ?>" title="<?php echo $part->title; ?>">
 		<div class="page-edit-part content-area" id="part_<?php echo $index; ?>">
 			<input id="part_<?php echo ($index - 1); ?>_name" name="part[<?php echo ($index - 1); ?>][type]" type="hidden" value="<?php echo $part->type; ?>" />
-			<input id="part_<?php echo ($index - 1); ?>_name" name="part[<?php echo ($index - 1); ?>][part_id]" type="hidden" value="<?php echo $part->part_id; ?>" />
-
-			<input id="part_<?php echo ($index - 1); ?>_id" name="part[<?php echo ($index - 1); ?>][id]" type="hidden" value="<?php echo $part->id; ?>" />
-
+			<input id="part_<?php echo ($index - 1); ?>_part_id" name="part[<?php echo ($index - 1); ?>][part_id]" type="hidden" value="<?php echo $part->part_id; ?>" />
+			<? if ( isset( $part->id ) && $part->id != '' ): ?>
+				<input id="part_<?php echo ($index - 1); ?>_id" name="part[<?php echo ($index - 1); ?>][id]" type="hidden" value="<?php echo $part->id; ?>" />
+			<? endif; ?>
 			<p class="page-edit-filter">
 				<label for="part_<?php echo ($index - 1); ?>_filter_id"><?php echo __( 'Filter' ); ?></label>
 				<select id="part_<?php echo ($index - 1); ?>_filter_id" name="part[<?php echo ($index - 1); ?>][filter_id]" class="input-select page-part-filter">
 					<option value="" <?php if ( $part->filter_id == '' )
-	echo('selected="selected"'); ?> >&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
+				echo('selected="selected"'); ?> >&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
 							<?php foreach ( Filter::findAll() as $filter ): ?> 
 						<option value="<?php echo $filter; ?>" <?php if ( $part->filter_id == $filter )
 								echo(' selected="selected"'); ?> ><?php echo Inflector::humanize( $filter ); ?></option>

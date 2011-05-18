@@ -116,16 +116,12 @@ class Layout extends Record {
 			while ( $object = $stmt->fetchObject( 'Layout' ) )
 			{
 				$objects[] = $object;
-				$object->getArrayParts();
 			}
 			return $objects;
 		}
 	}
 
-	public function getArrayParts()
-	{
-		$this->page_parts = unserialize( $this->page_parts );
-	}
+
 
 	public static function findAll( $args = null )
 	{

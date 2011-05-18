@@ -65,7 +65,7 @@
 					<span class="page-status page-status-published"><?php echo __('Published'); ?></span>
 					<span class="page-view"><a href="<?php echo URL_PUBLIC; ?>" target="_blank"><img src="images/icon-newwin.gif" class="page-smallicon" title="<?php echo __('View') .' ('. __('In a new window') .')'; ?>" alt="" /></a>&nbsp;</span>
 					<span class="page-modify">
-						<a class="page-add" href="<?php echo get_url('page/add/1'); ?>"><img class="page-smallicon page-add" src="images/plus.png" title="<?php echo __('Add child'); ?>" alt="" /></a>&nbsp; 
+						<a class="page-add" href="<?php echo get_url('page/select_type/1'); ?>"><img class="page-smallicon page-add" src="images/plus.png" title="<?php echo __('Add child'); ?>" alt="" /></a>&nbsp; 
 						<img class="page-smallicon page-remove-disabled" src="images/icon-remove-disabled.png" title="<?php echo __('Remove'); ?>" alt="" />
 					</span>
 				</div>

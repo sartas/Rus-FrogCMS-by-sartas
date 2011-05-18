@@ -47,58 +47,35 @@ class PageController extends Controller {
 		) );
 	}
 
-	public function add( $parent_id=1 )
+	public function select_type( $parent_id=1 )
+	{
+		$this->setLayout( 'backend' );
+		$this->display( 'page/select_type', array(
+			'parent_id' => $parent_id,
+			'layouts' => Record::findAllFrom( 'Layout', '1=1 ORDER BY position' )
+		) );
+	}
+
+	public function add( $parent_id, $layout_id )
 	{
 		// check if trying to save
 		if ( get_request_method() == 'POST' || get_request_method() == 'AJAX' )
-			return $this->_add();
+			return $this->_add( $parent_id, $layout_id );
 
 		$data = Flash::get( 'post_data' );
 		$page = new Page( $data );
 		$page->parent_id = $parent_id;
+		$page->layout_id = $layout_id;
 		$page->status_id = Setting::get( 'default_status_id' );
 		$page->needs_login = Page::LOGIN_INHERIT;
 		$page->published_on = date( 'Y-m-d H:i:s' );
 
 		$page_parts = Flash::get( 'post_parts_data' );
-
 		if ( empty( $page_parts ) )
-		{
-			// check if we have a big sister ...
-			$big_sister = Record::findOneFrom( 'Page', 'parent_id=? ORDER BY id DESC', array($parent_id) );
-			if ( $big_sister )
-			{
-				// get all is part and create the same for the new little sister
-				$big_sister_parts = Record::findAllFrom( 'PagePart', 'page_id=? ORDER BY id ASC', array($big_sister->id) );
-				$page_parts = array();
-				foreach ( $big_sister_parts as $parts )
-				{
-					$page_parts[] = new PagePart( array(
-								'name' => $parts->name,
-								'filter_id' => Setting::get( 'default_filter_id' )
-									) );
-				}
-			}
-			else
-			{
-				$parent_sister = Record::findOneFrom( 'Page', 'id=?', array($parent_id) );
-				if ( $parent_sister )
-				{
-					// get all is part and create the same for the new little sister
-					$parent_sister_parts = Record::findAllFrom( 'PagePart', 'page_id=? ORDER BY id', array($parent_sister->id) );
-					$page_parts = array();
-					foreach ( $parent_sister_parts as $parts )
-					{
-						$page_parts[] = new PagePart( array(
-									'name' => $parts->name,
-									'filter_id' => Setting::get( 'default_filter_id' )
-										) );
-					}
-				}
+			$page_parts = PagePart::getNewParts( $layout_id );
 
-				//$page_parts = array(new PagePart(array('filter_id' => Setting::get('default_filter_id'))));
-			}
-		}
+
+
 
 		// display things ...
 		$this->setLayout( 'backend' );
@@ -108,14 +85,17 @@ class PageController extends Controller {
 			'tags' => array(),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
-			'page_parts' => $page_parts,
+			'parts' => $page_parts,
 			'layouts' => Record::findAllFrom( 'Layout' ))
 		);
 	}
 
-	private function _add()
+	private function _add( $parent_id, $layout_id )
 	{
+	//	print_r( $_POST );
+	//	exit;
 		$data = $_POST['page'];
+		$data['layout_id'] = $layout_id;
 		Flash::set( 'post_data', (object) $data );
 
 		if ( empty( $data['title'] ) )
@@ -141,11 +121,11 @@ class PageController extends Controller {
 			$tags = $_POST['page_tag'];
 
 			Flash::set( 'page', (object) $page );
-			Flash::set( 'page_parts', (object) $part );
+			Flash::set( 'parts', (object) $part );
 			Flash::set( 'page_tag', $tags );
 
 			Flash::set( 'error', __( 'You have to specify a title!' ) );
-			redirect( get_url( 'page/add' ) );
+			redirect( get_url( 'page/add' . $parent_id . '/' . $layout_id ) );
 		}
 
 		/**
@@ -170,10 +150,12 @@ class PageController extends Controller {
 
 			foreach ( $data_parts as $data )
 			{
-				$data['page_id'] = $page->id;
-				$data['name'] = trim( $data['name'] );
-				$page_part = new PagePart( $data );
-				$page_part->save();
+				$part_class = PagePart::getClass( $data['type'] );
+
+				$part = new $part_class( $data );
+				$part->page_id = $page->id;
+				unset( $part->type );
+				$part->save();
 			}
 
 			// save tags
@@ -190,7 +172,7 @@ class PageController extends Controller {
 			else
 			{
 				Flash::set( 'error', __( 'Page has not been saved!' ) );
-				redirect( get_url( 'page/add' ) );
+				redirect( get_url( 'page/add' . $parent_id . '/' . $layout_id ) );
 			}
 		}
 
@@ -205,6 +187,7 @@ class PageController extends Controller {
 		}
 		else
 		{
+			get_url( 'page/edit/' . $page->id );
 			// save and quit or save and continue editing ?
 			if ( isset( $_POST['commit'] ) )
 				redirect( get_url( 'page' ) );
@@ -213,16 +196,18 @@ class PageController extends Controller {
 		}
 	}
 
-	public function addPart()
-	{
-		header( 'Content-Type: text/html; charset: utf-8' );
+	/*
+	  public function addPart()
+	  {
+	  header( 'Content-Type: text/html; charset: utf-8' );
 
-		$data = isset( $_POST ) ? $_POST : array();
-		$data['name'] = isset( $data['name'] ) ? trim( $data['name'] ) : '';
-		$data['index'] = isset( $data['index'] ) ? (int) $data['index'] : 1;
+	  $data = isset( $_POST ) ? $_POST : array();
+	  $data['name'] = isset( $data['name'] ) ? trim( $data['name'] ) : '';
+	  $data['index'] = isset( $data['index'] ) ? (int) $data['index'] : 1;
 
-		echo $this->_getPartView( $data['index'], $data['name'] );
-	}
+	  echo $this->_getPartView( $data['index'], $data['name'] );
+	  }
+	 */
 
 	public function edit( $id=null )
 	{
@@ -294,18 +279,28 @@ class PageController extends Controller {
 			// get data for parts of this page
 			$data_parts = $_POST['part'];
 
-			PagePart::saveParts($data_parts);
-/*
+			//PagePart::saveParts( $data_parts );
+			
 			foreach ( $data_parts as $data )
 			{
-				$part_class = Inflector::camelize( 'page_' . $data['name'] );
-				unset( $data['name'] );
+				$part_class = PagePart::getClass( $data['type'] );
 
 				$part = new $part_class( $data );
 				$part->page_id = $id;
+				unset( $part->type );
 				$part->save();
 			}
-*/
+			/*
+			  foreach ( $data_parts as $data )
+			  {
+			  $part_class = Inflector::camelize( 'page_' . $data['name'] );
+			  unset( $data['name'] );
+
+			  $part = new $part_class( $data );
+			  $part->page_id = $id;
+			  $part->save();
+			  }
+			 */
 			// save tags
 			$page->saveTags( $_POST['page_tag']['tags'] );
 

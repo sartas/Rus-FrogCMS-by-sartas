@@ -24,7 +24,7 @@ if ( $pagetmp != null && !empty( $pagetmp ) && $parttmp != null && !empty( $part
 
 <form id="page_edit_form" action="<?php
 if ( $action == 'add' )
-	echo get_url( 'page/add' ); else
+	echo get_url( 'page/add/'.$page->parent_id.'/'.$page->layout_id ); else
 	echo get_url( 'page/edit/' . $page->id );
 ?>" method="post" class="dform page-edit">
 	<input id="page_parent_id" name="page[parent_id]" type="hidden" value="<?php echo $page->parent_id; ?>" />

@@ -26,6 +26,7 @@ class PartText extends Record {
 
 
 	public $part_id = '';
+	public $page_id = '';
 	public $filter_id = '';
 	public $content = '';
 	public $content_html = '';
@@ -67,6 +68,11 @@ class PartText extends Record {
 	public static function findOneByPartId( $id )
 	{
 		return self::findOneFrom( 'PartText', 'part_id=' . (int) $id );
+	}
+
+	public static function findOneByPartIdPageId( $part_id,$page_id )
+	{
+		return self::findOneFrom( 'PartText', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
 	}
 
 	public static function findOneByPageId( $id, $offset = 0 )

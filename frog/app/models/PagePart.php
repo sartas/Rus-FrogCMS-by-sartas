@@ -64,17 +64,6 @@ class PagePart extends Record {
 		return Inflector::camelize( 'part_' . $type );
 	}
 
-	public static function saveParts( $data_parts )
-	{
-		foreach ( $data_parts as $data )
-		{
-			$part_class = Inflector::camelize( 'part_' . $data['type'] );
-
-			$part = new $part_class( $data );
-			unset( $part->type );
-			$part->save();
-		}
-	}
 
 	public static function deleteParts( $page )
 	{

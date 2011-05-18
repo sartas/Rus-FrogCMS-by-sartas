@@ -150,7 +150,7 @@ class LayoutController extends Controller
         $this->display('layout/edit', array(
             'action'  => 'edit',
             'layout' => $layout,
-			'parts' => LayoutPart::findByLayoutId($layout->id )
+			'parts' => LayoutPart::findAllByLayoutId($layout->id )
         ));
     }
     

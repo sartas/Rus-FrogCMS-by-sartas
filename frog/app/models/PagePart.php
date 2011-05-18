@@ -43,6 +43,8 @@ class PagePart extends Record {
 
 	public static function getNewParts( $layout_id )
 	{
+		$page_parts = array();
+
 		foreach ( LayoutPart::findAllByLayoutId( $layout_id ) as $layout_part )
 		{
 			$part_class = Inflector::camelize( 'part_' . $layout_part->type );
@@ -63,7 +65,6 @@ class PagePart extends Record {
 	{
 		return Inflector::camelize( 'part_' . $type );
 	}
-
 
 	public static function deleteParts( $page )
 	{

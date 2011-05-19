@@ -82,7 +82,7 @@ if ( $action == 'add' )
 			<!-- page_edit_items -->
 			<?php
 			$index = 1;
-
+			print_r($parts);
 			foreach ( $parts as $part )
 			{
 				echo $part->edit( array('index' => $index, 'part' => $part) );

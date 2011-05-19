@@ -30,7 +30,8 @@ class PagePart extends Record {
 			$part_class = Inflector::camelize( 'part_' . $layout_part->type );
 
 			$part = new $part_class();
-			$part = $part::findOneByPartIdPageId( $layout_part->id, $page->id );
+			if ( $tmp_part = $part::findOneByPartIdPageId( $layout_part->id, $page->id ) )
+				$part = $tmp_part;
 
 			$part->type = $layout_part->type;
 			$part->name = $layout_part->name;

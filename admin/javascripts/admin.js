@@ -1,27 +1,4 @@
 /**
- * Frog CMS - Content Management Simplified. <http://www.madebyfrog.com>
- * Copyright (C) 2008 Philippe Archambault <philippe.archambault@gmail.com>
- *
- * This file is part of Frog CMS.
- *
- * Frog CMS is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Frog CMS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Frog CMS.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Frog CMS has made an exception to the GNU General Public License for plugins.
- * See exception.txt for details and the full text.
- */
-
-/**
  *	@author Maslakov Alexandr <jmas.ukraine@gmail.com>
  */
 
@@ -114,8 +91,9 @@ frog.localeAdd = function( obj )
 // Show Frog error message
 frog.error = function( msg )
 {
-	alert( msg + (console !== undefined ? ' (more information in console)' : '') );
-	
+	//alert( msg + (console !== undefined ? ' (more information in console)' : '') );
+	frog.messageShow('error', msg + (console !== undefined ? ' (more information in console)' : ''));
+
 	if( console !== undefined )
 		console.log( arguments );
 		
@@ -911,11 +889,13 @@ frogPages.copyClick = function()
 				success: function( data ) {
 					
 					page.attr('id', 'page_' + data.new_root_id );
+					page.find('.page-name:first a:first').attr('href', '?/page/edit/' + data.new_root_id);
 					page.find('.page-name:first a:first').append(' (copy)');
 					page.find('.page-add:first').attr('href', '?/page/add/' + data.new_root_id);
 					page.find('.page-remove:first').attr('href', '?/page/delete/' + data.new_root_id);
 					
 					frog.loaderHide();
+					frog.messageShow('success', frog.__('Page copied'));
 				},
 				error: function() {
 					frog.loaderHide();
@@ -1038,7 +1018,7 @@ frogPageEdit.init = function()
 	/*
 		Page parts
 	 */
-/*	var tabs = [];
+	/*	var tabs = [];
 	
 	jQuery('#page_edit_items .page-edit-item')
 	//.hide()
@@ -1657,3 +1637,6 @@ jQuery(document).ready(function(){
 			break;
 	}
 }); // end
+
+
+frog.localeAdd( { 'Page copied' : 'Страница скопирована' } );

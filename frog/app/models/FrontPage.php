@@ -247,19 +247,18 @@ class FrontPage {
 		return $out . '<span class="breadcrumb-current">' . $this->breadcrumb() . '</span></div>' . "\n";
 	}
 
-	public function hasContent( $part, $inherit=false )
+	public function hasContent( $part_name )
 	{
-		if ( isset( $this->part->$part ) )
+		if ( !$this->parts )
+			$this->parts = PagePart::getParts( $this );
+		
+		if ( isset( $this->parts[$part_name] ) )
 		{
 			return true;
 		}
-		else if ( $inherit && $this->parent )
-		{
-			return $this->parent->hasContent( $part, true );
-		}
 	}
 
-	public function content( $part_name='body', $inherit=false )
+	public function content( $part_name='body' )
 	{
 		if ( !$this->parts )
 			$this->parts = PagePart::getParts( $this );

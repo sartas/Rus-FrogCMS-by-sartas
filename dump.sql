@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 19, 2011 at 01:52 AM
+-- Generation Time: May 20, 2011 at 12:37 AM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -68,7 +68,7 @@ CREATE TABLE `layout` (
 
 INSERT INTO `layout` (`id`, `name`, `content_type`, `content`, `created_on`, `updated_on`, `created_by_id`, `updated_by_id`, `parts_type`, `position`) VALUES
 (1, 'none', 'text/html', '<?php echo $this->content(); ?>', '2011-05-14 16:11:33', '2011-05-14 16:11:34', 1, 1, 'text', NULL),
-(2, 'Normal', 'text/html', '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"\r\n"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\r\n<html xmlns="http://www.w3.org/1999/xhtml">\r\n<head>\r\n  <title><?php echo $this->title(); ?></title>\r\n\r\n  <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />\r\n  <meta name="robots" content="index, follow" />\r\n  <meta name="description" content="<?php echo ($this->description() != '''') ? $this->description() : ''Default description goes here''; ?>" />\r\n  <meta name="keywords" content="<?php echo ($this->keywords() != '''') ? $this->keywords() : ''default, keywords, here''; ?>" />\r\n  <meta name="author" content="Author Name" />\r\n\r\n  <link rel="favourites icon" href="<?php echo URL_PUBLIC; ?>favicon.ico" />\r\n    <link rel="stylesheet" href="<?php echo URL_PUBLIC; ?>public/themes/normal/screen.css" media="screen" type="text/css" />\r\n    <link rel="stylesheet" href="<?php echo URL_PUBLIC; ?>public/themes/normal/print.css" media="print" type="text/css" />\r\n    <link rel="alternate" type="application/rss+xml" title="Frog Default RSS Feed" href="<?php echo URL_PUBLIC.((USE_MOD_REWRITE)?'''':''/?''); ?>rss.xml" />\r\n\r\n</head>\r\n<body>\r\n<div id="page">\r\n<?php $this->includeSnippet(''header''); ?>\r\n<div id="content">\r\n\r\n  <h2><?php echo $this->title(); ?></h2>\r\n  <?php echo $this->content(); ?> \r\n  <?php if ($this->hasContent(''extended'')) echo $this->content(''extended''); ?> \r\n\r\n</div> <!-- end #content -->\r\n<div id="sidebar">\r\n\r\n  <?php echo $this->content(''sidebar'', true); ?> \r\n\r\n</div> <!-- end #sidebar -->\r\n<?php $this->includeSnippet(''footer''); ?>\r\n</div> <!-- end #page -->\r\n</body>\r\n</html>', '2011-05-14 16:11:35', '2011-05-14 16:11:36', 1, 1, 'text', NULL),
+(2, 'Normal', 'text/html', '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"\r\n"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\r\n<html xmlns="http://www.w3.org/1999/xhtml">\r\n<head>\r\n  <title><?php echo $this->title(); ?></title>\r\n\r\n  <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />\r\n  <meta name="robots" content="index, follow" />\r\n  <meta name="description" content="<?php echo ($this->description() != '''') ? $this->description() : ''Default description goes here''; ?>" />\r\n  <meta name="keywords" content="<?php echo ($this->keywords() != '''') ? $this->keywords() : ''default, keywords, here''; ?>" />\r\n  <meta name="author" content="Author Name" />\r\n\r\n  <link rel="favourites icon" href="<?php echo URL_PUBLIC; ?>favicon.ico" />\r\n    <link rel="stylesheet" href="<?php echo URL_PUBLIC; ?>public/themes/normal/screen.css" media="screen" type="text/css" />\r\n    <link rel="stylesheet" href="<?php echo URL_PUBLIC; ?>public/themes/normal/print.css" media="print" type="text/css" />\r\n    <link rel="alternate" type="application/rss+xml" title="Frog Default RSS Feed" href="<?php echo URL_PUBLIC.((USE_MOD_REWRITE)?'''':''/?''); ?>rss.xml" />\r\n\r\n</head>\r\n<body>\r\n<div id="page">\r\n<?php $this->includeSnippet(''header''); ?>\r\n<div id="content">\r\n\r\n  <h2><?php echo $this->title(); ?></h2>\r\n  <?php echo $this->content(''text_val''); ?> \r\n  <?php echo $this->content(''block''); ?> \r\n\r\n</div> <!-- end #content -->\r\n<div id="sidebar">\r\n\r\n\r\n</div> <!-- end #sidebar -->\r\n<?php $this->includeSnippet(''footer''); ?>\r\n</div> <!-- end #page -->\r\n</body>\r\n</html>', '2011-05-14 16:11:35', '2011-05-19 23:56:42', 1, 1, 'text', NULL),
 (3, 'RSS XML', 'application/rss+xml', '<?php echo $this->content(); ?>', '2011-05-14 16:11:37', '2011-05-14 16:11:38', 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -85,7 +85,7 @@ CREATE TABLE `layout_part` (
   `name` varchar(25) NOT NULL,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `layout_part`
@@ -93,7 +93,9 @@ CREATE TABLE `layout_part` (
 
 INSERT INTO `layout_part` (`id`, `layout_id`, `type`, `name`, `title`) VALUES
 (1, 2, 'text', 'text_val', 'Супертекст'),
-(20, 2, 'text', 'block', 'Второй текстовой блок');
+(22, 2, 'text', 'x', 'y'),
+(20, 2, 'text', 'block', 'Второй текстовой блок'),
+(21, 1, 'text', 'bbb', 'title');
 
 -- --------------------------------------------------------
 
@@ -123,7 +125,7 @@ CREATE TABLE `page` (
   `is_protected` tinyint(1) NOT NULL DEFAULT '0',
   `needs_login` tinyint(1) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `page`
@@ -135,7 +137,7 @@ INSERT INTO `page` (`id`, `title`, `slug`, `breadcrumb`, `keywords`, `descriptio
 (5, 'My first article', 'my_first_article', 'My first article', NULL, NULL, 4, 0, '', 100, 0, '2011-05-14 16:11:51', '2011-05-14 16:11:52', '2011-05-14 16:11:53', 1, 1, 0, 0, 2),
 (6, 'My second article', 'my_second_article', 'My second article', NULL, NULL, 4, 0, '', 100, 0, '2011-05-14 16:11:54', '2011-05-14 16:11:55', '2011-05-14 16:11:56', 1, 1, 0, 0, 2),
 (7, '%B %Y archive', 'monthly_archive', '%B %Y archive', NULL, NULL, 4, 0, 'archive_month_index', 101, 0, '2011-05-14 16:11:57', '2011-05-14 16:11:58', '2011-05-14 16:11:59', 1, 1, 0, 1, 2),
-(20, 'k1', 'k1', 'k1', '', '', 1, 2, '', 1, 0, '2011-05-19 01:00:47', NULL, '2011-05-19 01:00:47', 1, 1, NULL, 0, 2);
+(22, 'h1', 'h1', 'h1', '', '', 1, 2, '', 100, 0, '2011-05-19 23:48:14', '2011-05-19 23:49:56', '2011-05-20 00:02:23', 1, 1, NULL, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -190,26 +192,15 @@ CREATE TABLE `part_text` (
   `part_id` int(11) unsigned DEFAULT NULL,
   `page_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `part_text`
 --
 
 INSERT INTO `part_text` (`id`, `filter_id`, `content`, `content_html`, `part_id`, `page_id`) VALUES
-(1, '', '111gffc', '111gffc', 8, 0),
-(2, '', '<?php echo ''<?''; ?>xml version="1.0" encoding="UTF-8"<?php echo ''?>''; ?> \r\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\r\n<channel>\r\n	<title>Frog CMS</title>\r\n	<link><?php echo BASE_URL ?></link>\r\n	<atom:link href="<?php echo BASE_URL ?>/rss.xml" rel="self" type="application/rss+xml" />\r\n	<language>en-us</language>\r\n	<copyright>Copyright <?php echo date(''Y''); ?>, madebyfrog.com</copyright>\r\n	<pubDate><?php echo strftime(''%a, %d %b %Y %H:%M:%S %z''); ?></pubDate>\r\n	<lastBuildDate><?php echo strftime(''%a, %d %b %Y %H:%M:%S %z''); ?></lastBuildDate>\r\n	<category>any</category>\r\n	<generator>Frog CMS</generator>\r\n	<description>The main news feed from Frog CMS.</description>\r\n	<docs>http://www.rssboard.org/rss-specification</docs>\r\n	<?php $articles = $this->find(''articles''); ?>\r\n	<?php foreach ($articles->children(array(''limit'' => 10, ''order'' => ''page.created_on DESC'')) as $article): ?>\r\n	<item>\r\n		<title><?php echo $article->title(); ?></title>\r\n		<description><?php if ($article->hasContent(''summary'')) { echo $article->content(''summary''); } else { echo strip_tags($article->content()); } ?></description>\r\n		<pubDate><?php echo $article->date(''%a, %d %b %Y %H:%M:%S %z''); ?></pubDate>\r\n		<link><?php echo $article->url(); ?></link>\r\n		<guid><?php echo $article->url(); ?></guid>\r\n	</item>\r\n	<?php endforeach; ?>\r\n</channel>\r\n</rss>', '<?php echo ''<?''; ?>xml version="1.0" encoding="UTF-8"<?php echo ''?>''; ?> \r\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\r\n<channel>\r\n	<title>Frog CMS</title>\r\n	<link><?php echo BASE_URL ?></link>\r\n	<atom:link href="<?php echo BASE_URL ?>/rss.xml" rel="self" type="application/rss+xml" />\r\n	<language>en-us</language>\r\n	<copyright>Copyright <?php echo date(''Y''); ?>, madebyfrog.com</copyright>\r\n	<pubDate><?php echo strftime(''%a, %d %b %Y %H:%M:%S %z''); ?></pubDate>\r\n	<lastBuildDate><?php echo strftime(''%a, %d %b %Y %H:%M:%S %z''); ?></lastBuildDate>\r\n	<category>any</category>\r\n	<generator>Frog CMS</generator>\r\n	<description>The main news feed from Frog CMS.</description>\r\n	<docs>http://www.rssboard.org/rss-specification</docs>\r\n	<?php $articles = $this->find(''articles''); ?>\r\n	<?php foreach ($articles->children(array(''limit'' => 10, ''order'' => ''page.created_on DESC'')) as $article): ?>\r\n	<item>\r\n		<title><?php echo $article->title(); ?></title>\r\n		<description><?php if ($article->hasContent(''summary'')) { echo $article->content(''summary''); } else { echo strip_tags($article->content()); } ?></description>\r\n		<pubDate><?php echo $article->date(''%a, %d %b %Y %H:%M:%S %z''); ?></pubDate>\r\n		<link><?php echo $article->url(); ?></link>\r\n		<guid><?php echo $article->url(); ?></guid>\r\n	</item>\r\n	<?php endforeach; ?>\r\n</channel>\r\n</rss>', 2, 0),
-(4, '', '<?php $last_articles = $this->children(array(''limit''=>5, ''order''=>''page.created_on DESC'')); ?>\r\n<?php foreach ($last_articles as $article): ?>\r\n<div class="entry">\r\n  <h3><?php echo $article->link($article->title); ?></h3>\r\n  <?php echo $article->content(); ?>\r\n  <p class="info">Posted by <?php echo $article->author(); ?> on <?php echo $article->date(); ?>  \r\n     <br />tags: <?php echo join('', '', $article->tags()); ?>\r\n  </p>\r\n</div>\r\n<?php endforeach; ?>\r\n\r\n', '<?php $last_articles = $this->children(array(''limit''=>5, ''order''=>''page.created_on DESC'')); ?>\r\n<?php foreach ($last_articles as $article): ?>\r\n<div class="entry">\r\n  <h3><?php echo $article->link($article->title); ?></h3>\r\n  <?php echo $article->content(); ?>\r\n  <p class="info">Posted by <?php echo $article->author(); ?> on <?php echo $article->date(); ?>  \r\n     <br />tags: <?php echo join('', '', $article->tags()); ?>\r\n  </p>\r\n</div>\r\n<?php endforeach; ?>\r\n\r\n', 4, 0),
-(5, 'markdown', 'My **first** test of my first article that uses *Markdown*.', '<p>My <strong>first</strong> test of my first article that uses <em>Markdown</em>.</p>\n', 5, 0),
-(7, 'markdown', 'This is my second article.', '<p>This is my second article.</p>\r\n', 8, 0),
-(8, '', '<?php $archives = $this->archive->get(); ?>\r\n<?php foreach ($archives as $archive): ?>\r\n<div class="entry">\r\n  <h3><?php echo $archive->link(); ?></h3>\r\n  <p class="info">Posted by <?php echo $archive->author(); ?> on <?php echo $archive->date(); ?> \r\n  </p>\r\n</div>\r\n<?php endforeach; ?>', '<?php $archives = $this->archive->get(); ?>\r\n<?php foreach ($archives as $archive): ?>\r\n<div class="entry">\r\n  <h3><?php echo $archive->link(); ?></h3>\r\n  <p class="info">Posted by <?php echo $archive->author(); ?> on <?php echo $archive->date(); ?> \r\n  </p>\r\n</div>\r\n<?php endforeach; ?>', 7, 0),
-(11, '', 't', 't', 0, NULL),
-(12, '', 'y', 'y', 0, NULL),
-(13, '', 'i', 'i', 0, 18),
-(14, '', 'o', 'o', 0, 18),
-(20, '', 'k3', 'k3', 20, 21),
-(19, '', 'k2', 'k2', 1, 21),
-(18, '', 'k3', 'k3', 18, 20);
+(22, '', 'h4', 'h4', 20, 22),
+(21, '', 'h2', 'h2', 1, 22);
 
 -- --------------------------------------------------------
 

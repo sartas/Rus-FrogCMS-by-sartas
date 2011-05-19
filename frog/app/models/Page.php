@@ -280,6 +280,7 @@ class Page extends Record
         $clone->save();
         
         /* Also clone the page parts. */
+		/* TODO сделать клонирование
         $page_part = PagePart::findByPageId($page->id);
 		
         if( count($page_part) )
@@ -291,7 +292,7 @@ class Page extends Record
                 $part->save();
             }
         }
-        
+        */
         /* This gets set only once even when called recursively. */
         if( !$new_root_id )
 		{

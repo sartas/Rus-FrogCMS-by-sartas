@@ -72,7 +72,7 @@ class PageController extends Controller {
 
 		$page_parts = Flash::get( 'post_parts_data' );
 		if ( empty( $page_parts ) )
-			$page_parts = PagePart::getParts( $page, false );
+			$page_parts = FrontPage::getParts( $page, false );
 
 
 
@@ -92,8 +92,8 @@ class PageController extends Controller {
 
 	private function _add( $parent_id, $layout_id )
 	{
-		//	print_r( $_POST );
-		//	exit;
+//			print_r( $_POST );
+//			exit;
 		$data = $_POST['page'];
 		$data['layout_id'] = $layout_id;
 		Flash::set( 'post_data', (object) $data );
@@ -150,7 +150,7 @@ class PageController extends Controller {
 
 			foreach ( $data_parts as $data )
 			{
-				$part_class = PagePart::getClass( $data['type'] );
+				$part_class = FrontPage::getPartClass( $data['type'] );
 
 				$part = new $part_class( $data );
 				$part->page_id = $page->id;
@@ -235,7 +235,7 @@ class PageController extends Controller {
 
 		// find all page_part of this pages
 
-		$page_parts = PagePart::getParts( $page );
+		$page_parts = FrontPage::getParts( $page );
 
 		// display things ...
 		$this->setLayout( 'backend' );
@@ -279,11 +279,11 @@ class PageController extends Controller {
 			// get data for parts of this page
 			$data_parts = $_POST['part'];
 
-			//PagePart::saveParts( $data_parts );
+			//FrontPage::saveParts( $data_parts );
 
 			foreach ( $data_parts as $data )
 			{
-				$part_class = PagePart::getClass( $data['type'] );
+				$part_class = FrontPage::getPartClass( $data['type'] );
 
 				$part = new $part_class( $data );
 				$part->page_id = $id;
@@ -361,7 +361,7 @@ class PageController extends Controller {
 				}
 
 				// need to delete all page_parts too !!
-				PagePart::deleteParts( $page );
+				FrontPage::deleteParts( $page );
 
 				if ( $page->delete() )
 				{
@@ -504,7 +504,7 @@ class PageController extends Controller {
 
 	//  Private methods  -----------------------------------------------------
 
-
+/*
 	private function _getPartView( $index=1, $name='', $filter_id='', $content='' )
 	{
 		$page_part = new PagePart( array(
@@ -518,7 +518,7 @@ class PageController extends Controller {
 			'page_part' => $page_part
 		) );
 	}
-
+*/
 }
 
 // end PageController class

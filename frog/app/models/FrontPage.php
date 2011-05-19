@@ -250,8 +250,8 @@ class FrontPage {
 	public function hasContent( $part_name )
 	{
 		if ( !$this->parts )
-			$this->parts = PagePart::getParts( $this );
-		
+			$this->parts = self::getParts( $this );
+
 		if ( isset( $this->parts[$part_name] ) )
 		{
 			return true;
@@ -261,7 +261,7 @@ class FrontPage {
 	public function content( $part_name='body' )
 	{
 		if ( !$this->parts )
-			$this->parts = PagePart::getParts( $this );
+			$this->parts = self::getParts( $this );
 
 		if ( isset( $this->parts[$part_name] ) )
 			return $this->parts[$part_name]->content();
@@ -542,6 +542,48 @@ class FrontPage {
 		} // foreach
 
 		return (!$page && $has_behavior) ? $parent : $page;
+	}
+
+	public static function getParts( $page, $get_content = true )
+	{
+		$page_parts = array();
+		foreach ( LayoutPart::findAllByLayoutId( $page->layout_id ) as $layout_part )
+		{
+			$part_class = self::getPartClass( $layout_part->type );
+
+			$part = new $part_class();
+			if ( $get_content && $tmp_part = $part::findOneByPartIdPageId( $layout_part->id, $page->id ) )
+			{
+				$part = $tmp_part;
+			}
+			else
+			{
+				$part->part_id = $layout_part->id;
+			}
+			$part->type = $layout_part->type;
+			$part->name = $layout_part->name;
+			$part->title = $layout_part->title;
+
+			$page_parts[$part->name] = $part;
+		}
+		return $page_parts;
+	}
+
+	public static function getPartClass( $type )
+	{
+		return Inflector::camelize( 'part_' . $type );
+	}
+
+	public static function deleteParts( $page )
+	{
+		$parts = self::getParts( $page );
+		if ( !empty( $parts ) )
+		{
+			foreach ( $parts as $part )
+			{
+				$part->delete();
+			}
+		}
 	}
 
 	/*

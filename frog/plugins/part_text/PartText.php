@@ -49,7 +49,7 @@ class PartText extends Record {
 
 	public function beforeSave()
 	{
-		/* 		$this->content = stripslashes( $this->content );
+		/* 		//$this->content = stripslashes( $this->content );
 
 		  // apply filter to save is generated result in the database
 		  if ( ! empty($this->filter_id))

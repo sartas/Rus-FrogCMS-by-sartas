@@ -21,7 +21,7 @@ class PagePart extends Record {
 	  }
 	  }
 	 */
-
+/*
 	public static function getParts( $page, $get_content = true )
 	{
 		$page_parts = array();
@@ -41,7 +41,7 @@ class PagePart extends Record {
 		}
 		return $page_parts;
 	}
-
+*/
 	/*
 	  public static function getNewParts( $layout_id )
 	  {
@@ -63,8 +63,8 @@ class PagePart extends Record {
 	  return $page_parts;
 	  }
 	 */
-
-	public static function getClass( $type )
+/*
+	public static function getPartClass( $type )
 	{
 		return Inflector::camelize( 'part_' . $type );
 	}
@@ -80,7 +80,7 @@ class PagePart extends Record {
 			}
 		}
 	}
-
+*/
 	public static function addType( $type )
 	{
 		if ( !in_array( $type, self::$types ) )

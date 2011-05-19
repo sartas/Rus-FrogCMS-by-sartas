@@ -72,7 +72,7 @@ class PageController extends Controller {
 
 		$page_parts = Flash::get( 'post_parts_data' );
 		if ( empty( $page_parts ) )
-			$page_parts = PagePart::getNewParts( $layout_id );
+			$page_parts = PagePart::getParts( $page, false );
 
 
 
@@ -92,8 +92,8 @@ class PageController extends Controller {
 
 	private function _add( $parent_id, $layout_id )
 	{
-	//	print_r( $_POST );
-	//	exit;
+		//	print_r( $_POST );
+		//	exit;
 		$data = $_POST['page'];
 		$data['layout_id'] = $layout_id;
 		Flash::set( 'post_data', (object) $data );
@@ -280,7 +280,7 @@ class PageController extends Controller {
 			$data_parts = $_POST['part'];
 
 			//PagePart::saveParts( $data_parts );
-			
+
 			foreach ( $data_parts as $data )
 			{
 				$part_class = PagePart::getClass( $data['type'] );

@@ -37,7 +37,7 @@ class PartText extends Record {
 	  }
 	 */
 
-	public function content(  )
+	public function content()
 	{
 		return $this->content_html;
 	}
@@ -75,19 +75,9 @@ class PartText extends Record {
 		return self::findOneFrom( 'PartText', 'part_id=' . (int) $id );
 	}
 
-	public static function findOneByPartIdPageId( $part_id,$page_id )
+	public static function findOneByPartIdPageId( $part_id, $page_id )
 	{
 		return self::findOneFrom( 'PartText', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
-	}
-
-	public static function findOneByPageId( $id, $offset = 0 )
-	{
-		return self::findOneFrom( 'PartText', 'page_id=' . (int) $id . ' ORDER BY id ASC LIMIT 1 OFFSET ' . $offset );
-	}
-
-	public static function deleteByLayoutId( $id )
-	{
-		return self::$__CONN__->exec( 'DELETE FROM ' . self::tableNameFromClassName( 'PageText' ) . ' WHERE layout_id=' . (int) $id ) === false ? false : true;
 	}
 
 }

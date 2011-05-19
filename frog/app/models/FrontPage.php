@@ -109,6 +109,7 @@ class FrontPage {
 	public $parent = false;
 	public $level = false;
 	public $tags = false;
+	public $parts = false;
 	public $needs_login;
 
 	public function __construct( $object, $parent )
@@ -258,68 +259,49 @@ class FrontPage {
 		}
 	}
 
-	public function content( $part='body', $inherit=false )
+	public function content( $part_name='body', $inherit=false )
 	{
-		// if part exist we generate the content en execute it!
-		if ( isset( $this->part->$part ) )
-		{
-			/*
-			  $ret = '';
+		if ( !$this->parts )
+			$this->parts = PagePart::getParts( $this );
 
-			  try
-			  {
-			  $code = '$this = $page; ?>' . $this->part->$part->content_html . '<?';
+		if ( isset( $this->parts[$part_name] ) )
+			return $this->parts[$part_name]->content();
+		/*
 
-			  $tmp_function = create_function('$page', $code); // E_ERROR here
 
-			  if( $tmp_function === false )
-			  {
-			  throw new Exception('[No]');
-			  }
-			  else
-			  {
-			  $ret = call_user_func_array($tmp_function, array( $this ));
-			  }
-			  }
-			  catch( Exception $e )
-			  {
-			  $ret = $e->getMessage();
-			  }
 
-			  return $ret;
-			 */
+		  try
+		  {
+		  ob_start();
+		  $eval_state = eval( '?>' . $this->part->$part->content_html );
+		  $out = ob_get_contents();
+		  ob_end_clean();
 
-			try
-			{
-				ob_start();
-				$eval_state = eval( '?>' . $this->part->$part->content_html );
-				$out = ob_get_contents();
-				ob_end_clean();
-
-				if ( $eval_state !== false )
-				{
-					return $out;
-				}
-				else
-				{
-					throw new Exception( 'Please, check PHP code at content part "' . $part . '" of page with ID: ' . $this->id . ' and title "' . $this->title() . '"' );
-				}
-			} catch ( Exception $e )
-			{
-				if ( DEBUG )
-				{
-					return '[CONTENT ERROR: ' . $e->getMessage() . ']';
-				}
-				else
-				{
-					return '[CONTENT ERROR]';
-				}
-			}
-		}
-		else if ( $inherit && $this->parent )
-		{
-			return $this->parent->content( $part, true );
-		}
+		  if ( $eval_state !== false )
+		  {
+		  return $out;
+		  }
+		  else
+		  {
+		  throw new Exception( 'Please, check PHP code at content part "' . $part . '" of page with ID: ' . $this->id . ' and title "' . $this->title() . '"' );
+		  }
+		  } catch ( Exception $e )
+		  {
+		  if ( DEBUG )
+		  {
+		  return '[CONTENT ERROR: ' . $e->getMessage() . ']';
+		  }
+		  else
+		  {
+		  return '[CONTENT ERROR]';
+		  }
+		  }
+		  }
+		  else if ( $inherit && $this->parent )
+		  {
+		  return $this->parent->content( $part, true );
+		  }
+		 */
 	}
 
 	public function previous()
@@ -389,7 +371,7 @@ class FrontPage {
 				$page = new $page_class( $object, $this );
 
 				// assignParts
-				$page->part = self::getParts( $page->id );
+				//$page->part = self::getParts( $page->id );
 				$pages[] = $page;
 			}
 		}
@@ -481,7 +463,7 @@ class FrontPage {
 					$page = new $page_class( $page, $parent );
 
 					// assign all is parts
-					$page->part = get_parts( $page->id );
+					//$page->part = get_parts( $page->id );
 
 					$pages[] = $page;
 				}
@@ -505,7 +487,7 @@ class FrontPage {
 					$page = new $page_class( $page, $parent );
 
 					// assign all is parts
-					$page->part = get_parts( $page->id );
+					//$page->part = get_parts( $page->id );
 
 					$pages_cache[$page_cache_id] = $page;
 
@@ -563,26 +545,28 @@ class FrontPage {
 		return (!$page && $has_behavior) ? $parent : $page;
 	}
 
-	public static function getParts( $page_id = null )
-	{
-		$connection = Record::getConnection();
+	/*
+	  public static function getParts( $page_id = null )
+	  {
+	  $connection = Record::getConnection();
 
-		$page_id = ($page_id === null ? $this->id : $page_id);
+	  $page_id = ($page_id === null ? $this->id : $page_id);
 
-		$objPart = new stdClass;
+	  $objPart = new stdClass;
 
-		$sql = 'SELECT name, content_html FROM ' . TABLE_PREFIX . 'page_part WHERE page_id=?';
+	  $sql = 'SELECT name, content_html FROM ' . TABLE_PREFIX . 'page_part WHERE page_id=?';
 
-		if ( $stmt = $connection->prepare( $sql ) )
-		{
-			$stmt->execute( array($page_id) );
+	  if ( $stmt = $connection->prepare( $sql ) )
+	  {
+	  $stmt->execute( array($page_id) );
 
-			while ( $part = $stmt->fetchObject() )
-				$objPart->{$part->name} = $part;
-		}
+	  while ( $part = $stmt->fetchObject() )
+	  $objPart->{$part->name} = $part;
+	  }
 
-		return $objPart;
-	}
+	  return $objPart;
+	  }
+	 */
 
 	public function parent( $level=null )
 	{

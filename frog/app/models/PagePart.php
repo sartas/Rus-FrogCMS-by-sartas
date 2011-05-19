@@ -36,7 +36,7 @@ class PagePart extends Record {
 			$part->name = $layout_part->name;
 			$part->title = $layout_part->title;
 
-			$page_parts[] = $part;
+			$page_parts[$part->name] = $part;
 		}
 		return $page_parts;
 	}
@@ -56,7 +56,7 @@ class PagePart extends Record {
 			$part->name = $layout_part->name;
 			$part->title = $layout_part->title;
 
-			$page_parts[] = $part;
+			$page_parts[$part->name] = $part;
 		}
 		return $page_parts;
 	}

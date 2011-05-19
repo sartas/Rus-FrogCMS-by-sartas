@@ -37,6 +37,11 @@ class PartText extends Record {
 	  }
 	 */
 
+	public function content(  )
+	{
+		return $this->content_html;
+	}
+
 	public function edit( $vars=array() )
 	{
 		return new View( '../../plugins/' . self::TABLE_NAME . '/views/part_edit', $vars );

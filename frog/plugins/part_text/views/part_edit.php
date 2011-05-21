@@ -38,9 +38,9 @@ if ( !defined( 'DEBUG' ) )
 
 
 	<script type="text/javascript">
-		//	jQuery(function(){
-		//		frogFilters.switchOn( 'part_<?php echo ($index - 1); ?>_content', '<?php echo $part->filter_id; ?>' );
-		//	});
+			jQuery(function(){
+				frogFilters.switchOn( 'part_<?php echo ($index - 1); ?>_content', '<?php echo $part->filter_id; ?>' );
+			});
 	</script>
 </div>
 <!-- /part -->

@@ -68,8 +68,12 @@ if ( !defined( 'DEBUG' ) )
 						</tr>
 					<?php endforeach; ?>
 				</table>
-				<a href="#" onclick="frogLayoutEdit.addPartClick(<?= $layout->id; ?>);return false;">Add</a>
 
+				<?php if ( $action == 'edit' ): ?>
+					<a href="#" onclick="frogLayoutEdit.addPartClick(<?= $layout->id; ?>);return false;">Add</a>
+				<?php else: ?>
+					Save layout first.
+				<?php endif; ?>
 			</div>
 		</div>
 

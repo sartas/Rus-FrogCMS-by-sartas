@@ -252,6 +252,7 @@ class PageController extends Controller {
 
 	private function _edit( $id )
 	{
+				
 		$data = $_POST['page'];
 
 		$page = Record::findByIdFrom( 'Page', $id );
@@ -288,8 +289,9 @@ class PageController extends Controller {
 				$part = new $part_class( $data );
 				$part->page_id = $id;
 				unset( $part->type );
+				print_r($part);
 				$part->save();
-			}
+			}exit;
 			/*
 			  foreach ( $data_parts as $data )
 			  {

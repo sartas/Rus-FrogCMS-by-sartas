@@ -552,7 +552,7 @@ class FrontPage {
 			$part_class = self::getPartClass( $layout_part->type );
 
 			$part = new $part_class();
-			if ( $get_content && $tmp_part = $part::findOneByPartIdPageId( $layout_part->id, $page->id ) )
+			if ( $get_content && $tmp_part = $part->findOneByPartIdPageId( $layout_part->id, $page->id ) )
 			{
 				$part = $tmp_part;
 			}

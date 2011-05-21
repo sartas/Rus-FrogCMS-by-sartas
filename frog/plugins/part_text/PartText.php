@@ -21,7 +21,7 @@ if ( !defined( 'DEBUG' ) )
  * @author Philippe Archambault <philippe.archambault@gmail.com>
  * @since Frog version 0.1
  */
-class PartText extends Record {
+class PartText extends PagePart {
 	const TABLE_NAME = 'part_text';
 
 
@@ -42,44 +42,27 @@ class PartText extends Record {
 		return $this->content_html;
 	}
 
-	public function edit( $vars=array() )
-	{
-		return new View( '../../plugins/' . self::TABLE_NAME . '/views/part_edit', $vars );
-	}
-
 	public function beforeSave()
 	{
-		/* 		//$this->content = stripslashes( $this->content );
+		//$this->content = stripslashes( $this->content );
+		// apply filter to save is generated result in the database
+		if ( !empty( $this->filter_id ) )
+		{
+			$this->content_html = Filter::get( $this->filter_id )->apply( $this->content );
 
-		  // apply filter to save is generated result in the database
-		  if ( ! empty($this->filter_id))
-		  {
-		  $this->content_html = Filter::get($this->filter_id)->apply($this->content);
-
-		  foreach(Observer::getObserverList('filter_content') as $callback)
-		  $this->content_html = call_user_func($callback, $this->content_html);
-		  }
-		  else
-		 */ $this->content_html = $this->content;
+			foreach ( Observer::getObserverList( 'filter_content' ) as $callback )
+				$this->content_html = call_user_func( $callback, $this->content_html );
+		}
+		else
+			$this->content_html = $this->content;
 
 		return true;
 	}
 
-	public static function findAllByLayoutId( $id )
-	{
-		return self::findAllFrom( 'PartText', 'layout_id=' . (int) $id . ' ORDER BY id' );
-	}
-
-	public static function findOneByPartId( $id )
-	{
-		return self::findOneFrom( 'PartText', 'part_id=' . (int) $id );
-	}
-
-	public static function findOneByPartIdPageId( $part_id, $page_id )
-	{
-		return self::findOneFrom( 'PartText', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
-	}
-
+//	public function findOneByPartIdPageId( $part_id, $page_id )
+//	{
+//		return self::findOneFrom( 'PartText', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
+//	}
 }
 
 // end PageText class

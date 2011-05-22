@@ -252,7 +252,7 @@ class PageController extends Controller {
 
 	private function _edit( $id )
 	{
-				
+
 		$data = $_POST['page'];
 
 		$page = Record::findByIdFrom( 'Page', $id );
@@ -289,7 +289,7 @@ class PageController extends Controller {
 				$part = new $part_class( $data );
 				$part->page_id = $id;
 				unset( $part->type );
-				print_r($part);
+				print_r( $part );
 				$part->save();
 			}exit;
 			/*
@@ -437,11 +437,16 @@ class PageController extends Controller {
 	 */
 	public function copy( $parent_id )
 	{
+//		print_r( $_POST );
+//		exit;
 		if ( !empty( $_POST['pages'] ) )
 		{
 			$pages = $_POST['pages'];
 			$dragged_id = (int) $_POST['dragged_id'];
 
+			// TODO fix recursive copy bug
+			if ( $dragged_id == $parent_id )
+				exit;
 			$page = Record::findByIdFrom( 'Page', $dragged_id );
 			$new_root_id = Page::cloneTree( $page, $parent_id );
 
@@ -462,7 +467,7 @@ class PageController extends Controller {
 				$page->save();
 			}
 
-			echo json_encode( array('new_root_id' => $new_root_id) );
+			echo json_encode( array('success' => __( 'Page has been copied!' ), 'new_root_id' => $new_root_id) );
 		}
 	}
 
@@ -506,21 +511,21 @@ class PageController extends Controller {
 
 	//  Private methods  -----------------------------------------------------
 
-/*
-	private function _getPartView( $index=1, $name='', $filter_id='', $content='' )
-	{
-		$page_part = new PagePart( array(
-					'name' => $name,
-					'filter_id' => $filter_id,
-					'content' => $content
-						) );
+	/*
+	  private function _getPartView( $index=1, $name='', $filter_id='', $content='' )
+	  {
+	  $page_part = new PagePart( array(
+	  'name' => $name,
+	  'filter_id' => $filter_id,
+	  'content' => $content
+	  ) );
 
-		return $this->render( 'page/part_edit', array(
-			'index' => $index,
-			'page_part' => $page_part
-		) );
-	}
-*/
+	  return $this->render( 'page/part_edit', array(
+	  'index' => $index,
+	  'page_part' => $page_part
+	  ) );
+	  }
+	 */
 }
 
 // end PageController class

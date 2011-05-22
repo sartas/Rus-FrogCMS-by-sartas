@@ -1068,15 +1068,8 @@ final class Flash {
 	 * @return void
 	 */
 	public static function set( $var, $value )
-	{  // TODO ajax requests
-		if ( get_request_method() == 'AJAX' && ($var == 'error' || $var == 'success') )
-		{
-			
-		}
-		else
-		{
-			$_SESSION[self::SESSION_KEY][$var] = $value;
-		}
+	{
+		$_SESSION[self::SESSION_KEY][$var] = $value;
 	}
 
 // set

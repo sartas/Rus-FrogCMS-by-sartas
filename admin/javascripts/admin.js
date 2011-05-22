@@ -100,111 +100,26 @@ frog.error = function( msg )
 // TODO: Send error to server logger
 };
 
-// Convert string to more pretty URI fragments
-frog.toSlug = function( str )
+// Show Frog success message
+frog.success = function( msg )
 {
-	// Translation equivalents
-	var translit = {
-		// Russian
-		'Ё':'YO',
-		'Й':'I',
-		'Ц':'TS',
-		'У':'U',
-		'К':'K',
-		'Е':'E',
-		'Н':'N',
-		'Г':'G',
-		'Ш':'SH',
-		'Щ':'SCH',
-		'З':'Z',
-		'Х':'H',
-		'Ъ':'',
-		'ё':'yo',
-		'й':'i',
-		'ц':'ts',
-		'у':'u',
-		'к':'k',
-		'е':'e',
-		'н':'n',
-		'г':'g',
-		'ш':'sh',
-		'щ':'sch',
-		'з':'z',
-		'х':'h',
-		'ъ':'',
-		'Ф':'F',
-		'Ы':'I',
-		'В':'V',
-		'А':'A',
-		'П':'P',
-		'Р':'R',
-		'О':'O',
-		'Л':'L',
-		'Д':'D',
-		'Ж':'ZH',
-		'Э':'E',
-		'ф':'f',
-		'ы':'i',
-		'в':'v',
-		'а':'a',
-		'п':'p',
-		'р':'r',
-		'о':'o',
-		'л':'l',
-		'д':'d',
-		'ж':'zh',
-		'э':'e',
-		'Я':'YA',
-		'Ч':'CH',
-		'С':'S',
-		'М':'M',
-		'И':'I',
-		'Т':'T',
-		'Ь':'',
-		'Б':'B',
-		'Ю':'YU',
-		'я':'ya',
-		'ч':'ch',
-		'с':'s',
-		'м':'m',
-		'и':'i',
-		'т':'t',
-		'ь':'',
-		'б':'b',
-		'ю':'yu',
-		// Lithuanian
-		'Ą':'A',
-		'Č':'C',
-		'Ę':'E',
-		'Ė':'E',
-		'Į':'I',
-		'Š':'S',
-		'Ū':'U',
-		'Ų':'U',
-		'Ž':'Z',
-		'ą':'a',
-		'č':'c',
-		'ę':'e',
-		'ė':'e',
-		'i':'i',
-		'į':'i',
-		'š':'s',
-		'ū':'u',
-		'ų':'u',
-		'ž':'z'
-	};
-	
-	// Replace chars and return valid string
-	return jQuery.trim( str.toLowerCase() )
-	.replace(/[àâ]/g,"a").replace(/[éèêë]/g,"e").replace(/[îï]/g,"i")
-	.replace(/[ô]/g,"o").replace(/[ùû]/g,"u").replace(/[ñ]/g,"n")
-	.replace(/[äæ]/g,"ae").replace(/[öø]/g,"oe").replace(/[ü]/g,"ue")
-	.replace(/[ß]/g,"ss").replace(/[å]/g,"aa")
-	.replace(/([\u0410-\u0451])/g, function(c){
-		return translit[c] != undefined ? translit[c] : c;
-	})
-	.replace(/[^-a-z0-9~\s\.:;+=_]/g, '').replace(/[\s\.:;=+]+/g, '-');
+	frog.messageShow('success', msg);
 };
+
+// Show Frog success message
+frog.json_message = function( obj )
+{
+	if(obj.success !== undefined){
+		frog.success(obj.success);
+		return 'success';
+	}
+	
+	if(obj.error !== undefined){
+		frog.error(obj.error);
+		return 'error';
+	}
+};
+
 
 // Show overlay
 frog.overlayShow = function( with_animation )
@@ -856,7 +771,7 @@ frogPages.copyClick = function()
 			var parent_page = page.parent().parent();
 			
 			var parent_page_id = (parent_page.attr('id') == false ? 1 : frogPages.extractPageId(parent_page));
-			
+
 			var childrens = page.parent().children('li');
 			
 			var pages = [];
@@ -887,15 +802,16 @@ frogPages.copyClick = function()
 				
 				// events
 				success: function( data ) {
-					
-					page.attr('id', 'page_' + data.new_root_id );
-					page.find('.page-name:first a:first').attr('href', '?/page/edit/' + data.new_root_id);
-					page.find('.page-name:first a:first').append(' (copy)');
-					page.find('.page-add:first').attr('href', '?/page/add/' + data.new_root_id);
-					page.find('.page-remove:first').attr('href', '?/page/delete/' + data.new_root_id);
-					
+					if(frog.json_message(data)=='success'){
+						page.attr('id', 'page_' + data.new_root_id );
+						page.find('.page-name:first a:first').attr('href', '?/page/edit/' + data.new_root_id);
+						page.find('.page-name:first a:first').append(' (copy)');
+						page.find('.page-add:first').attr('href', '?/page/add/' + data.new_root_id);
+						page.find('.page-remove:first').attr('href', '?/page/delete/' + data.new_root_id);
+					}
+
 					frog.loaderHide();
-					frog.messageShow('success', frog.__('Page copied'));
+
 				},
 				error: function() {
 					frog.loaderHide();
@@ -1639,4 +1555,6 @@ jQuery(document).ready(function(){
 }); // end
 
 
-frog.localeAdd( { 'Page copied' : 'Страница скопирована' } );
+frog.localeAdd( {
+	'Page copied' : 'Страница скопирована'
+} );

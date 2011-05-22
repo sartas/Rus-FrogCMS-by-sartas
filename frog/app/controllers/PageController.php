@@ -82,7 +82,7 @@ class PageController extends Controller {
 		$this->display( 'page/edit', array(
 			'action' => 'add',
 			'page' => $page,
-			'tags' => array(),
+//			'tags' => array(),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'parts' => $page_parts,
@@ -118,11 +118,11 @@ class PageController extends Controller {
 				$page = array_merge( $page, array('is_protected' => 0) );
 			}
 
-			$tags = $_POST['page_tag'];
+//			$tags = $_POST['page_tag'];
 
 			Flash::set( 'page', (object) $page );
 			Flash::set( 'parts', (object) $part );
-			Flash::set( 'page_tag', $tags );
+//			Flash::set( 'page_tag', $tags );
 
 			Flash::set( 'error', __( 'You have to specify a title!' ) );
 			redirect( get_url( 'page/add' . $parent_id . '/' . $layout_id ) );
@@ -159,7 +159,7 @@ class PageController extends Controller {
 			}
 
 			// save tags
-			$page->saveTags( $_POST['page_tag']['tags'] );
+//			$page->saveTags( $_POST['page_tag']['tags'] );
 
 			Flash::set( 'success', __( 'Page has been saved!' ) );
 		}
@@ -242,7 +242,7 @@ class PageController extends Controller {
 		$this->display( 'page/edit', array(
 			'action' => 'edit',
 			'page' => $page,
-			'tags' => $page->getTags(),
+//			'tags' => $page->getTags(),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'parts' => $page_parts,
@@ -289,9 +289,8 @@ class PageController extends Controller {
 				$part = new $part_class( $data );
 				$part->page_id = $id;
 				unset( $part->type );
-				print_r( $part );
 				$part->save();
-			}exit;
+			}
 			/*
 			  foreach ( $data_parts as $data )
 			  {
@@ -304,7 +303,7 @@ class PageController extends Controller {
 			  }
 			 */
 			// save tags
-			$page->saveTags( $_POST['page_tag']['tags'] );
+//			$page->saveTags( $_POST['page_tag']['tags'] );
 
 			Flash::set( 'success', __( 'Page has been saved!' ) );
 		}
@@ -444,10 +443,16 @@ class PageController extends Controller {
 			$pages = $_POST['pages'];
 			$dragged_id = (int) $_POST['dragged_id'];
 
-			// TODO fix recursive copy bug
-			if ( $dragged_id == $parent_id )
-				exit;
 			$page = Record::findByIdFrom( 'Page', $dragged_id );
+			$receive_page_title = $page->title;
+
+			// fix recursive copy bug
+			if ( $dragged_id == $parent_id )
+			{
+				echo json_encode( array('error' => __( 'Page :title has not been copied!', array(':title' => $receive_page_title) )) );
+				exit;
+			}
+
 			$new_root_id = Page::cloneTree( $page, $parent_id );
 
 			foreach ( $pages as $position => $page_id )
@@ -467,7 +472,8 @@ class PageController extends Controller {
 				$page->save();
 			}
 
-			echo json_encode( array('success' => __( 'Page has been copied!' ), 'new_root_id' => $new_root_id) );
+			echo json_encode( array('success' => __( 'Page :title has been copied!', array(':title' => $receive_page_title) ),
+				'new_root_id' => $new_root_id) );
 		}
 	}
 

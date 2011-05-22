@@ -122,7 +122,7 @@ class Page extends Record {
 
 		return $result;
 	}
-
+/*
 	public function getTags()
 	{
 		$tablename_page_tag = self::tableNameFromClassName( 'PageTag' );
@@ -202,7 +202,7 @@ class Page extends Record {
 			}
 		}
 	}
-
+*/
 	public static function find( $args = null )
 	{
 		// Collect attributes...

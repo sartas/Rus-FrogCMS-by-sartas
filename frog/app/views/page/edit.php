@@ -3,16 +3,14 @@ if ( !defined( 'DEBUG' ) )
 	die;
 
 
-// TODO: clean up code/solution
+// TODO: make ajax
 $pagetmp = Flash::get( 'page' );
 $parttmp = Flash::get( 'page_parts' );
-$tagstmp = Flash::get( 'page_tag' );
 
 if ( $pagetmp != null && !empty( $pagetmp ) && $parttmp != null && !empty( $parttmp ) && $tagstmp != null && !empty( $tagstmp ) )
 {
 	$page = $pagetmp;
 	$parts = $parttmp;
-	$tags = $tagstmp;
 }
 ?>
 
@@ -57,10 +55,7 @@ if ( $action == 'add' )
 						<td class="dtable-label dtable-optional"><label for="page_description"><?php echo __( 'Description' ); ?></label></td>
 						<td class="dtable-field"><input class="input-text" id="page_description" name="page[description]" size="255" value="<?php echo $page->description; ?>" /></td>
 					</tr>
-					<tr>
-						<td class="dtable-label dtable-optional"><label for="page_tags"><?php echo __( 'Tags' ); ?></label></td>
-						<td class="dtable-field"><input class="input-text" id="page_tags" maxlength="255" name="page_tag[tags]" size="255" type="text" value="<?php echo join( ', ', $tags ); ?>" /></td>
-					</tr>
+
 				</table>
 
 				<?php Observer::notify( 'view_page_edit_options', $page ); ?>
@@ -82,7 +77,7 @@ if ( $action == 'add' )
 			<!-- page_edit_items -->
 			<?php
 			$index = 1;
-			print_r($parts);
+			
 			foreach ( $parts as $part )
 			{
 				echo $part->edit( array('index' => $index, 'part' => $part) );

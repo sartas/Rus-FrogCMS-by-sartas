@@ -11,9 +11,6 @@ var frog = {};
 // Translations array
 frog.locale = [];
 
-// Settings array
-frog.settingsContainer = [];
-
 // For dialog
 frog.dialogs = {};
 
@@ -41,20 +38,6 @@ frog.init = function()
 		Animate content message
 	 */
 	this.animateMessage();
-};
-
-
-// Settings
-frog.settings = function(key)
-{
-	return frog.settings[key];
-};
-
-
-// Settings
-frog.settingsAdd = function(key, val)
-{
-	frog.settings[key] = val;
 };
 
 // Translate string (not completed)
@@ -92,12 +75,10 @@ frog.localeAdd = function( obj )
 frog.error = function( msg )
 {
 	//alert( msg + (console !== undefined ? ' (more information in console)' : '') );
-	frog.messageShow('error', msg + (console !== undefined ? ' (more information in console)' : ''));
+	frog.messageShow('error', msg);
 
 	if( console !== undefined )
 		console.log( arguments );
-		
-// TODO: Send error to server logger
 };
 
 // Show Frog success message
@@ -106,7 +87,7 @@ frog.success = function( msg )
 	frog.messageShow('success', msg);
 };
 
-// Show Frog success message
+// Detect success or error message received from server
 frog.json_message = function( obj )
 {
 	if(obj.success !== undefined){
@@ -160,7 +141,6 @@ frog.overlayHide = function()
 frog.loaderShow = function()
 {
 	this.overlayShow();
-		
 	jQuery('#loader').show();
 };
 
@@ -168,7 +148,6 @@ frog.loaderShow = function()
 frog.loaderHide = function()
 {
 	this.overlayHide();
-		
 	jQuery('#loader').hide();
 };
 
@@ -212,7 +191,7 @@ frog.animateMessage = function()
 	.animate({
 		height: frog.adimateMessage_height
 	}, 500, function(){
-		messageTimer = setTimeout(messageHide, 3000);
+		messageTimer = setTimeout(messageHide, 10000);
 	})
 	.mouseover(function(){
 		//clearTimeout(messageTimer);
@@ -808,6 +787,9 @@ frogPages.copyClick = function()
 						page.find('.page-name:first a:first').append(' (copy)');
 						page.find('.page-add:first').attr('href', '?/page/add/' + data.new_root_id);
 						page.find('.page-remove:first').attr('href', '?/page/delete/' + data.new_root_id);
+					}
+					else{
+						page.remove();						
 					}
 
 					frog.loaderHide();
@@ -1553,8 +1535,3 @@ jQuery(document).ready(function(){
 			break;
 	}
 }); // end
-
-
-frog.localeAdd( {
-	'Page copied' : 'Страница скопирована'
-} );

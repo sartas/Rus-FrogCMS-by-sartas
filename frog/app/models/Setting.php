@@ -77,7 +77,10 @@ class Setting extends Record
     {
         return isset(self::$settings[$name]) ? self::$settings[$name]: false;
     }
-    
+    /**
+	 *
+	 * @param array $data 
+	 */
     public static function saveFromData($data)
     {
         $tablename = self::tableNameFromClassName('Setting');

@@ -22,7 +22,7 @@ if ( $pagetmp != null && !empty( $pagetmp ) && $parttmp != null && !empty( $part
 
 <form id="page_edit_form" action="<?php
 if ( $action == 'add' )
-	echo get_url( 'page/add/'.$page->parent_id.'/'.$page->layout_id ); else
+	echo get_url( 'page/add/' . $page->parent_id . '/' . $page->layout_id ); else
 	echo get_url( 'page/edit/' . $page->id );
 ?>" method="post" class="dform page-edit">
 	<input id="page_parent_id" name="page[parent_id]" type="hidden" value="<?php echo $page->parent_id; ?>" />
@@ -77,7 +77,7 @@ if ( $action == 'add' )
 			<!-- page_edit_items -->
 			<?php
 			$index = 1;
-			
+
 			foreach ( $parts as $part )
 			{
 				echo $part->edit( array('index' => $index, 'part' => $part) );
@@ -170,8 +170,18 @@ if ( $action == 'add' )
 		<input id="page_edit_continue" class="input-button" name="continue" type="submit" accesskey="e" value="<?php echo __( 'Save and Continue Editing' ); ?>" title="<?php echo __( 'Or press' ); ?> Alt+E" />
 		<?php echo __( 'or' ); ?> <a href="<?php echo get_url( 'page' ); ?>" id="page_edit_cancel"><?php echo __( 'Cancel' ); ?></a>
 	</p>
+	<script>
+		$(document).ready(function() {
+			var $dialog = $('<div></div>')
+			.html('This dialog will show every time!')
+			.dialog({
+				autoOpen: false,
+				title: false
+			});
+			$dialog.dialog('open');
 
-
+		});
+	</script>
 	<?php if ( isset( $page->updated_on ) ): ?>
 		<p class="page-edit-updated"><small><?php echo __( 'Last updated by <a href=":link">:name</a> on :date', array(':link' => get_url( 'user/edit/' . $page->updated_by_id ), ':name' => $page->updated_by_name, ':date' => date( 'D, j M Y', strtotime( $page->updated_on ) )) ); ?></small></p>
 	<?php endif; ?>

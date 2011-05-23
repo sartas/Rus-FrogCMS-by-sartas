@@ -63,7 +63,6 @@ class Page extends Record {
 	public $breadcrumb;
 	public $keywords;
 	public $description;
-	public $content;
 	public $parent_id;
 	public $layout_id;
 	public $behavior_id;

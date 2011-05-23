@@ -4,18 +4,6 @@ if ( !defined( 'DEBUG' ) )
 	die;
 
 /**
- * @package frog
- * @subpackage controllers
- *
- * @author Philippe Archambault <philippe.archambault@gmail.com>
- * @author Martijn van der Kleijn <martijn.niji@gmail.com>
- * @author Maslakov Alexandr <jmas.ukraine@gmail.com>
- * @version 0.1
- * @license http://www.gnu.org/licenses/gpl.html GPL License
- * @copyright Philippe Archambault, 2008
- */
-
-/**
  * Class PagesController
  * 
  * @package frog
@@ -58,21 +46,20 @@ class PageController extends Controller {
 
 	public function add( $parent_id, $layout_id )
 	{
-		// check if trying to save
-		if ( get_request_method() == 'POST' || get_request_method() == 'AJAX' )
-			return $this->_add( $parent_id, $layout_id );
-
-		$data = Flash::get( 'post_data' );
-		$page = new Page( $data );
+		$page = new Page();
 		$page->parent_id = $parent_id;
 		$page->layout_id = $layout_id;
+
+		// check if trying to save
+		if ( get_request_method() == 'POST' || get_request_method() == 'AJAX' )
+			return $this->_store( 'add', $page );
+
 		$page->status_id = Setting::get( 'default_status_id' );
 		$page->needs_login = Page::LOGIN_INHERIT;
 		$page->published_on = date( 'Y-m-d H:i:s' );
 
-		$page_parts = Flash::get( 'post_parts_data' );
-		if ( empty( $page_parts ) )
-			$page_parts = FrontPage::getParts( $page, false );
+
+		$page_parts = FrontPage::getParts( $page, false );
 
 
 
@@ -90,130 +77,12 @@ class PageController extends Controller {
 		);
 	}
 
-	private function _add( $parent_id, $layout_id )
-	{
-//			print_r( $_POST );
-//			exit;
-		$data = $_POST['page'];
-		$data['layout_id'] = $layout_id;
-		Flash::set( 'post_data', (object) $data );
-
-		if ( empty( $data['title'] ) )
-		{
-			// Rebuilding original page
-			$part = $_POST['part'];
-			if ( !empty( $part ) )
-			{
-				$tmp = false;
-				foreach ( $part as $key => $val )
-				{
-					$tmp[$key] = (object) $val;
-				}
-				$part = $tmp;
-			}
-
-			$page = $_POST['page'];
-			if ( !empty( $page ) && !array_key_exists( 'is_protected', $page ) )
-			{
-				$page = array_merge( $page, array('is_protected' => 0) );
-			}
-
-//			$tags = $_POST['page_tag'];
-
-			Flash::set( 'page', (object) $page );
-			Flash::set( 'parts', (object) $part );
-//			Flash::set( 'page_tag', $tags );
-
-			Flash::set( 'error', __( 'You have to specify a title!' ) );
-			redirect( get_url( 'page/add' . $parent_id . '/' . $layout_id ) );
-		}
-
-		/**
-		 * Make sure the title doesn't contain HTML
-		 * 
-		 * @todo Replace this by HTML Purifier?
-		 */
-		if ( Setting::get( 'allow_html_title' ) == 'off' )
-		{
-			use_helper( 'Kses' );
-			$data['title'] = kses( trim( $data['title'] ), array() );
-		}
-
-		$page = new Page( $data );
-
-		// save page data
-		if ( $page->save() )
-		{
-			// get data from user
-			$data_parts = $_POST['part'];
-			Flash::set( 'post_parts_data', (object) $data_parts );
-
-			foreach ( $data_parts as $data )
-			{
-				$part_class = FrontPage::getPartClass( $data['type'] );
-
-				$part = new $part_class( $data );
-				$part->page_id = $page->id;
-				unset( $part->type );
-				$part->save();
-			}
-
-			// save tags
-//			$page->saveTags( $_POST['page_tag']['tags'] );
-
-			Flash::set( 'success', __( 'Page has been saved!' ) );
-		}
-		else
-		{
-			if ( get_request_method() == 'AJAX' )
-			{
-				echo('error');
-			}
-			else
-			{
-				Flash::set( 'error', __( 'Page has not been saved!' ) );
-				redirect( get_url( 'page/add' . $parent_id . '/' . $layout_id ) );
-			}
-		}
-
-		Observer::notify( 'page_add_after_save', $page );
-
-		if ( get_request_method() == 'AJAX' )
-		{
-			if ( isset( $_POST['commit'] ) )
-				echo(get_url( 'page' ));
-			else
-				echo(get_url( 'page/edit/' . $page->id ));
-		}
-		else
-		{
-			get_url( 'page/edit/' . $page->id );
-			// save and quit or save and continue editing ?
-			if ( isset( $_POST['commit'] ) )
-				redirect( get_url( 'page' ) );
-			else
-				redirect( get_url( 'page/edit/' . $page->id ) );
-		}
-	}
-
-	/*
-	  public function addPart()
-	  {
-	  header( 'Content-Type: text/html; charset: utf-8' );
-
-	  $data = isset( $_POST ) ? $_POST : array();
-	  $data['name'] = isset( $data['name'] ) ? trim( $data['name'] ) : '';
-	  $data['index'] = isset( $data['index'] ) ? (int) $data['index'] : 1;
-
-	  echo $this->_getPartView( $data['index'], $data['name'] );
-	  }
-	 */
-
 	public function edit( $id=null )
 	{
 		if ( is_null( $id ) )
 			redirect( get_url( 'page' ) );
 
+		//$page = Record::findByIdFrom( 'Page', $id );
 		$page = Page::findById( $id );
 
 		if ( !$page )
@@ -221,6 +90,7 @@ class PageController extends Controller {
 			Flash::set( 'error', __( 'Page not found!' ) );
 			redirect( get_url( 'page' ) );
 		}
+
 
 		// check for protected page and editor user
 		if ( !AuthUser::hasPermission( 'administrator' ) && !AuthUser::hasPermission( 'developer' ) && $page->is_protected )
@@ -231,7 +101,7 @@ class PageController extends Controller {
 
 		// check if trying to save
 		if ( get_request_method() == 'POST' || get_request_method() == 'AJAX' )
-			return $this->_edit( $id );
+			return $this->_store( 'edit', $page );
 
 		// find all page_part of this pages
 
@@ -242,7 +112,6 @@ class PageController extends Controller {
 		$this->display( 'page/edit', array(
 			'action' => 'edit',
 			'page' => $page,
-//			'tags' => $page->getTags(),
 			'filters' => Filter::findAll(),
 			'behaviors' => Behavior::findAll(),
 			'parts' => $page_parts,
@@ -250,92 +119,148 @@ class PageController extends Controller {
 		);
 	}
 
-	private function _edit( $id )
+	private function _store( $action, $page )
 	{
-
 		$data = $_POST['page'];
 
-		$page = Record::findByIdFrom( 'Page', $id );
-
-		// need to do this because the use of a checkbox
-		$data['is_protected'] = !empty( $data['is_protected'] ) ? 1 : 0;
-
-		/**
-		 * Make sure the title doesn't contain HTML
-		 *
-		 * @todo Replace this by HTML Purifier?
-		 */
-		if ( Setting::get( 'allow_html_title' ) == 'off' )
-		{
-			use_helper( 'Kses' );
-			$data['title'] = kses( trim( $data['title'] ), array() );
-		}
-
 		$page->setFromData( $data );
+		if ( isset( $page->created_by_name ) )
+			unset( $page->created_by_name );
+		if ( isset( $page->updated_by_name ) )
+			unset( $page->updated_by_name );
 
-		Observer::notify( 'page_edit_before_save', $page );
+		Observer::notify( 'page_' . $action . '_before_save', $page );
 
-		if ( $page->save() )
+		if ( $this->_valid( $page ) )
 		{
-			// get data for parts of this page
-			$data_parts = $_POST['part'];
-
-			//FrontPage::saveParts( $data_parts );
-
-			foreach ( $data_parts as $data )
+			if ( $page->save() )
 			{
-				$part_class = FrontPage::getPartClass( $data['type'] );
+				$parts = $_POST['part'];
+				foreach ( (array) $parts as $data )
+				{
+					$part_class = FrontPage::getPartClass( $data['type'] );
 
-				$part = new $part_class( $data );
-				$part->page_id = $id;
-				unset( $part->type );
-				$part->save();
+					$part = new $part_class( $data );
+					$part->page_id = $page->id;
+					unset( $part->type );
+					$part->save();
+				}
+
+				$success = __( 'Page :title has been saved!', array(':title' => $page->title) );
+
+				if ( get_request_method() == 'AJAX' )
+				{
+					echo json_encode( array('success' => $success) );
+				}
+				else
+				{
+					Flash::set( 'success', $success );
+
+					if ( isset( $_POST['commit'] ) )
+						redirect( get_url( 'page' ) );
+					else
+						redirect( get_url( 'page/edit/' . $page->id ) );
+				}
+
+				Observer::notify( 'page_' . $action . '_after_save', $page );
 			}
-			/*
-			  foreach ( $data_parts as $data )
-			  {
-			  $part_class = Inflector::camelize( 'page_' . $data['name'] );
-			  unset( $data['name'] );
+			else
+			{
+				$error = __( 'Page :title has not been saved!', array(':title' => $page->title) );
 
-			  $part = new $part_class( $data );
-			  $part->page_id = $id;
-			  $part->save();
-			  }
-			 */
-			// save tags
-//			$page->saveTags( $_POST['page_tag']['tags'] );
+				if ( get_request_method() == 'AJAX' )
+				{
+					echo json_encode( array('error' => $error) );
+				}
+				else
+				{
+					Flash::set( 'error', $error );
 
-			Flash::set( 'success', __( 'Page has been saved!' ) );
+					$redirect = ($action == 'add') ?
+							'page/add/' . $page->id . '/' . $page->layout_id :
+							'page/edit/' . $page->id;
+					redirect( get_url( $redirect ) );
+				}
+			}
 		}
 		else
 		{
 			if ( get_request_method() == 'AJAX' )
 			{
-				echo('error');
+// 
 			}
 			else
 			{
-				Flash::set( 'error', __( 'Page has not been saved!' ) );
-				redirect( get_url( 'page/edit/' . $id ) );
+				Flash::set( 'error', implode( '<br />', $this->errors ) );
+
+				$redirect = ($action == 'add') ?
+						'page/add/' . $page->parent_id . '/' . $page->layout_id :
+						'page/edit/' . $page->id;
+				redirect( get_url( $redirect ) );
 			}
 		}
+	}
 
-		Observer::notify( 'page_edit_after_save', $page );
+	/**
+	 * Validate page object
+	 * 
+	 * @param object $page 
+	 * @return mixed Errors array or true
+	 */
+	private function _valid( $page )
+	{
+		// Sanity checks
+		// need to do this because the use of a checkbox
+		$page->is_protected = !empty( $page->is_protected ) ? 1 : 0;
 
-		if ( get_request_method() == 'AJAX' )
+		// Add pre-save checks here
+		$errors = false;
+
+		$page->title = trim( $page->title );
+		if ( empty( $page->title ) )
 		{
-			if ( isset( $_POST['commit'] ) )
-				echo(get_url( 'page' ));
-			else
-				echo(get_url( 'page/edit/' . $id ));
+			$errors[] = __( 'You have to specify a title!' );
+		}
+
+		// Make sure the title doesn't contain HTML
+		if ( Setting::get( 'allow_html_title' ) == 'off' )
+		{
+			use_helper( 'Kses' );
+			$page->title = kses( trim( $page->title ), array() );
+		}
+
+		$page->slug = trim( $page->slug );
+		if ( empty( $page->slug ) )
+		{
+			$page->slug = $page->title;
+			//translit
+			if ( Setting::get( 'translit_slug' == 'on' ) )
+			{
+				$page->slug = I18n::translit( $page->title );
+			}
+
+			use_helper( 'Sanitize' );
+
+			$page->slug = Sanitize::slug( $page->slug );
 		}
 		else
 		{
-			// save and quit or save and continue editing ?
-			if ( isset( $_POST['commit'] ) )
-				redirect( get_url( 'page' ) );
-			else
-				redirect( get_url( 'page/edit/' . $id ) );
+			// TODO slug validate if needed
+		}
+
+		if ( $page->slug == ADMIN_DIR && $page->parent_id == 1 )
+		{
+			$errors[] = __( 'You cannot have a slug named :slug!', array(':slug' => ADMIN_DIR) );
+		}
+
+		if ( $errors !== false )
+		{
+			$this->errors = $errors;
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 

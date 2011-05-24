@@ -11,7 +11,7 @@ if ( !defined( 'DEBUG' ) )
 			<? if ( isset( $part->id ) && $part->id != '' ): ?>
 				<input id="part_<?php echo ($index - 1); ?>_id" name="part[<?php echo ($index - 1); ?>][id]" type="hidden" value="<?php echo $part->id; ?>" />
 			<? endif; ?>
-			<p class="page-edit-filter"><b><?php echo $part->title; ?></b>
+			<p class="page-edit-filter"><b style="font-size:120%;padding-right:50px"><?php echo $part->title; ?></b>
 				<label for="part_<?php echo ($index - 1); ?>_filter_id"><?php echo __( 'Filter' ); ?></label>
 				<select id="part_<?php echo ($index - 1); ?>_filter_id" name="part[<?php echo ($index - 1); ?>][filter_id]" class="input-select page-part-filter">
 					<option value="" <?php if ( $part->filter_id == '' )

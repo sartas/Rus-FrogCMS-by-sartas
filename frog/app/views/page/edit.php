@@ -57,7 +57,46 @@ if ( $action == 'add' )
 					</tr>
 
 				</table>
+				<?php if ( AuthUser::hasPermission( 'administrator' ) || AuthUser::hasPermission( 'developer' ) ): ?>
+					<p id="page_edit_login" title="<?php echo __( 'When enabled, users have to login before they can view the page.' ); ?>">
+						<label for="page_needs_login"><?php echo __( 'Use Login' ); ?></label>
+						<select class="input-select" id="page_needs_login" name="page[needs_login]">
+							<option value="<?php echo Page::LOGIN_INHERIT; ?>"<?php echo $page->needs_login == Page::LOGIN_INHERIT ? ' selected="selected"' : ''; ?>>&ndash; <?php echo __( 'inherit' ); ?> &ndash;</option>
+							<option value="<?php echo Page::LOGIN_NOT_REQUIRED; ?>"<?php echo $page->needs_login == Page::LOGIN_NOT_REQUIRED ? ' selected="selected"' : ''; ?>><?php echo __( 'not required' ); ?></option>
+							<option value="<?php echo Page::LOGIN_REQUIRED; ?>"<?php echo $page->needs_login == Page::LOGIN_REQUIRED ? ' selected="selected"' : ''; ?>><?php echo __( 'required' ); ?></option>          
+						</select>
+					</p>
 
+					<p id="page_edit_protected" title="<?php echo __( 'When enabled, only users who are an administor can edit the page.' ); ?>">
+						<label for="page_needs_login"><?php echo __( 'Protected' ); ?></label>
+						<select class="input-select" id="page_is_protected" name="page[is_protected]">
+							<option value="0"><?php echo __( 'No' ); ?></option>
+							<option value="1" <?php if ( $page->is_protected )
+					echo('selected'); ?> ><?php echo __( 'Yes' ); ?></option>
+						</select>
+					</p>
+					<p id="page_edit_layout">
+						<label for="page_layout_id"><?php echo __( 'Layout' ); ?></label>
+						<select class="input-select" id="page_layout_id" name="page[layout_id]">
+							<option value="0">&ndash; <?php echo __( 'inherit' ); ?> &ndash;</option>
+							<?php foreach ( $layouts as $layout ): ?>
+								<option value="<?php echo $layout->id; ?>"<?php echo $layout->id == $page->layout_id ? ' selected="selected"' : ''; ?>><?php echo $layout->name; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</p>
+
+					<p id="page_edit_type">
+						<label for="page_behavior_id"><?php echo __( 'Page Type' ); ?></label>
+						<select class="input-select" id="page_behavior_id" name="page[behavior_id]">
+							<option value=""<?php if ( $page->behavior_id == '' )
+							echo ' selected="selected"'; ?>>&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
+									<?php foreach ( $behaviors as $behavior ): ?>
+								<option value="<?php echo $behavior; ?>"<?php if ( $page->behavior_id == $behavior )
+									echo ' selected="selected"'; ?>><?php echo Inflector::humanize( $behavior ); ?></option>
+									<?php endforeach; ?>
+						</select>
+					</p>
+				<?php endif; ?>
 				<?php Observer::notify( 'view_page_edit_options', $page ); ?>
 
 			</div>
@@ -95,27 +134,7 @@ if ( $action == 'add' )
 		<div id="page_edit_settings">
 			<!-- page_edit_settings -->
 
-			<p id="page_edit_layout">
-				<label for="page_layout_id"><?php echo __( 'Layout' ); ?></label>
-				<select class="input-select" id="page_layout_id" name="page[layout_id]">
-					<option value="0">&ndash; <?php echo __( 'inherit' ); ?> &ndash;</option>
-					<?php foreach ( $layouts as $layout ): ?>
-						<option value="<?php echo $layout->id; ?>"<?php echo $layout->id == $page->layout_id ? ' selected="selected"' : ''; ?>><?php echo $layout->name; ?></option>
-					<?php endforeach; ?>
-				</select>
-			</p>
 
-			<p id="page_edit_type">
-				<label for="page_behavior_id"><?php echo __( 'Page Type' ); ?></label>
-				<select class="input-select" id="page_behavior_id" name="page[behavior_id]">
-					<option value=""<?php if ( $page->behavior_id == '' )
-						echo ' selected="selected"'; ?>>&ndash; <?php echo __( 'none' ); ?> &ndash;</option>
-							<?php foreach ( $behaviors as $behavior ): ?>
-						<option value="<?php echo $behavior; ?>"<?php if ( $page->behavior_id == $behavior )
-								echo ' selected="selected"'; ?>><?php echo Inflector::humanize( $behavior ); ?></option>
-							<?php endforeach; ?>
-				</select>
-			</p>
 
 			<?php if ( !isset( $page->id ) || $page->id != 1 ): ?>
 				<p id="page_edit_status">
@@ -136,25 +155,7 @@ if ( $action == 'add' )
 				</p>
 			<?php endif; ?>
 
-			<?php if ( AuthUser::hasPermission( 'administrator' ) || AuthUser::hasPermission( 'developer' ) ): ?>
-				<p id="page_edit_login" title="<?php echo __( 'When enabled, users have to login before they can view the page.' ); ?>">
-					<label for="page_needs_login"><?php echo __( 'Use Login' ); ?></label>
-					<select class="input-select" id="page_needs_login" name="page[needs_login]">
-						<option value="<?php echo Page::LOGIN_INHERIT; ?>"<?php echo $page->needs_login == Page::LOGIN_INHERIT ? ' selected="selected"' : ''; ?>>&ndash; <?php echo __( 'inherit' ); ?> &ndash;</option>
-						<option value="<?php echo Page::LOGIN_NOT_REQUIRED; ?>"<?php echo $page->needs_login == Page::LOGIN_NOT_REQUIRED ? ' selected="selected"' : ''; ?>><?php echo __( 'not required' ); ?></option>
-						<option value="<?php echo Page::LOGIN_REQUIRED; ?>"<?php echo $page->needs_login == Page::LOGIN_REQUIRED ? ' selected="selected"' : ''; ?>><?php echo __( 'required' ); ?></option>          
-					</select>
-				</p>
 
-				<p id="page_edit_protected" title="<?php echo __( 'When enabled, only users who are an administor can edit the page.' ); ?>">
-					<label for="page_needs_login"><?php echo __( 'Protected' ); ?></label>
-					<select class="input-select" id="page_is_protected" name="page[is_protected]">
-						<option value="0"><?php echo __( 'No' ); ?></option>
-						<option value="1" <?php if ( $page->is_protected )
-				echo('selected'); ?> ><?php echo __( 'Yes' ); ?></option>
-					</select>
-				</p>
-			<?php endif; ?>
 
 			<?php Observer::notify( 'view_page_edit_plugins', $page ); ?>
 

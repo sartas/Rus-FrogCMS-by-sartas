@@ -21,7 +21,7 @@
  *
  * Frog CMS has made an exception to the GNU General Public License for plugins.
  * See exception.txt for details and the full text.
- */
+*/
 
 /**
  * @package frog
@@ -31,9 +31,9 @@
  * @version 0.1
  * @license http://www.gnu.org/licenses/gpl.html GPL License
  * @copyright Maslakov Alexander, 2010
- */
+*/
 
- 
+
 
 /* 
 	Reset
@@ -677,15 +677,15 @@ table.dform-table th {
 }	
 
 .input-calendar {
-	
+
 }
 
 .input-explorer-dir {
-	
+
 }
 
 .input-explorer-file {
-	
+
 }
 
 
@@ -813,7 +813,7 @@ table.dtable tbody tr:hover td {
 	settings
 */
 .settings {
-	
+
 }
 
 .settings td.dform-field {
@@ -910,7 +910,7 @@ table.dtable tbody tr:hover td {
 }
 
 .layout-content {
-	
+
 }
 
 .layout-content label {
@@ -958,7 +958,7 @@ table.dtable tbody tr:hover td {
 }
 
 .user-smallicon {
-	
+
 }
 
 .user-edit .dform-checkbox {
@@ -1216,7 +1216,7 @@ ul.page-level-10 .page-name { padding-left:240px; }
 }
 
 #page_edit_options {
-	
+
 }
 
 #page_more {
@@ -1327,9 +1327,9 @@ ul.page-level-10 .page-name { padding-left:240px; }
 }
 
 .page-edit-part {
-	-moz-border-radius:0 5px 5px 5px !important;
-	-webkit-border-radius:0 5px 5px 5px !important;
-	border-radius:0 5px 5px 5px !important;
+	-moz-border-radius: 5px !important;
+	-webkit-border-radius: 5px !important;
+	border-radius: 5px !important;
 }
 
 #page_edit_twrapper {
@@ -1337,7 +1337,7 @@ ul.page-level-10 .page-name { padding-left:240px; }
 }
 
 #page_edit_tabs {
-	
+
 }
 
 .page-edit-tab {
@@ -1399,6 +1399,7 @@ ul.page-level-10 .page-name { padding-left:240px; }
 	margin-right:5px;
 }
 
+.page-edit-item{margin: 20px 0;}
 /*
 	plugins
 */
@@ -1478,6 +1479,6 @@ ul.page-level-10 .page-name { padding-left:240px; }
 */
 @-moz-document url-prefix() {	
 	.input-button {
-		padding:3px 10px;
-	}
+	padding:3px 10px;
+}
 }

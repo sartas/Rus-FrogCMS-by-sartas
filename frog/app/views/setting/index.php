@@ -107,6 +107,13 @@
 				<td class="dform-help"><?php echo __('Determines whether or not HTML code is allowed in a page\'s title.'); ?></td>
 			</tr>
 			<tr>
+				<td class="dform-label"><label for="setting_translit_slug"><?php echo __('Translit slug'); ?></label></td>
+				<td class="dform-field">
+					<input type="checkbox" name="setting[translit_slug]" <?php if (Setting::get('translit_slug') == 'on') echo ' checked="checked"'; ?> />
+				</td>
+				<td class="dform-help"><?php  ?></td>
+			</tr>
+			<tr>
 				<td class="dform-label"><label for="setting_default_status_id_draft"><?php echo __('Default Status'); ?></label></td>
 				<td class="dform-field">
 					<input class="input-radio" id="setting_default_status_id_draft" name="setting[default_status_id]" size="10" type="radio" value="<?php echo FrontPage::STATUS_DRAFT; ?>"<?php if (Setting::get('default_status_id') == FrontPage::STATUS_DRAFT) echo ' checked="checked"'; ?> /><label for="setting_default_status_id_draft"> <?php echo __('Draft'); ?> </label> &nbsp; 

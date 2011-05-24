@@ -244,11 +244,11 @@ class PageController extends Controller {
 		}
 
 		$page->slug = trim( $page->slug );
-		if ( empty( $page->slug ) && $page->id != 1 )
+		if ( empty( $page->slug ) && ( isset( $page->id ) && $page->id != 1 ) )
 		{
 			$page->slug = $page->title;
 			//translit
-			if ( Setting::get( 'translit_slug' == 'on' ) )
+			if ( Setting::get( 'translit_slug' ) == 'on' )
 			{
 				$page->slug = I18n::translit( $page->title );
 			}

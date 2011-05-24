@@ -237,6 +237,11 @@ class PageController extends Controller {
 			use_helper( 'Kses' );
 			$page->title = kses( trim( $page->title ), array() );
 		}
+		$page->breadcrumb = trim( $page->breadcrumb );
+		if ( empty( $page->breadcrumb ) )
+		{
+			$page->breadcrumb = $page->title;
+		}
 
 		$page->slug = trim( $page->slug );
 		if ( empty( $page->slug ) )

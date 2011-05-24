@@ -919,9 +919,7 @@ frogPageEdit.init = function()
 			$breadcrumbs.val( jQuery('#page_edit_title_input').val() );
 		}
 	});
-	
-	if( jQuery('#page_edit_title_input').val() != '' )
-		frogPageEdit.titleIsEmpty = false;
+
 	
 	jQuery('#page_edit_title_input')
 	.keyup(this.titleKeyup)
@@ -1023,9 +1021,6 @@ frogPageEdit.init = function()
 		}
 	};*/
 };
-
-frogPageEdit.titleIsEmpty = true;
-
 
 // "More options" button click event
 frogPageEdit.moreClick = function()

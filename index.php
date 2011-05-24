@@ -313,4 +313,5 @@ $PDO = Record::getConnection();
 //echo I18n::translit("фффффф");
 
 //$PDO->exec("INSERT INTO ".TABLE_PREFIX."setting (name, value) VALUES ('translit_slug', 'on')");
+
 ?>

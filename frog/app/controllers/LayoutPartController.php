@@ -3,6 +3,7 @@
 if ( !defined( 'DEBUG' ) )
 	die;
 
+
 class LayoutPartController extends Controller {
 
 	public function __construct()
@@ -62,7 +63,7 @@ class LayoutPartController extends Controller {
 		}
 	}
 
-	public function add_dialog($layout_id)
+	public function add_dialog( $layout_id )
 	{
 		$part = new LayoutPart( );
 		$part->layout_id = $layout_id;
@@ -73,7 +74,7 @@ class LayoutPartController extends Controller {
 	public function edit( $id )
 	{
 		$data = $_POST['part'];
-		
+
 		$part = new LayoutPart( $data );
 		$old_part = Record::findByIdFrom( 'LayoutPart', $id );
 

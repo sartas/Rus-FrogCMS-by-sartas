@@ -1074,7 +1074,7 @@ frogPageEdit.moreClick = function()
 	
 	return false;
 };
-
+/*
 // Add new part tab
 frogPageEdit.addTab = function( index, name )
 {
@@ -1203,7 +1203,8 @@ frogPageEdit.addTabClick = function(layout_id)
 	});
 	
 	return false;
-};
+};*/
+
 var frogLayoutEdit = {};
 frogLayoutEdit.addPartClick = function(layout_id)
 {			

@@ -244,7 +244,7 @@ class PageController extends Controller {
 		}
 
 		$page->slug = trim( $page->slug );
-		if ( empty( $page->slug ) )
+		if ( empty( $page->slug ) && $page->id != 1 )
 		{
 			$page->slug = $page->title;
 			//translit

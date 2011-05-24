@@ -48,6 +48,14 @@ if ( !defined( 'DEBUG' ) )
  * @version 0.1
  * @since 0.1
  */
+function part_layout_after_add( $layout )
+{
+	$db = Record::getConnection();
+	$db->query( 'UPDATE ' . TABLE_PREFIX . 'layout_part SET layout_id=' . (int) $layout->id . ' WHERE layout_id=0' );
+}
+
+Observer::observe( 'layout_after_add', 'part_layout_after_add' );
+
 class LayoutController extends Controller {
 
 	function __construct()

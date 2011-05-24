@@ -429,7 +429,7 @@ body#body_setting_plugin #footer a {
 /*
 	messages
 */
-.frog-message {
+#frog-message {
 	position:fixed;
 	top:0;
 	left:0;
@@ -441,20 +441,20 @@ body#body_setting_plugin #footer a {
 	overflow:hidden;
 }
 
-.frog-message:first-letter {
+#frog-message:first-letter {
 	margin-left:15px;
 }
 
-#info {
+.info {
 	background-color: #EDFE86;
 }
 
-#error {
+.error {
 	background-color: #a22;
 	color: #fff;
 }
 
-#success {
+.success {
 	background-color: #cfc;
 	color: #051;
 }

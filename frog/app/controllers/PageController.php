@@ -148,18 +148,27 @@ class PageController extends Controller {
 
 				$success = __( 'Page :title has been saved!', array(':title' => $page->title) );
 
+				$redirect = (isset( $_POST['commit'] )) ?
+						'page' :
+						'page/edit/' . $page->id;
+				$redirect = get_url( $redirect );
+
 				if ( get_request_method() == 'AJAX' )
 				{
-					echo json_encode( array('success' => $success) );
+					if ( isset( $_POST['commit'] ) )
+					{
+						Flash::set( 'success', $success );
+						echo json_encode( array('redirect' => $redirect) );
+					}
+					else
+					{
+						echo json_encode( array('success' => $success) );
+					}
 				}
 				else
 				{
 					Flash::set( 'success', $success );
-
-					if ( isset( $_POST['commit'] ) )
-						redirect( get_url( 'page' ) );
-					else
-						redirect( get_url( 'page/edit/' . $page->id ) );
+					redirect( $redirect );
 				}
 
 				Observer::notify( 'page_' . $action . '_after_save', $page );
@@ -167,6 +176,9 @@ class PageController extends Controller {
 			else
 			{
 				$error = __( 'Page :title has not been saved!', array(':title' => $page->title) );
+				$redirect = ($action == 'add') ?
+						'page/add/' . $page->id . '/' . $page->layout_id :
+						'page/edit/' . $page->id;
 
 				if ( get_request_method() == 'AJAX' )
 				{
@@ -175,27 +187,24 @@ class PageController extends Controller {
 				else
 				{
 					Flash::set( 'error', $error );
-
-					$redirect = ($action == 'add') ?
-							'page/add/' . $page->id . '/' . $page->layout_id :
-							'page/edit/' . $page->id;
 					redirect( get_url( $redirect ) );
 				}
 			}
 		}
 		else
 		{
+			$error = implode( '<br />', $this->errors );
+			$redirect = ($action == 'add') ?
+					'page/add/' . $page->parent_id . '/' . $page->layout_id :
+					'page/edit/' . $page->id;
+
 			if ( get_request_method() == 'AJAX' )
 			{
-// 
+				echo json_encode( array('error' => $error) );
 			}
 			else
 			{
-				Flash::set( 'error', implode( '<br />', $this->errors ) );
-
-				$redirect = ($action == 'add') ?
-						'page/add/' . $page->parent_id . '/' . $page->layout_id :
-						'page/edit/' . $page->id;
+				Flash::set( 'error', $error );
 				redirect( get_url( $redirect ) );
 			}
 		}

@@ -4,14 +4,14 @@ if ( !defined( 'DEBUG' ) )
 
 
 // TODO: make ajax
-$pagetmp = Flash::get( 'page' );
-$parttmp = Flash::get( 'page_parts' );
-
-if ( $pagetmp != null && !empty( $pagetmp ) && $parttmp != null && !empty( $parttmp ) && $tagstmp != null && !empty( $tagstmp ) )
-{
-	$page = $pagetmp;
-	$parts = $parttmp;
-}
+//$pagetmp = Flash::get( 'page' );
+//$parttmp = Flash::get( 'page_parts' );
+//
+//if ( $pagetmp != null && !empty( $pagetmp ) && $parttmp != null && !empty( $parttmp ) && $tagstmp != null && !empty( $tagstmp ) )
+//{
+//	$page = $pagetmp;
+//	$parts = $parttmp;
+//}
 ?>
 
 <h1><?php echo __( ucfirst( $action ) . ' Page' ); ?></h1>
@@ -170,19 +170,9 @@ if ( $action == 'add' )
 		<input id="page_edit_continue" class="input-button" name="continue" type="submit" accesskey="e" value="<?php echo __( 'Save and Continue Editing' ); ?>" title="<?php echo __( 'Or press' ); ?> Alt+E" />
 		<?php echo __( 'or' ); ?> <a href="<?php echo get_url( 'page' ); ?>" id="page_edit_cancel"><?php echo __( 'Cancel' ); ?></a>
 	</p>
-	<script>
-		$(document).ready(function() {
-			var $dialog = $('<div></div>')
-			.html('This dialog will show every time!')
-			.dialog({
-				autoOpen: false,
-				title: false
-			});
-			$dialog.dialog('open');
 
-		});
-	</script>
 	<?php if ( isset( $page->updated_on ) ): ?>
 		<p class="page-edit-updated"><small><?php echo __( 'Last updated by <a href=":link">:name</a> on :date', array(':link' => get_url( 'user/edit/' . $page->updated_by_id ), ':name' => $page->updated_by_name, ':date' => date( 'D, j M Y', strtotime( $page->updated_on ) )) ); ?></small></p>
 	<?php endif; ?>
 </form>
+

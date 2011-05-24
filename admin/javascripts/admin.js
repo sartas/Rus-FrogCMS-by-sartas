@@ -32,12 +32,13 @@ frog.init = function()
 		Loader
 	 */
 	jQuery('body:first').append('<div id="loader"><span>'+ frog.__('Loading') +'</span></div>');
+	frog.messageInit();
+
 	
-	
-	/*
+/*
 		Animate content message
 	 */
-	this.animateMessage();
+//this.animateMessage();
 };
 
 // Translate string (not completed)
@@ -82,9 +83,9 @@ frog.error = function( msg )
 };
 
 // Show Frog success message
-frog.success = function( msg )
+frog.success = function( text )
 {
-	frog.messageShow('success', msg);
+	frog.messageShow('success',text);
 };
 
 // Detect success or error message received from server
@@ -96,8 +97,15 @@ frog.json_message = function( obj )
 	}
 	
 	if(obj.error !== undefined){
-		frog.error(obj.error);
+		frog.error(obj.error);		
 		return 'error';
+	}
+};
+
+frog.json_redirect = function( obj )
+{
+	if(obj.redirect !== undefined){
+		window.location.href = obj.redirect;
 	}
 };
 
@@ -151,57 +159,66 @@ frog.loaderHide = function()
 	jQuery('#loader').hide();
 };
 
-// Line-message
-frog.messageShow = function( id, text )
-{
-	if( document.getElementById( id ) == undefined )
+frog.message_now = false;
+frog.message = null;
+frog.messageInit = function(){
+	if( document.getElementById( 'frog-message' ) == undefined )
 	{
-		jQuery('#content').prepend('<div id="'+ id +'" class="frog-message"></div>');
+		jQuery('#content').prepend('<div id="frog-message"></div>');
+		frog.message = $('#frog-message');
 	}
+	else
+	{
+		frog.message = $('#frog-message');
+		frog.messageAnimate();
+	}
+}
 
-	$message = jQuery('#content #' + id).html( text );
-	
-	this.animateMessage();
-};
-
-/*
-	Animate messages
- */
-frog.adimateMessage_height = null;
-frog.animateMessage = function()
-{
-	var messageTimer = null;
-	var $message = null;
-	
-	var messageHide = function(){
-		$message.animate({
+frog.messageHide = function(){
+	if(frog.message_now == true)
+	{
+		frog.message.animate({
 			height: 0
 		}, 500);
-	};
+		
+		clearTimeout(frog.messageTimer);
+	}
 	
-	$message = jQuery('.frog-message');
-	
-	if( frog.adimateMessage_height == null )
-		frog.adimateMessage_height = $message.height();
-	
-	$message
+	frog.message_now = false;
+}
+
+frog.messageAnimate = function(){
+	var m_height = 40;
+	frog.message
 	.css({
 		height: 0
 	})
 	.animate({
-		height: frog.adimateMessage_height
+		height: m_height
 	}, 500, function(){
-		messageTimer = setTimeout(messageHide, 10000);
+		frog.messageTimer = setTimeout(frog.messageHide, 10000);
 	})
 	.mouseover(function(){
-		//clearTimeout(messageTimer);
-		messageHide();
-	})
-/*		.mouseout(function(){
-			messageTimer = setTimeout(messageHide, 1000);
-		});
-	 */
-};
+		frog.messageHide();
+	});
+	
+	frog.message_now = true;
+}
+frog.messageShow = function(id, text){
+	var timout = 0;
+	if(frog.message_now == true){
+		frog.messageHide();
+		timout = 500;
+	}
+	
+	setTimeout(function(){
+		frog.message.html(text).removeClass().addClass( id );
+		frog.messageAnimate();
+	}, timout);
+}
+
+
+
 
 // Very simple dialog window
 frog.dialog = function( options )
@@ -890,7 +907,6 @@ frogPageEdit.init = function()
 	
 	jQuery('#page_more_button a').click( this.moreClick );
 	
-	jQuery('#page_edit_addtab').click( this.addTabClick );
 	
 	// When form will be submited we should switch off all filters
 	jQuery('#page_edit_form').submit(function(){
@@ -967,70 +983,33 @@ frogPageEdit.init = function()
 	});
 	
 	
-	
+	/*
 	jQuery('#page_edit_commit').click(function(){
 		frogPageEdit.commitButton = true;
 	});
-	
+	*/
 	
 	
 	/*
 		Page from submiting
 	 */
-	jQuery('#page_edit_form')
-	.change(function(){
-		frogPageEdit.formChanged = true;
-	});
     
-	/*
-		.submit(function(){
-			frogPageEdit.formChanged = false;
-			
-			// Success handler
-			var formSuccess_handler = function( data )
-			{
-				if( data == 'error' )
-				{
-					alert(frog.__('Document not saved!'));
-					
-					frog.loaderHide();
-				}
-				else
-				{
-					//location.href = data;
-				}
-			};
-			
-			// Error handler
-			var formError_handler = function( data )
-			{
-				alert(frog.__('Error with internet connection. Try again!'));
-			};
-			
-			frog.loaderShow();
-			
-			var extraData = {};
-			
-			if( frogPageEdit.commitButton === true )
-				extraData['commit'] = 'true';
+	$('#page_edit_form').ajaxForm({
+		dataType:  'json',
+		//		beforeSubmit: function(){
+		//			return frogPageEdit.formChanged;
+		//		},
+		success: function(data) {
+			frog.json_message(data);
+			frog.json_redirect(data);
+		}
+	});
 
-			// Request
-			jQuery(this).ajaxSubmit({
-				data: extraData,
-			
-				// events
-				success: formSuccess_handler,
-				error: formError_handler
-			});
-			
-			return false;
-		});
-	 */
-	
+
 	jQuery('#page_edit_cancel').click(function(){
 		frogPageEdit.formChanged = false;
 	});
-	
+/*
 	window.onbeforeunload = function( event )
 	{
 		if( frogPageEdit.formChanged == true )
@@ -1042,17 +1021,11 @@ frogPageEdit.init = function()
 			else
 				return frog.__('You have changed this form. Discard changes?');
 		}
-	};
+	};*/
 };
 
 frogPageEdit.titleIsEmpty = true;
 
-// When you input page title
-frogPageEdit.titleKeyup = function()
-{
-	if( frogPageEdit.titleIsEmpty )
-		jQuery('#page_slug').val( frog.toSlug( jQuery(this).val() ) );
-};
 
 // "More options" button click event
 frogPageEdit.moreClick = function()
@@ -1465,8 +1438,7 @@ jQuery(document).ready(function(){
 		Global init
 	 */
 	frog.init();
-	
-	
+
 	/*
 		Global init for specific pages
 	 */

@@ -141,13 +141,14 @@ class SnippetController extends Controller
     }
     
     private function _edit($id)
-    {
+    {				
+
         $data = $_POST['snippet'];
         
         $data['id'] = $id;
         
         $snippet = new Snippet($data);
-        
+
         if ( ! $snippet->save())
         {
             Flash::set('error', __('Snippet :name has not been saved. Name must be unique!', array(':name'=>$snippet->name)));

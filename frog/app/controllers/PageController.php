@@ -234,8 +234,8 @@ class PageController extends Controller {
 		// Make sure the title doesn't contain HTML
 		if ( Setting::get( 'allow_html_title' ) == 'off' )
 		{
-			use_helper( 'Kses' );
-			$page->title = kses( trim( $page->title ), array() );
+		//	use_helper( 'Kses' );
+			$page->title = htmlspecialchars($page->title, ENT_QUOTES);
 		}
 		$page->breadcrumb = trim( $page->breadcrumb );
 		if ( empty( $page->breadcrumb ) )

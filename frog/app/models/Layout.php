@@ -73,8 +73,7 @@ class Layout extends Record {
 
 	public function beforeSave()
 	{
-		//$this->parts_type = implode( ',', $this->parts_type );
-		$this->content = stripslashes( $this->content );
+		//$this->content = stripslashes( $this->content );
 
 		return true;
 	}

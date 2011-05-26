@@ -30,12 +30,6 @@ class PartText extends PagePart {
 	public $filter_id = '';
 	public $content = '';
 	public $content_html = '';
-	/*
-	  public static function type()
-	  {
-	  return str_replace( 'part_', '', self::TABLE_NAME );
-	  }
-	 */
 
 	public function content()
 	{
@@ -59,10 +53,6 @@ class PartText extends PagePart {
 		return true;
 	}
 
-//	public function findOneByPartIdPageId( $part_id, $page_id )
-//	{
-//		return self::findOneFrom( 'PartText', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
-//	}
 }
 
 // end PageText class

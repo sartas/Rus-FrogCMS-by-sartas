@@ -51,7 +51,7 @@ class PageController extends Controller {
 		$page->layout_id = $layout_id;
 
 		// check if trying to save
-		if ( get_request_method() == 'POST' || get_request_method() == 'AJAX' )
+		if (  get_request_method() == 'AJAX' )
 			return $this->_store( 'add', $page );
 
 		$page->status_id = Setting::get( 'default_status_id' );
@@ -100,7 +100,7 @@ class PageController extends Controller {
 		}
 
 		// check if trying to save
-		if ( get_request_method() == 'POST' || get_request_method() == 'AJAX' )
+		if (  get_request_method() == 'AJAX' )
 			return $this->_store( 'edit', $page );
 
 		// find all page_part of this pages
@@ -148,47 +148,23 @@ class PageController extends Controller {
 
 				$success = __( 'Page :title has been saved!', array(':title' => $page->title) );
 
-				$redirect = (isset( $_POST['commit'] )) ?
-						'page' :
-						'page/edit/' . $page->id;
-				$redirect = get_url( $redirect );
-
-				if ( get_request_method() == 'AJAX' )
+				if ( isset( $_POST['commit'] ) )
 				{
-					if ( isset( $_POST['commit'] ) )
-					{
-						Flash::set( 'success', $success );
-						echo json_encode( array('redirect' => $redirect) );
-					}
-					else
-					{
-						echo json_encode( array('success' => $success) );
-					}
+					Flash::set( 'success', $success );
+					Flash::json( 'redirect', get_url( 'page' ) );
 				}
 				else
 				{
-					Flash::set( 'success', $success );
-					redirect( $redirect );
+					Flash::json( 'success', $success );
 				}
+
 
 				Observer::notify( 'page_' . $action . '_after_save', $page );
 			}
 			else
 			{
 				$error = __( 'Page :title has not been saved!', array(':title' => $page->title) );
-				$redirect = ($action == 'add') ?
-						'page/add/' . $page->id . '/' . $page->layout_id :
-						'page/edit/' . $page->id;
-
-				if ( get_request_method() == 'AJAX' )
-				{
-					echo json_encode( array('error' => $error) );
-				}
-				else
-				{
-					Flash::set( 'error', $error );
-					redirect( get_url( $redirect ) );
-				}
+				Flash::json( 'error', $error );
 			}
 		}
 		else
@@ -234,8 +210,8 @@ class PageController extends Controller {
 		// Make sure the title doesn't contain HTML
 		if ( Setting::get( 'allow_html_title' ) == 'off' )
 		{
-		//	use_helper( 'Kses' );
-			$page->title = htmlspecialchars($page->title, ENT_QUOTES);
+			//	use_helper( 'Kses' );
+			$page->title = htmlspecialchars( $page->title, ENT_QUOTES );
 		}
 		$page->breadcrumb = trim( $page->breadcrumb );
 		if ( empty( $page->breadcrumb ) )

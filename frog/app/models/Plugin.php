@@ -77,8 +77,8 @@ class Plugin
 			
 			if( file_exists($manifest_file) )
 			{
-				$mainfest = parse_ini_file($manifest_file, false);
-				Plugin::setInfos( $mainfest );
+				$manifest = parse_ini_file($manifest_file, false);
+				Plugin::setInfos( $manifest );
 			}
 			
 			// Lang file

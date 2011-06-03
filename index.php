@@ -249,10 +249,6 @@ Plugin::init();
 Flash::init();
 
 
-//FB::error('kkkkkkkkkk');
-
-
-
 /*
   RUN Dispatcher
  */
@@ -312,7 +308,6 @@ $PDO = Record::getConnection();
 
 //	$PDO->exec("ALTER TABLE ".TABLE_PREFIX."page ADD parts varchar(255) default NULL");
 //echo I18n::translit("фффффф");
-
 //$PDO->exec("INSERT INTO ".TABLE_PREFIX."setting (name, value) VALUES ('translit_slug', 'on')");
 
 ?>

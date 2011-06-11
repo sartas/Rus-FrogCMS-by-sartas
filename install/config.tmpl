@@ -47,3 +47,12 @@ define('USE_PDO', <?php echo $use_pdo ? 'true': 'false'; ?>);
 define('DEFAULT_TIMEZONE', '<?php $tz = date('e'); echo $tz != 'e' ? $tz: 'GMT'; ?>');
 
 define('DEFAULT_LOCALE', 'en');
+
+define('USE_BENCHMARK', false);
+
+// Cache whole page
+define('USE_PAGE_CACHE', false);
+
+// TODO move to settings
+// Delete page cache after edit
+define('DELETE_PAGE_CACHE_AFTER_EDIT', false);

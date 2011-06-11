@@ -909,17 +909,50 @@ frogPageEdit.init = function()
 	
 	
 	// When form will be submited we should switch off all filters
-	jQuery('#page_edit_form').submit(function(){
+	jQuery('#page_edit_form').submit(function(event){
 		
-		frogFilters.switchOff();
+		if(typeof(tinyMCE) != "undefined"){
+			tinyMCE.triggerSave(true, true);
+		}
+		
+		//	frogFilters.switchOff();
 		var $breadcrumbs = jQuery('#page_breadcrumb');
 
 		if( $breadcrumbs.val() == '' )
 		{
 			$breadcrumbs.val( jQuery('#page_edit_title_input').val() );
 		}
-	});
+		
 
+		/* stop form from submitting normally */
+		//event.preventDefault(); 
+        
+//		/* get some values from elements on the page: */
+//		var $form = $( this ),
+//		url = $form.attr( 'action' );
+
+
+
+		
+//		/* Send the data using post and put the results in a div */
+//		$.post( url, $form.serialize(),
+//			function( data ) {
+//				frog.json_message(data);
+//				frog.json_redirect(data);
+//			//		frogFilters.switchOn();
+//			}, 'json'
+//			);
+	});
+		$('#page_edit_form').ajaxForm({
+			dataType:  'json',
+			//		beforeSubmit: function(){
+			//			return frogPageEdit.formChanged;
+			//		},
+			success: function(data) {
+				frog.json_message(data);
+				frog.json_redirect(data);
+			}
+		});
 	
 	jQuery('#page_edit_title_input')
 	.keyup(this.titleKeyup)
@@ -991,19 +1024,45 @@ frogPageEdit.init = function()
 	/*
 		Page from submiting
 	 */
-    
-	$('#page_edit_form').ajaxForm({
-		dataType:  'json',
-		//		beforeSubmit: function(){
-		//			return frogPageEdit.formChanged;
-		//		},
-		success: function(data) {
-			frog.json_message(data);
-			frog.json_redirect(data);
-		}
+	
+	//	$("#page_edit_form").submit(function(event) {
+	//
+	//		/* stop form from submitting normally */
+	//		event.preventDefault(); 
+	//        
+	//		/* get some values from elements on the page: */
+	//		var $form = $( this ),
+	//		url = $form.attr( 'action' );
+	//
+	//		/* Send the data using post and put the results in a div */
+	//		$.post( url, $form.serialize(),
+	//			function( data ) {
+	//				frog.json_message(data);
+	//				frog.json_redirect(data);
+	//			}, 'json'
+	//			);
+	//	});
+	//
+	/*	$('#page_edit_continue').click(function(){
+		$.post($("#page_edit_form").attr( 'action' ), $("#page_edit_form").serialize(),
+	function(data) {
+				frog.json_message(data);
+				frog.json_redirect(data);
+			});
+
+		$('#page_edit_form').ajaxForm({
+			dataType:  'json',
+			//		beforeSubmit: function(){
+			//			return frogPageEdit.formChanged;
+			//		},
+			success: function(data) {
+				frog.json_message(data);
+				frog.json_redirect(data);
+			}
+		});
 	});
 
-
+*/
 	jQuery('#page_edit_cancel').click(function(){
 		frogPageEdit.formChanged = false;
 	});

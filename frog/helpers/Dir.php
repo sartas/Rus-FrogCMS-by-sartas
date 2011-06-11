@@ -28,8 +28,9 @@ abstract class DirAndFiles {
 
 	// FrogCMS path shorted
 	public function getPathShort( $dir_name = PUBLIC_FILES )
-	{
-		return substr( $this->_path, strpos( $this->_path, $dir_name ), strlen( $this->_path ) );
+	{//return $this->_path;
+
+		return substr( $this->_path, strlen(FROG_ROOT) );
 	}
 
 	// Get file name

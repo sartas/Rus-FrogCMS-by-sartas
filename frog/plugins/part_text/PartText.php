@@ -44,7 +44,7 @@ class PartText extends PagePart {
 		{
 			$this->content_html = Filter::get( $this->filter_id )->apply( $this->content );
 
-			foreach ( Observer::getObserverList( 'filter_content' ) as $callback )
+			foreach ( Observer::get( 'filter_content' ) as $callback )
 				$this->content_html = call_user_func( $callback, $this->content_html );
 		}
 		else

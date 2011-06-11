@@ -3,7 +3,6 @@
 if ( !defined( 'DEBUG' ) )
 	die;
 
-
 class LayoutPartController extends Controller {
 
 	public function __construct()
@@ -26,16 +25,16 @@ class LayoutPartController extends Controller {
 
 			if ( $part->delete() )
 			{
-				echo $this->renderJSON( true );
+				echo json_encode( true );
 			}
 			else
 			{
-				echo $this->renderJSON( false );
+				echo json_encode( false );
 			}
 		}
 		else
 		{
-			echo $this->renderJSON( false );
+			echo json_encode( false );
 		}
 	}
 
@@ -55,11 +54,11 @@ class LayoutPartController extends Controller {
 
 		if ( $part->save() )
 		{
-			echo $this->renderJSON( $part );
+			echo json_encode( $part );
 		}
 		else
 		{
-			echo $this->renderJSON( false );
+			echo json_encode( false );
 		}
 	}
 
@@ -83,11 +82,11 @@ class LayoutPartController extends Controller {
 
 		if ( $part->save() )
 		{
-			echo $this->renderJSON( $part );
+			echo json_encode( $part );
 		}
 		else
 		{
-			echo $this->renderJSON( false );
+			echo json_encode( false );
 		}
 	}
 

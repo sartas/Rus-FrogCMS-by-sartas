@@ -43,3 +43,13 @@ define('USE_PDO', true);
 define('DEFAULT_TIMEZONE', 'Asia/Yekaterinburg');
 
 define('DEFAULT_LOCALE', 'en');
+
+
+define('USE_BENCHMARK', true);
+
+// Cache whole page
+define('USE_PAGE_CACHE', false);
+
+// TODO move to settings
+// Delete page cache after edit
+define('DELETE_PAGE_CACHE_AFTER_EDIT', true);

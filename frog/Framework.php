@@ -138,31 +138,20 @@ final class Dispatcher {
 		return preg_split( '/\//', $url, -1, PREG_SPLIT_NO_EMPTY );
 	}
 
-	public static function dispatch( $requested_url = null, $default = null )
+	public static function dispatch( $requested_url = null )
 	{
-		// If no url passed, we will get the first key from the _GET array
-		// that way, index.php?/controller/action/var1&email=example@example.com
-		// requested_url will be equal to: /controller/action/var1
+		Observer::notify( 'dispatch', $requested_url );
+
 		if ( $requested_url === null )
-		{
-			$pos = strpos( $_SERVER['QUERY_STRING'], '&' );
-			if ( $pos !== false )
-			{
-				$requested_url = substr( $_SERVER['QUERY_STRING'], 0, $pos );
-			}
-			else
-			{
-				$requested_url = $_SERVER['QUERY_STRING'];
-			}
-		}
+			$requested_url = $_SERVER['QUERY_STRING'];
 
-		// If no URL is requested (due to someone accessing admin section for the first time)
-		// AND $default is setAllow for a default tab
-		if ( $requested_url == null && $default != null )
-		{
-			$requested_url = $default;
-		}
-
+		// we populate the $_GET table
+		if ( $pos = strpos( $requested_url, '&' ) )
+			parse_str( substr( $requested_url, $pos ), $_GET );
+//
+//		// removing the suffix for search engine static simulations
+//		if ( URL_SUFFIX != null and ($pos_to_cut = strrpos( $requested_url, $suffix )) !== false )
+//			$requested_url = substr( $requested_url, 0, $pos_to_cut );
 		// Requested url MUST start with a slash (for route convention)
 		if ( strpos( $requested_url, '/' ) !== 0 )
 		{
@@ -217,7 +206,6 @@ final class Dispatcher {
 	}
 
 // Dispatch
-
 	public static function getCurrentUrl()
 	{
 		return self::$requested_url;
@@ -257,25 +245,20 @@ final class Dispatcher {
 
 	public static function executeAction( $controller, $action, $params )
 	{
-		self::$status['controller'] = $controller;
-		self::$status['action'] = $action;
-		self::$status['params'] = implode( ', ', $params );
-
 		$controller_class = Inflector::camelize( $controller );
 		$controller_class_name = $controller_class . 'Controller';
 
-		// Get an instance of that controller
+		// get a instance of that controller
 		if ( class_exists( $controller_class_name ) )
-		{
 			$controller = new $controller_class_name();
-		}
 
 		if ( !$controller instanceof Controller )
-		{
 			throw new Exception( "Class '{$controller_class_name}' does not extends Controller class!" );
-		}
 
-		// Execute the action
+		Observer::notify( 'system.execute' );
+		Benchmark::start( 'execute' );
+
+		// execute the action
 		$controller->execute( $action, $params );
 	}
 
@@ -877,22 +860,23 @@ class Controller {
 			exit;
 	}
 
-	public function renderJSON( $data_to_encode )
-	{
-		if ( function_exists( 'json_encode' ) )
-		{
-			return json_encode( $data_to_encode );
-		}
-		else if ( class_exists( 'JSON' ) )
-		{
-			return JSON::encode( $data_to_encode );
-		}
-		else
-		{
-			throw new Exception( 'No function or class found to render JSON.' );
-		}
-	}
-
+	/*
+	  public function renderJSON( $data_to_encode )
+	  {
+	  if ( function_exists( 'json_encode' ) )
+	  {
+	  return json_encode( $data_to_encode );
+	  }
+	  else if ( class_exists( 'JSON' ) )
+	  {
+	  return JSON::encode( $data_to_encode );
+	  }
+	  else
+	  {
+	  throw new Exception( 'No function or class found to render JSON.' );
+	  }
+	  }
+	 */
 }
 
 // end Controller class
@@ -909,30 +893,58 @@ final class Observer {
 		self::$events[$event_name][$callback] = $callback;
 	}
 
-	public static function stopObserving( $event_name, $callback )
+//	public static function stopObserving( $event_name, $callback )
+//	{
+//		if ( isset( self::$events[$event_name][$callback] ) )
+//			unset( self::$events[$event_name][$callback] );
+//	}
+//	public static function clearObservers( $event_name )
+//	{
+//		self::$events[$event_name] = array();
+//	}
+
+	public static function clear( $event_name, $callback=false )
 	{
-		if ( isset( self::$events[$event_name][$callback] ) )
-			unset( self::$events[$event_name][$callback] );
+		if ( !$callback )
+		{
+			self::$events[$name] = array();
+		}
+		else if ( isset( self::$events[$name] ) )
+		{
+			foreach ( self::$events[$name] as $i => $event_callback )
+			{
+				if ( $callback === $event_callback )
+					unset( self::$events[$name][$i] );
+			}
+		}
 	}
 
-	public static function clearObservers( $event_name )
-	{
-		self::$events[$event_name] = array();
-	}
+//	public static function getObserverList( $event_name )
+//	{
+//		return (isset( self::$events[$event_name] )) ? self::$events[$event_name] : array();
+//	}
 
-	public static function getObserverList( $event_name )
+	public static function get( $name )
 	{
-		return (isset( self::$events[$event_name] )) ? self::$events[$event_name] : array();
+		return empty( self::$events[$name] ) ? array() : self::$events[$name];
 	}
 
 	/**
 	 * If your event does not need to process the return values from any observers use this instead of getObserverList()
 	 */
-	public static function notify( $event_name )
+//	public static function notify( $event_name )
+//	{
+//		$args = array_slice( func_get_args(), 1 ); // removing event name from the arguments
+//
+//		foreach ( self::getObserverList( $event_name ) as $callback )
+//			call_user_func_array( $callback, $args );
+//	}
+	public static function notify( $name )
 	{
-		$args = array_slice( func_get_args(), 1 ); // removing event name from the arguments
+		// removing event name from the arguments
+		$args = func_num_args() > 1 ? array_slice( func_get_args(), 1 ) : array();
 
-		foreach ( self::getObserverList( $event_name ) as $callback )
+		foreach ( self::get( $name ) as $callback )
 			call_user_func_array( $callback, $args );
 	}
 
@@ -1016,8 +1028,7 @@ class AutoLoader {
 
 if ( !function_exists( '__autoload' ) )
 {
-	AutoLoader::addFolder( array(APP_PATH . DIRECTORY_SEPARATOR . 'models',
-		APP_PATH . DIRECTORY_SEPARATOR . 'controllers') );
+	AutoLoader::addFolder( array(APP_PATH . '/models', APP_PATH . '/controllers') );
 
 	function __autoload( $class_name )
 	{
@@ -1713,3 +1724,5 @@ function fix_input_quotes()
 
 if ( get_magic_quotes_gpc() )
 	fix_input_quotes();
+
+Observer::notify( 'system.init' );

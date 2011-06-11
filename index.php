@@ -136,6 +136,11 @@ define( 'COOKIE_SECURE', false );
  */
 require_once( CORE_ROOT . '/Framework.php' );
 
+/*
+  INCLUDING: Cache
+ */
+use_helper('Cache');
+
 
 
 /*
@@ -269,10 +274,22 @@ else
 	) );
 }
 
+
+//$PDO = Record::getConnection();
+/*
+	$PDO->exec("CREATE TABLE cached_pages (
+            id int(11) NOT NULL auto_increment,
+            page_id INT( 11 ) NOT NULL default '0',
+            url varchar(255) default NULL,
+            created_on datetime default NULL,
+            PRIMARY KEY (id),
+            KEY page_id (page_id),
+            UNIQUE (url)
+            ) ENGINE=MyISAM DEFAULT CHARSET=utf8");
+*/
+
 // Wish me luck...
 Dispatcher::dispatch( $__URI__ );
-
-$PDO = Record::getConnection();
 
 /*
   $PDO->exec("CREATE TABLE ".TABLE_PREFIX."page_image (

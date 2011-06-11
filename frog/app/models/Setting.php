@@ -1,4 +1,7 @@
-<?php if(!defined('DEBUG')) die;
+<?php
+
+if ( !defined( 'DEBUG' ) )
+	die;
 
 /**
  * Frog CMS - Content Management Simplified. <http://www.madebyfrog.com>
@@ -24,7 +27,6 @@
  * Frog CMS has made an exception to the GNU General Public License for plugins.
  * See exception.txt for details and the full text.
  */
-
 /**
  * @package frog
  * @subpackage models
@@ -45,72 +47,78 @@
  * @author Philippe Archambault <philippe.archambault@gmail.com>
  * @since Frog version 0.8.7
  */
-class Setting extends Record
-{
-    const TABLE_NAME = 'setting';
-    
-    public $name;
-    public $value;
-    
-    public static $settings = array();
-    public static $is_loaded = false;
-    
-    public static function init()
-    {
-        if (! self::$is_loaded)
-        {
-            $settings = Record::findAllFrom('Setting');
-            foreach($settings as $setting)
-                self::$settings[$setting->name] = $setting->value;
-            
-            self::$is_loaded = true;
-        }
-    }
-    
-    /**
-     * Get the value of a setting
-     *
-     * @param name  string  The setting name
-     * @return string the value of the setting name
-     */
-    public static function get($name)
-    {
-        return isset(self::$settings[$name]) ? self::$settings[$name]: false;
-    }
-    /**
+class Setting extends Record {
+	const TABLE_NAME = 'setting';
+
+	public $name;
+	public $value;
+	public static $settings = array();
+	public static $is_loaded = false;
+
+	public static function init()
+	{
+		if ( !self::$is_loaded )
+		{
+//			if ( !$settings = Cache::simple( 'system.settings' ) )
+//			{
+				$settings = Record::findAllFrom( 'Setting' );
+//				Cache::simple( 'system.settings', $settings );
+//			}
+
+			foreach ( $settings as $setting )
+				self::$settings[$setting->name] = $setting->value;
+
+			self::$is_loaded = true;
+		}
+	}
+
+	/**
+	 * Get the value of a setting
+	 *
+	 * @param name  string  The setting name
+	 * @return string the value of the setting name
+	 */
+	public static function get( $name )
+	{
+		return isset( self::$settings[$name] ) ? self::$settings[$name] : false;
+	}
+
+	/**
 	 *
 	 * @param array $data 
 	 */
-    public static function saveFromData($data)
-    {
-        $tablename = self::tableNameFromClassName('Setting');
-        
-        foreach( $data as $name => $value )
-        {
-            $sql = 'UPDATE '. $tablename .' SET value='. self::$__CONN__->quote($value)
-                 . ' WHERE name='.self::$__CONN__->quote($name);
-            self::$__CONN__->exec($sql);
-        }
-    }
-    
-    public static function getThemes()
-    {
-        $themes = array();
-        $dir = FROG_ROOT.'/'.ADMIN_DIR.'/themes/';
-        if ($handle = opendir($dir))
-        {
-            while (false !== ($file = readdir($handle)))
-            {
-                if (strpos($file, '.') !== 0 && is_dir($dir.$file))
-                {
-                    $themes[$file] = Inflector::humanize($file);
-                }
-            }
-            closedir($handle);
-        }
-        asort($themes);
-        
-        return $themes;
-    }
+	public static function saveFromData( $data )
+	{
+		$tablename = self::tableNameFromClassName( 'Setting' );
 
-} // end Setting class
+		foreach ( $data as $name => $value )
+		{
+			$sql = 'UPDATE ' . $tablename . ' SET value=' . self::$__CONN__->quote( $value )
+					. ' WHERE name=' . self::$__CONN__->quote( $name );
+			self::$__CONN__->exec( $sql );
+		}
+	}
+
+	public static function getThemes()
+	{
+		$themes = array();
+		$dir = FROG_ROOT . '/' . ADMIN_DIR . '/themes/';
+		if ( $handle = opendir( $dir ) )
+		{
+			while ( false !== ($file = readdir( $handle )) )
+			{
+				if ( strpos( $file, '.' ) !== 0 && is_dir( $dir . $file ) )
+				{
+					$themes[$file] = Inflector::humanize( $file );
+				}
+			}
+			closedir( $handle );
+		}
+		asort( $themes );
+
+		return $themes;
+	}
+
+}
+
+// end Setting class

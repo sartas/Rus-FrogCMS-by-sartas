@@ -27,15 +27,16 @@
 // Table structure for table: layout -----------------------------------------
 
 $PDO->exec("CREATE TABLE layout (
-    id INTEGER NOT NULL PRIMARY KEY,
-    name varchar(100) default NULL,
-    content_type varchar(80) default NULL,
-    content text,
-    created_on datetime default NULL,
-    updated_on datetime default NULL,
-    created_by_id int(11) default NULL,
-    updated_by_id int(11) default NULL,
-    position mediumint(6) default NULL
+  id             integer PRIMARY KEY NOT NULL,
+  name           varchar(100) DEFAULT NULL,
+  content_type   varchar(80) DEFAULT NULL,
+  content        text,
+  created_on     datetime DEFAULT NULL,
+  updated_on     datetime DEFAULT NULL,
+  created_by_id  int DEFAULT NULL,
+  updated_by_id  int DEFAULT NULL,
+  parts_type     text,
+  position       integer DEFAULT NULL
 )");
 $PDO->exec("CREATE UNIQUE INDEX layout_name ON layout (name)");
 
@@ -43,46 +44,45 @@ $PDO->exec("CREATE UNIQUE INDEX layout_name ON layout (name)");
 // Table structure for table: page -------------------------------------------
 
 $PDO->exec("CREATE TABLE page ( 
-    id INTEGER NOT NULL PRIMARY KEY,
-    title varchar(255) default NULL ,
-    slug varchar(100) default NULL , 
-    breadcrumb varchar(160) default NULL ,
-    keywords varchar(255) default NULL ,
-    description text , 
-    parent_id int(11) default NULL , 
-    layout_id int(11) default NULL , 
-    behavior_id varchar(25) NOT NULL , 
-    status_id int(11) NOT NULL default '100' , 
-    created_on datetime default NULL , 
-    published_on datetime default NULL , 
-    updated_on datetime default NULL , 
-    created_by_id int(11) default NULL , 
-    updated_by_id int(11) default NULL , 
-    position mediumint(6) default NULL , 
-    is_protected tinyint(1) NOT NULL default '0' ,
-    needs_login tinyint(1) NOT NULL default '2'
+  id             integer PRIMARY KEY NOT NULL,
+  title          varchar(255) DEFAULT NULL,
+  slug           varchar(100) DEFAULT NULL,
+  breadcrumb     varchar(160) DEFAULT NULL,
+  keywords       varchar(255) DEFAULT NULL,
+  description    text,
+  parent_id      int DEFAULT NULL,
+  layout_id      int DEFAULT NULL,
+  behavior_id    varchar(25) NOT NULL,
+  status_id      int NOT NULL DEFAULT 100,
+  created_on     datetime DEFAULT NULL,
+  published_on   datetime DEFAULT NULL,
+  updated_on     datetime DEFAULT NULL,
+  created_by_id  int DEFAULT NULL,
+  updated_by_id  int DEFAULT NULL,
+  position       integer DEFAULT NULL,
+  is_protected   smallint NOT NULL DEFAULT 0,
+  needs_login    smallint NOT NULL DEFAULT 2
 )");
 
 
-// Table structure for table: page_part --------------------------------------
+// Table structure for table: cached_pages --------------------------------------
 
-$PDO->exec("CREATE TABLE page_part ( 
-    id INTEGER NOT NULL PRIMARY KEY, 
-    name varchar(100) default NULL , 
-    filter_id varchar(25) default NULL , 
-    content longtext , 
-    content_html longtext , 
-    page_id int(11) default NULL
+$PDO->exec("CREATE TABLE cached_pages (
+  id          integer PRIMARY KEY NOT NULL,
+  page_id     int NOT NULL DEFAULT 0,
+  url         varchar(255) DEFAULT NULL,
+  created_on  datetime DEFAULT NULL
 )");
 
+$PDO->exec("CREATE INDEX cached_pages_page_id
+  ON cached_pages
+  (page_id)
+");
 
-// Table structure for table: page_tag ---------------------------------------
+$PDO->exec("CREATE UNIQUE INDEX cached_pages_url
+  ON cached_pages
+  (url);");
 
-$PDO->exec("CREATE TABLE page_tag ( 
-    page_id int(11) NOT NULL , 
-    tag_id int(11) NOT NULL
-)");
-$PDO->exec("CREATE UNIQUE INDEX page_tag_page_id ON page_tag (page_id,tag_id)");
 
 
 // Table structure for table: permission -------------------------------------
@@ -130,15 +130,6 @@ $PDO->exec("CREATE TABLE snippet (
 $PDO->exec("CREATE UNIQUE INDEX snippet_name ON snippet (name)");
 
 
-// Table structure for table: tag --------------------------------------------
-
-$PDO->exec("CREATE TABLE tag (
-    id INTEGER NOT NULL PRIMARY KEY,
-    name varchar(40) NOT NULL ,
-    count int(11) NOT NULL
-)");
-$PDO->exec("CREATE UNIQUE INDEX tag_name ON tag (name)");
-
 
 // Table structure for table: user -------------------------------------------
 
@@ -164,3 +155,36 @@ $PDO->exec("CREATE TABLE user_permission (
     permission_id int(11) NOT NULL
 )");
 $PDO->exec("CREATE UNIQUE INDEX user_permission_user_id ON user_permission (user_id,permission_id)");
+
+
+$PDO->exec("CREATE TABLE layout_part (
+  id         integer PRIMARY KEY NOT NULL,
+  layout_id  int NOT NULL,
+  type       varchar(25) NOT NULL,
+  name       varchar(25) NOT NULL,
+  title      varchar(255) NOT NULL
+)");
+
+$PDO->exec("CREATE TABLE part_images (
+  id         integer PRIMARY KEY NOT NULL,
+  page_id    int DEFAULT NULL,
+  file_name  varchar(255) DEFAULT NULL,
+  alternate  varchar(255) DEFAULT NULL,
+  part_id    int DEFAULT NULL
+)");
+
+$PDO->exec("CREATE TABLE part_string (
+  id       integer PRIMARY KEY NOT NULL,
+  content  varchar(255) DEFAULT NULL,
+  part_id  int DEFAULT NULL,
+  page_id  int DEFAULT NULL
+)");
+
+$PDO->exec("CREATE TABLE part_text (
+  id            integer PRIMARY KEY NOT NULL,
+  filter_id     varchar(25) DEFAULT NULL,
+  content       text,
+  content_html  text,
+  part_id       int DEFAULT NULL,
+  page_id       int DEFAULT NULL
+)");

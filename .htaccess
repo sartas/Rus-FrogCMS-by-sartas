@@ -4,7 +4,7 @@
 
 #php_flag magic_quotes_gpc off
 AddDefaultCharset UTF-8
-Options -Indexes +FollowSymLinks
+#Options -Indexes +FollowSymLinks
 
 #
 # Setting rewrite rules
@@ -14,7 +14,7 @@ Options -Indexes +FollowSymLinks
 	RewriteEngine On
 	
 	# Set next line to your Frog root - if not in subdir, then just / 
-	#RewriteBase /
+	RewriteBase /
 	
 	# Allow any files or directories that exist to be displayed directly
 	RewriteCond %{REQUEST_FILENAME} !-f

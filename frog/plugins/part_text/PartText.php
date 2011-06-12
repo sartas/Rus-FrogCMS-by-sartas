@@ -33,7 +33,12 @@ class PartText extends PagePart {
 
 	public function content()
 	{
-		return $this->content_html;
+		ob_start();
+		$eval_state = eval( '?>' . $this->content_html );
+		$out = ob_get_contents();
+		ob_end_clean();
+
+		return $out;
 	}
 
 	public function beforeSave()

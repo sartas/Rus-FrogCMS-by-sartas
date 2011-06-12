@@ -401,7 +401,7 @@ class DirFileImage extends DirFile {
 		}
 		if ( $filename == null )
 		{
-			$filename = $this->getDirPath() . $this->getNewWidth() . 'x' . $this->getNewHeight() . '-' . $this->getName();
+			$filename = $this->getFullDirPath() . $this->getNewWidth() . 'x' . $this->getNewHeight() . '-' . $this->getName();
 		}
 
 		if ( $permissions != null )

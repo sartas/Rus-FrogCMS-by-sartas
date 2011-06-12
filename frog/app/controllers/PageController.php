@@ -51,7 +51,7 @@ class PageController extends Controller {
 		$page->layout_id = $layout_id;
 
 		// check if trying to save
-		if (  get_request_method() == 'AJAX' )
+		if ( get_request_method() == 'AJAX' )
 			return $this->_store( 'add', $page );
 
 		$page->status_id = Setting::get( 'default_status_id' );
@@ -100,7 +100,7 @@ class PageController extends Controller {
 		}
 
 		// check if trying to save
-		if (  get_request_method() == 'AJAX' )
+		if ( get_request_method() == 'AJAX' )
 			return $this->_store( 'edit', $page );
 
 		// find all page_part of this pages
@@ -135,15 +135,19 @@ class PageController extends Controller {
 		{
 			if ( $page->save() )
 			{
-				$parts = $_POST['part'];
-				foreach ( (array) $parts as $data )
-				{
-					$part_class = FrontPage::getPartClass( $data['type'] );
 
-					$part = new $part_class( $data );
-					$part->page_id = $page->id;
-					unset( $part->type );
-					$part->save();
+				if ( isset( $_POST['part'] ) )
+				{
+					$parts = $_POST['part'];
+					foreach ( (array) $parts as $data )
+					{
+						$part_class = FrontPage::getPartClass( $data['type'] );
+
+						$part = new $part_class( $data );
+						$part->page_id = $page->id;
+						unset( $part->type );
+						$part->save();
+					}
 				}
 
 				$success = __( 'Page :title has been saved!', array(':title' => $page->title) );
@@ -155,7 +159,15 @@ class PageController extends Controller {
 				}
 				else
 				{
-					Flash::json( 'success', $success );
+					if ( $action == 'add' )
+					{
+						Flash::set( 'success', $success );
+						Flash::json( 'redirect', get_url( 'page/edit/' . $page->id ) );
+					}
+					else
+					{
+						Flash::json( 'success', $success );
+					}
 				}
 
 
@@ -220,13 +232,15 @@ class PageController extends Controller {
 		}
 
 		$page->slug = trim( $page->slug );
-		if ( empty( $page->slug ) && ( isset( $page->id ) && $page->id != 1 ) )
+
+		if ( (!isset( $page->id ) || $page->id != 1 ) )
 		{
-			$page->slug = $page->title;
+			if ( $page->slug == '' )
+				$page->slug = $page->title;
 			//translit
 			if ( Setting::get( 'translit_slug' ) == 'on' )
 			{
-				$page->slug = I18n::translit( $page->title );
+				$page->slug = I18n::translit( $page->slug );
 			}
 
 			use_helper( 'Sanitize' );

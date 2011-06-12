@@ -18,11 +18,6 @@ class PagePart extends Record {
 		return self::findOneFrom( get_class( $this ), 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
 	}
 
-	public function content()
-	{
-		return $this->content;
-	}
-
 	public function edit( $vars=array() )
 	{
 		$class = get_class( $this );

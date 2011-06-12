@@ -33,7 +33,7 @@ class PartImages extends PagePart {
 
 	public function content()
 	{
-		//return $this->content_html;
+		return $this->images;
 	}
 
 	public function url()
@@ -57,7 +57,7 @@ class PartImages extends PagePart {
 		$part->part_id = $part_id;
 		$part->page_id = $page_id;
 
-		$part->images = Record::findAllFrom( 'PartImages', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
+		$part->images =  Record::findAllFrom( 'PartImages', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
 
 		return $part;
 	}

@@ -264,44 +264,58 @@ class FrontPage {
 			$this->parts = self::getParts( $this );
 
 		if ( isset( $this->parts[$part_name] ) )
+		{
 			return $this->parts[$part_name]->content();
-		/*
-
-
-
-		  try
-		  {
-		  ob_start();
-		  $eval_state = eval( '?>' . $this->part->$part->content_html );
-		  $out = ob_get_contents();
-		  ob_end_clean();
-
-		  if ( $eval_state !== false )
-		  {
-		  return $out;
-		  }
-		  else
-		  {
-		  throw new Exception( 'Please, check PHP code at content part "' . $part . '" of page with ID: ' . $this->id . ' and title "' . $this->title() . '"' );
-		  }
-		  } catch ( Exception $e )
-		  {
-		  if ( DEBUG )
-		  {
-		  return '[CONTENT ERROR: ' . $e->getMessage() . ']';
-		  }
-		  else
-		  {
-		  return '[CONTENT ERROR]';
-		  }
-		  }
-		  }
-		  else if ( $inherit && $this->parent )
-		  {
-		  return $this->parent->content( $part, true );
-		  }
-		 */
+		}
 	}
+
+	public function part( $part_name )
+	{
+		if ( !$this->parts )
+			$this->parts = self::getParts( $this );
+
+		if ( isset( $this->parts[$part_name] ) )
+		{
+			return $this->parts[$part_name];
+		}
+	}
+
+	/*
+
+
+
+	  try
+	  {
+	  ob_start();
+	  $eval_state = eval( '?>' . $this->part->$part->content_html );
+	  $out = ob_get_contents();
+	  ob_end_clean();
+
+	  if ( $eval_state !== false )
+	  {
+	  return $out;
+	  }
+	  else
+	  {
+	  throw new Exception( 'Please, check PHP code at content part "' . $part . '" of page with ID: ' . $this->id . ' and title "' . $this->title() . '"' );
+	  }
+	  } catch ( Exception $e )
+	  {
+	  if ( DEBUG )
+	  {
+	  return '[CONTENT ERROR: ' . $e->getMessage() . ']';
+	  }
+	  else
+	  {
+	  return '[CONTENT ERROR]';
+	  }
+	  }
+	  }
+	  else if ( $inherit && $this->parent )
+	  {
+	  return $this->parent->content( $part, true );
+	  }
+	 */
 
 	public function previous()
 	{
@@ -559,6 +573,7 @@ class FrontPage {
 			else
 			{
 				$part->part_id = $layout_part->id;
+				$part->page_id = 0;
 			}
 			$part->type = $layout_part->type;
 			$part->name = $layout_part->name;

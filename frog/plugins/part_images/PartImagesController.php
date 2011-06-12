@@ -52,11 +52,11 @@ class PartImagesController extends PluginController {
 		{
 			$_SESSION['ai_uploaded'][] = $image->id;
 
-			echo $this->renderJSON( true );
+			echo json_encode( true );
 		}
 		else
 		{
-			echo $this->renderJSON( false );
+			echo json_encode( false );
 		}
 	}
 
@@ -81,11 +81,11 @@ class PartImagesController extends PluginController {
 
 			$_SESSION['ai_uploaded'] = array();
 
-			echo $this->renderJSON( $out_images );
+			echo json_encode( $out_images );
 		}
 		else
 		{
-			echo $this->renderJSON( false );
+			echo json_encode( false );
 		}
 	}
 
@@ -95,11 +95,11 @@ class PartImagesController extends PluginController {
 
 		if ( $image->delete() )
 		{
-			echo $this->renderJSON( $image_id );
+			echo json_encode( $image_id );
 		}
 		else
 		{
-			echo $this->renderJSON( false );
+			echo json_encode( false );
 		}
 	}
 

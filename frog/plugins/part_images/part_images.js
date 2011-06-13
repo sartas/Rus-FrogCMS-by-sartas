@@ -50,7 +50,6 @@ $(function(){
 
 			frog.loaderShow();
 						
-			alert(part_id)
 			$.ajax({
 				url: $(this).attr('href') + '/' + page_id + '/' + part_id,
 				dataType: 'html',

@@ -521,7 +521,7 @@ class Record {
 
 		// Run it !!...
 		$return = self::$__CONN__->exec( $sql ) !== false;
-		if ( !$this->afterDelete() )
+		if ( !$this->afterDelete($return) )
 		{
 			$this->save();
 			return false;

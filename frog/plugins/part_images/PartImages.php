@@ -57,21 +57,24 @@ class PartImages extends PagePart {
 		$part->part_id = $part_id;
 		$part->page_id = $page_id;
 
-		$part->images =  Record::findAllFrom( 'PartImages', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
+		$part->images = Record::findAllFrom( 'PartImages', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
 
 		return $part;
 	}
-	
-	public function beforeDelete()
+
+	public function afterDelete( $result )
 	{
-		use_helper( 'Dir' );
+		if ( $result == true )
+		{
+			use_helper( 'Dir' );
 
-		$file_path = FROG_ROOT . '/' . PUBLIC_FILES . '/gallery/' . $this->page_id . '/' . $this->file_name;
-		$image_file = new DirFileImage( $file_path );
-		$image_file->remove( true );
-
+			$file_path = FROG_ROOT . '/' . PUBLIC_FILES . '/gallery/' . $this->page_id . '/' . $this->file_name;
+			$image_file = new DirFileImage( $file_path );
+			$image_file->remove( true );
+		}
 		return true;
 	}
+
 }
 
 // end PageImages class

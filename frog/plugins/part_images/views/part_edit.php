@@ -7,7 +7,7 @@ if ( !defined( 'DEBUG' ) )
 	<h3><?=$part->title;?></h3>
 
 	<div class="attach_images_list" id="<?php echo $part->part_id; ?>">
-		<div class="attach_images_list_images">
+		<div id="<?php echo $part->part_id; ?>" class="attach_images_list_images">
 			<input  name="part_images" type="hidden" value="1" />
 			<?php if (isset($part->images)):?>
 			<?php foreach ( $part->images as $item ): ?>

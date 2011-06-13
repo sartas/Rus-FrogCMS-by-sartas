@@ -258,14 +258,26 @@ class FrontPage {
 		}
 	}
 
-	public function content( $part_name='body' )
+	public function content( $part_name )
 	{
 		if ( !$this->parts )
 			$this->parts = self::getParts( $this );
 
 		if ( isset( $this->parts[$part_name] ) )
 		{
-			return $this->parts[$part_name]->content();
+			if ( isset( $this->parts[$part_name]->content_html ) )
+			{
+				ob_start();
+				$eval_state = eval( '?>' . $this->parts[$part_name]->content_html );
+				$out = ob_get_contents();
+				ob_end_clean();
+
+				return $out;
+			}
+			else
+			{
+				return $this->parts[$part_name]->content();
+			}
 		}
 	}
 

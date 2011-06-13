@@ -31,14 +31,10 @@ class PartText extends PagePart {
 	public $content = '';
 	public $content_html = '';
 
-	public function content()
+	public function findOneByPartIdPageId( $part_id, $page_id )
 	{
-		ob_start();
-		$eval_state = eval( '?>' . $this->content_html );
-		$out = ob_get_contents();
-		ob_end_clean();
-
-		return $out;
+		$class = (FROG_BACKEND==true) ? 'PartText':'FrontPartText'; 
+		return self::findOneFrom( $class , 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
 	}
 
 	public function beforeSave()
@@ -60,4 +56,29 @@ class PartText extends PagePart {
 
 }
 
-// end PageText class
+// end PartText class
+class FrontPartText extends FrontPage {
+	const TABLE_NAME = 'part_text';
+	public $part_id = '';
+	public $page_id = '';
+	public $filter_id = '';
+	public $content = '';
+	public $content_html = '';
+
+	public function __construct()
+	{
+		
+	}
+	/*
+	public function content()
+	{
+		ob_start();
+		$eval_state = eval( '?>' . $this->content_html );
+		$out = ob_get_contents();
+		ob_end_clean();
+
+		return $out;
+	}
+	 */
+	
+}

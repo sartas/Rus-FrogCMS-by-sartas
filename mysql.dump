@@ -1,0 +1,401 @@
+-- phpMyAdmin SQL Dump
+-- version 3.2.3
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 22, 2011 at 08:19 PM
+-- Server version: 5.1.40
+-- PHP Version: 5.3.3
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `ss`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cached_pages`
+--
+
+CREATE TABLE IF NOT EXISTS `cached_pages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) NOT NULL DEFAULT '0',
+  `url` varchar(255) DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`url`),
+  KEY `page_id` (`page_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `cached_pages`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `layout`
+--
+
+CREATE TABLE IF NOT EXISTS `layout` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `content_type` varchar(80) DEFAULT NULL,
+  `content` text,
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `created_by_id` int(11) DEFAULT NULL,
+  `updated_by_id` int(11) DEFAULT NULL,
+  `parts_type` text,
+  `position` mediumint(6) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `layout`
+--
+
+INSERT INTO `layout` (`id`, `name`, `content_type`, `content`, `created_on`, `updated_on`, `created_by_id`, `updated_by_id`, `parts_type`, `position`) VALUES
+(1, 'none', 'text/html', '<?php echo $this->content(); ?>', '2011-05-14 16:11:33', '2011-05-14 16:11:34', 1, 1, 'text', NULL),
+(2, 'Normal', 'text/html', '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"\r\n"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\r\n<html xmlns="http://www.w3.org/1999/xhtml">\r\n<head>\r\n  <title><?php echo $this->title(); ?></title>\r\n\r\n  <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />\r\n  <meta name="robots" content="index, follow" />\r\n  <meta name="description" content="<?php echo ($this->description() != '''') ? $this->description() : ''Default description goes here''; ?>" />\r\n  <meta name="keywords" content="<?php echo ($this->keywords() != '''') ? $this->keywords() : ''default, keywords, here''; ?>" />\r\n  <meta name="author" content="Author Name" />\r\n\r\n  <link rel="favourites icon" href="<?php echo URL_PUBLIC; ?>favicon.ico" />\r\n    <link rel="stylesheet" href="<?php echo URL_PUBLIC; ?>public/themes/normal/screen.css" media="screen" type="text/css" />\r\n    <link rel="stylesheet" href="<?php echo URL_PUBLIC; ?>public/themes/normal/print.css" media="print" type="text/css" />\r\n    <link rel="alternate" type="application/rss+xml" title="Frog Default RSS Feed" href="<?php echo URL_PUBLIC.((USE_MOD_REWRITE)?'''':''/?''); ?>rss.xml" />\r\n\r\n</head>\r\n<body>\r\n<div id="page">\r\n<?php $this->includeSnippet(''header''); ?>\r\n<div id="content">\r\n\r\n  <h2><?php echo $this->title(); ?></h2>\r\n  <?php echo $this->content(''text_block''); ?> \r\n\r\n</div> <!-- end #content -->\r\n<div id="sidebar">\r\n\r\n\r\n</div> <!-- end #sidebar -->\r\n<?php $this->includeSnippet(''footer''); echo memory_usage().''||''.execution_time();?>\r\n<? print_r(Benchmark::get( ''total'' ));?>\r\n</div> <!-- end #page -->\r\n</body>\r\n</html>', '2011-05-14 16:11:35', '2011-06-11 01:59:02', 1, 2, 'text', NULL),
+(3, 'RSS XML', 'application/rss+xml', '<?php echo $this->content(); ?>', '2011-05-14 16:11:37', '2011-05-14 16:11:38', 1, 1, NULL, NULL),
+(7, 'g', 'text/html', '', '2011-06-12 15:21:19', '2011-06-13 11:30:10', 1, 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `layout_part`
+--
+
+CREATE TABLE IF NOT EXISTS `layout_part` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `layout_id` int(11) unsigned NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+
+--
+-- Dumping data for table `layout_part`
+--
+
+INSERT INTO `layout_part` (`id`, `layout_id`, `type`, `name`, `title`) VALUES
+(32, 7, 'images', 'g', 'g'),
+(25, 5, 'text', 'one', 'two'),
+(33, 7, 'images', 'g2', 'g2'),
+(26, 6, 'text', 'bb', 'ddd'),
+(31, 2, 'text', 'text_block', 'First text block'),
+(21, 1, 'text', 'bbb', 'title');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `page`
+--
+
+CREATE TABLE IF NOT EXISTS `page` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `slug` varchar(100) DEFAULT NULL,
+  `breadcrumb` varchar(160) DEFAULT NULL,
+  `keywords` varchar(255) DEFAULT NULL,
+  `description` text,
+  `parent_id` int(11) unsigned DEFAULT NULL,
+  `layout_id` int(11) unsigned DEFAULT NULL,
+  `behavior_id` varchar(25) NOT NULL,
+  `status_id` int(11) unsigned NOT NULL DEFAULT '100',
+  `created_on` datetime DEFAULT NULL,
+  `published_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `created_by_id` int(11) DEFAULT NULL,
+  `updated_by_id` int(11) DEFAULT NULL,
+  `position` mediumint(6) unsigned DEFAULT NULL,
+  `is_protected` tinyint(1) NOT NULL DEFAULT '0',
+  `needs_login` tinyint(1) NOT NULL DEFAULT '2',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
+
+--
+-- Dumping data for table `page`
+--
+
+INSERT INTO `page` (`id`, `title`, `slug`, `breadcrumb`, `keywords`, `description`, `parent_id`, `layout_id`, `behavior_id`, `status_id`, `created_on`, `published_on`, `updated_on`, `created_by_id`, `updated_by_id`, `position`, `is_protected`, `needs_login`) VALUES
+(36, '5555', '5555', '5555', '', '', 1, 7, '', 100, '2011-06-12 15:40:42', '2011-06-12 15:40:42', '2011-06-12 15:58:44', 2, 2, NULL, 0, 2),
+(37, '66', '', '66', '', '', 1, 7, '', 100, '2011-06-12 15:59:05', '2011-06-12 15:59:05', '2011-06-12 15:59:05', 2, 2, NULL, 0, 2),
+(32, 'gg', 'gg', 'gg', '', '', 1, 2, '', 100, '2011-06-11 14:57:20', '2011-06-11 14:57:20', '2011-06-11 17:16:57', 1, 2, NULL, 0, 2),
+(1, 'Home Pagerrrrddddddd', '', 'Home Pagerrrrddddddd', '', '', 0, 2, '', 100, '2011-05-23 21:35:39', '2011-05-23 21:35:40', '2011-06-11 14:57:07', 1, 1, 0, 1, 0),
+(40, '1', '1', '1', '', '', 1, 7, '', 100, '2011-06-12 17:10:29', '2011-06-12 17:10:29', '2011-06-12 17:10:39', 2, 2, NULL, 0, 2),
+(44, 'fffffff', '', 'fffffff', '', '', 1, 7, '', 100, '2011-06-12 17:56:56', '2011-06-12 17:56:56', '2011-06-12 17:56:56', 2, 2, NULL, 0, 2),
+(58, '1111', '1111', '1111', '', '', 44, 2, '', 100, '2011-06-22 21:51:01', '2011-06-22 21:51:01', '2011-06-22 21:51:01', 2, 2, NULL, 0, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `page_tag`
+--
+
+CREATE TABLE IF NOT EXISTS `page_tag` (
+  `page_id` int(11) unsigned NOT NULL,
+  `tag_id` int(11) unsigned NOT NULL,
+  UNIQUE KEY `page_id` (`page_id`,`tag_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `page_tag`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `part_images`
+--
+
+CREATE TABLE IF NOT EXISTS `part_images` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) unsigned DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `alternate` varchar(255) DEFAULT NULL,
+  `part_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+
+--
+-- Dumping data for table `part_images`
+--
+
+INSERT INTO `part_images` (`id`, `page_id`, `file_name`, `alternate`, `part_id`) VALUES
+(2, 43, '1307879705.33-DSC01999.jpg', '1307879705.33-DSC01999.jpg', 32),
+(7, 57, '1307943065.93-allur.jpg', '1307943065.93-allur.jpg', 32),
+(4, 52, '1307882881.09-DSC01999.jpg', '1307882881.09-DSC01999.jpg', 32),
+(6, 51, '1307941934.21-allur.jpg', '1307941934.21-allur.jpg', 32),
+(8, 57, '1307943071.58-allur.jpg', '1307943071.58-allur.jpg', 32),
+(9, 57, '1307949373.73-DSC01927.jpg', '1307949373.73-DSC01927.jpg', 32),
+(10, 36, '1308750585.3-DSC01803.jpg', '1308750585.3-DSC01803.jpg', 32),
+(11, 36, '1308751635.36-DSC01801.jpg', '1308751635.36-DSC01801.jpg', 32),
+(12, 36, '1308751737.56-DSC01991.jpg', '1308751737.56-DSC01991.jpg', 32),
+(13, 36, '1308751887.35-DSC01999.jpg', '1308751887.35-DSC01999.jpg', 32),
+(15, 36, '1308752937.72-DSC01801.jpg', '1308752937.72-DSC01801.jpg', 32),
+(16, 36, '1308752958.22-DSC01991.jpg', '1308752958.22-DSC01991.jpg', 32),
+(17, 50, '1308757366.62-DSC01801.jpg', '1308757366.62-DSC01801.jpg', 32),
+(18, 50, '1308757366.85-DSC01803.jpg', '1308757366.85-DSC01803.jpg', 32),
+(19, 50, '1308757372.99-DSC01999.jpg', '1308757372.99-DSC01999.jpg', 32),
+(20, 50, '1308757380.04-DSC01991.jpg', '1308757380.04-DSC01991.jpg', 33),
+(21, 50, '1308757380.31-DSC01992.jpg', '1308757380.31-DSC01992.jpg', 33),
+(22, 50, '1308757392.04-DSC01998.jpg', '1308757392.04-DSC01998.jpg', 33);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `part_string`
+--
+
+CREATE TABLE IF NOT EXISTS `part_string` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `content` varchar(255) DEFAULT NULL,
+  `part_id` int(11) unsigned DEFAULT NULL,
+  `page_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `part_string`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `part_text`
+--
+
+CREATE TABLE IF NOT EXISTS `part_text` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `filter_id` varchar(25) DEFAULT NULL,
+  `content` longtext,
+  `content_html` longtext,
+  `part_id` int(11) unsigned DEFAULT NULL,
+  `page_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `part_text`
+--
+
+INSERT INTO `part_text` (`id`, `filter_id`, `content`, `content_html`, `part_id`, `page_id`) VALUES
+(1, '', 'ty', 'ty', 31, 1),
+(2, 'textile', '<p>11wweeeeeeeeeghjyyyyyyy<wwwww/p>3333', '	<p><p>11wweeeeeeeeeghjyyyyyyy<wwwww/p>3333</p>', 31, 32),
+(8, '', '', '', 31, 58);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `permission`
+--
+
+CREATE TABLE IF NOT EXISTS `permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `permission`
+--
+
+INSERT INTO `permission` (`id`, `name`) VALUES
+(1, 'administrator'),
+(2, 'developer'),
+(3, 'editor');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plugin_settings`
+--
+
+CREATE TABLE IF NOT EXISTS `plugin_settings` (
+  `plugin_id` varchar(40) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  UNIQUE KEY `plugin_setting_id` (`plugin_id`,`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `plugin_settings`
+--
+
+INSERT INTO `plugin_settings` (`plugin_id`, `name`, `value`) VALUES
+('tinymce', 'locale', 'ru');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting`
+--
+
+CREATE TABLE IF NOT EXISTS `setting` (
+  `name` varchar(40) NOT NULL,
+  `value` text NOT NULL,
+  UNIQUE KEY `id` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `setting`
+--
+
+INSERT INTO `setting` (`name`, `value`) VALUES
+('admin_title', 'Frog CMS'),
+('language', 'en'),
+('theme', 'default'),
+('default_status_id', '100'),
+('default_filter_id', 'textile'),
+('default_tab', 'page'),
+('allow_html_title', 'off'),
+('plugins', 'a:15:{s:13:"content_cache";i:1;s:7:"textile";i:1;s:8:"markdown";i:1;s:7:"archive";i:1;s:14:"page_not_found";i:1;s:12:"file_manager";i:1;s:8:"markitup";i:1;s:12:"rus_translit";i:1;s:9:"part_text";i:1;s:11:"part_string";i:1;s:11:"part_images";i:1;s:13:"image_resizer";i:1;s:5:"files";i:1;s:8:"fire_php";i:1;s:10:"codemirror";i:1;}'),
+('translit_slug', 'on');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `snippet`
+--
+
+CREATE TABLE IF NOT EXISTS `snippet` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `filter_id` varchar(25) DEFAULT NULL,
+  `content` text,
+  `content_html` text,
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `created_by_id` int(11) DEFAULT NULL,
+  `updated_by_id` int(11) DEFAULT NULL,
+  `position` mediumint(6) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `snippet`
+--
+
+INSERT INTO `snippet` (`id`, `name`, `filter_id`, `content`, `content_html`, `created_on`, `updated_on`, `created_by_id`, `updated_by_id`, `position`) VALUES
+(1, 'header', '', '<div id="header">\r\n  <h1><a href="<?php echo URL_PUBLIC; ?>">Frog</a> <span>content management simplified</span></h1>\r\n  <div id="nav">\r\n    <ul>\r\n      <li><a<?php echo url_match(''/'') ? '' class="current"'': ''''; ?> href="<?php echo URL_PUBLIC; ?>">Home</a></li>\r\n<?php foreach($this->find(''/'')->children() as $menu): ?>\r\n      <li><?php echo $menu->link($menu->title, (in_array($menu->slug, explode(''/'', $this->url)) ? '' class="current"'': null)); ?></li>\r\n<?php endforeach; ?> \r\n    </ul>\r\n  </div> <!-- end #navigation -->\r\n</div> <!-- end #header -->', '<div id="header">\r\n  <h1><a href="<?php echo URL_PUBLIC; ?>">Frog</a> <span>content management simplified</span></h1>\r\n  <div id="nav">\r\n    <ul>\r\n      <li><a<?php echo url_match(''/'') ? '' class="current"'': ''''; ?> href="<?php echo URL_PUBLIC; ?>">Home</a></li>\r\n<?php foreach($this->find(''/'')->children() as $menu): ?>\r\n      <li><?php echo $menu->link($menu->title, (in_array($menu->slug, explode(''/'', $this->url)) ? '' class="current"'': null)); ?></li>\r\n<?php endforeach; ?> \r\n    </ul>\r\n  </div> <!-- end #navigation -->\r\n</div> <!-- end #header -->', '2011-05-14 16:12:00', '2011-05-26 23:29:38', 1, 1, NULL),
+(2, 'footer', '', '<div id="footer"><div id="footer-inner">\r\n  <p>&copy; Copyright <?php echo date(''Y''); ?> <a href="http://www.madebyfrog.com/" title="Frog">Madebyfrog.com</a><br />\r\n  Powered by <a href="http://www.madebyfrog.com/" title="Frog CMS">Frog CMS</a>.\r\n  </p>\r\n</div></div><!-- end #footer -->', '<div id="footer"><div id="footer-inner">\r\n  <p>&copy; Copyright <?php echo date(''Y''); ?> <a href="http://www.madebyfrog.com/" alt="Frog">Madebyfrog.com</a><br />\r\n  Powered by <a href="http://www.madebyfrog.com/" alt="Frog">Frog CMS</a>.\r\n  </p>\r\n</div></div><!-- end #footer -->', '2011-05-14 16:12:02', '2011-05-14 16:12:03', 1, 1, NULL),
+(3, 'comments', '', '<?php if(Plugin::isEnabled(''comments'')): ?>\r\n    <?php if(comments_is_opened( $this )): ?>\r\n            \r\n        <h3>Comments (<?php echo comments_count( $this ); ?>)</h3>\r\n        <?php comments_display( $this ); ?>\r\n            \r\n        <h3>Add comment</h3>\r\n        <?php comments_display_form( $this ); ?>\r\n            \r\n    <?php endif; ?>\r\n<?php endif; ?>', '<?php if(Plugin::isEnabled(''comments'')): ?>\r\n    <?php if(comments_is_opened( $this )): ?>\r\n            \r\n        <h3>Comments (<?php echo comments_count( $this ); ?>)</h3>\r\n        <?php comments_display( $this ); ?>\r\n            \r\n        <h3>Add comment</h3>\r\n        <?php comments_display_form( $this ); ?>\r\n            \r\n    <?php endif; ?>\r\n<?php endif; ?>', '2011-05-14 18:09:15', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tag`
+--
+
+CREATE TABLE IF NOT EXISTS `tag` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  `count` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `tag`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `username` varchar(40) NOT NULL,
+  `password` varchar(40) DEFAULT NULL,
+  `language` varchar(5) DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `created_by_id` int(11) DEFAULT NULL,
+  `updated_by_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `email`, `username`, `password`, `language`, `created_on`, `updated_on`, `created_by_id`, `updated_by_id`) VALUES
+(1, 'Administrator', 'admin@yoursite.com', 'admin', '7b21848ac9af35be0ddb2d6b9fc3851934db8420', 'ru', '2011-05-14 16:12:04', '2011-05-14 16:12:05', 1, 1),
+(2, 'sartas', 'sartas@nm.ru', 'sartas', 'e95844d2bb61f5f9678c253f58bc314030ba8c16', 'ru', '2011-06-09 00:22:23', NULL, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_permission`
+--
+
+CREATE TABLE IF NOT EXISTS `user_permission` (
+  `user_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  UNIQUE KEY `user_id` (`user_id`,`permission_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_permission`
+--
+
+INSERT INTO `user_permission` (`user_id`, `permission_id`) VALUES
+(1, 1),
+(2, 1);

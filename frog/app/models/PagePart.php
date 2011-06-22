@@ -20,7 +20,7 @@ class PagePart extends Record {
 
 	public function edit( $vars=array() )
 	{
-		$class = get_class( $this );
+		$class_name = get_class( $this );
 		return new View( '../../plugins/' . constant( $class_name . '::TABLE_NAME' ) . '/views/part_edit', $vars );
 	}
 

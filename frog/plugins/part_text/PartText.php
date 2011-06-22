@@ -57,7 +57,7 @@ class PartText extends PagePart {
 }
 
 // end PartText class
-class FrontPartText extends FrontPage {
+class FrontPartText {
 	const TABLE_NAME = 'part_text';
 	public $part_id = '';
 	public $page_id = '';

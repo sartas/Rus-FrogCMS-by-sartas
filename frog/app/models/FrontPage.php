@@ -601,17 +601,7 @@ class FrontPage {
 		return Inflector::camelize( 'part_' . $type );
 	}
 
-	public static function deleteParts( $page )
-	{
-		$parts = self::getParts( $page );
-		if ( !empty( $parts ) )
-		{
-			foreach ( $parts as $part )
-			{
-				$part->delete();
-			}
-		}
-	}
+
 
 	/*
 	  public static function getParts( $page_id = null )

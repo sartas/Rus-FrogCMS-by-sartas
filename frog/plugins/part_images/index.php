@@ -1,6 +1,7 @@
 <?php
 
 AutoLoader::addFile( 'PartImages', PLUGINS_DIR . 'part_images/PartImages.php' );
+AutoLoader::addFile( 'FrontPartImages', PLUGINS_DIR . 'part_images/FrontPartImages.php' );
 
 Plugin::addController( 'part_images' );
 

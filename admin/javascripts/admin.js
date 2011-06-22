@@ -259,7 +259,7 @@ frog.dialog = function( options )
 		// Add win to windows stack
 		this.dialogs[options.url] = win;
 	}
-	else
+	else 
 	{
 		win = this.dialogs[options.url];
 	}

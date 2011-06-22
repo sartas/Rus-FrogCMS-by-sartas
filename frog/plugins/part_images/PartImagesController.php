@@ -64,7 +64,7 @@ class PartImagesController extends PluginController {
 	{
 		if ( !empty( $_SESSION['ai_uploaded'] ) )
 		{
-			$images = Record::findAllFrom( 'PartImages', 'page_id="' . (int) $page_id . '" AND part_id="' . (int) $part_id . '" AND id IN(' . join( ',', $_SESSION['ai_uploaded'] ) . ')' );
+			$images = Record::findAllFrom( 'FrontPartImages', 'page_id="' . (int) $page_id . '" AND part_id="' . (int) $part_id . '" AND id IN(' . join( ',', $_SESSION['ai_uploaded'] ) . ')' );
 
 			$out_images = array();
 
@@ -91,9 +91,9 @@ class PartImagesController extends PluginController {
 
 	public function delete( $image_id )
 	{
-		$image = Record::findOneFrom( 'PartImages', 'id="' . (int) $image_id . '"' );
+		$result = Record::deleteWhere('PartImages', 'id="' . (int) $image_id . '"' );
 
-		if ( $image->delete() )
+		if ( $result )
 		{
 			echo json_encode( $image_id );
 		}

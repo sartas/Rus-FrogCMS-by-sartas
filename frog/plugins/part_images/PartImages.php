@@ -36,45 +36,54 @@ class PartImages extends PagePart {
 		return $this->images;
 	}
 
-	public function url()
-	{
-		return URL_PUBLIC . PUBLIC_FILES . '/gallery/' . $this->page_id . '/' . $this->file_name;
-	}
-
-	public function thumb( $width = null, $height = null )
-	{
-		if ( Plugin::isEnabled( 'image_resizer' ) )
-		{
-			return URL_PUBLIC . PUBLIC_FILES . '/gallery/' . $this->page_id . '/' . ( $width ? $width : 0 ) . 'x' . ( $height ? $height : 0 ) . '-' . $this->file_name;
-		}
-		else
-			return $this->url();
-	}
-
 	public function findOneByPartIdPageId( $part_id, $page_id )
 	{
 		$part = new PartImages();
 		$part->part_id = $part_id;
 		$part->page_id = $page_id;
 
-		$part->images = Record::findAllFrom( 'PartImages', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
+		$part->images = Record::findAllFrom( 'FrontPartImages', 'part_id=' . (int) $part_id . ' AND page_id=' . (int) $page_id );
 
 		return $part;
 	}
 
-	public function afterDelete( $result )
+	public function delete()
 	{
-		if ( $result == true )
+		if ( !($this->part_id) || !($this->page_id) )
+			return;
+
+		Record::deleteWhere( 'PagePart', 'part_id=' . (int) $this->part_id . ' AND page_id=' . (int) $this->page_id );
+
+		if ( !empty( $this->images ) )
 		{
 			use_helper( 'Dir' );
 
-			$file_path = FROG_ROOT . '/' . PUBLIC_FILES . '/gallery/' . $this->page_id . '/' . $this->file_name;
-			$image_file = new DirFileImage( $file_path );
-			$image_file->remove( true );
+			foreach ( $this->images as $image )
+			{
+				$file_path = FROG_ROOT . '/' . PUBLIC_FILES . '/gallery/' . $image->page_id . '/' . $image->file_name;
+				if ( file_exists( $file_path ) )
+				{
+					$image_file = new DirFileImage( $file_path );
+					$image_file->remove( true );
+				}
+			}
 		}
 		return true;
 	}
 
+
+//	public function afterDelete( $result )
+//	{
+//		if ( $result == true )
+//		{
+//			use_helper( 'Dir' );
+//
+//			$file_path = FROG_ROOT . '/' . PUBLIC_FILES . '/gallery/' . $this->page_id . '/' . $this->file_name;
+//			$image_file = new DirFileImage( $file_path );
+//			$image_file->remove( true );
+//		}
+//		return true;
+//	}
 }
 
 // end PageImages class

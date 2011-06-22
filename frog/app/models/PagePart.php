@@ -24,6 +24,18 @@ class PagePart extends Record {
 		return new View( '../../plugins/' . $class::TABLE_NAME . '/views/part_edit', $vars );
 	}
 
+	public static function deleteParts( $page )
+	{
+		$parts = FrontPage::getParts( $page );
+		if ( !empty( $parts ) )
+		{
+			foreach ( $parts as $part )
+			{
+				$part->delete();
+			}
+		}
+	}
+
 	public static function addType( $type )
 	{
 		if ( !in_array( $type, self::$types ) )

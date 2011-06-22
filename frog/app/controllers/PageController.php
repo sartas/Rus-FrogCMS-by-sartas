@@ -291,7 +291,7 @@ class PageController extends Controller {
 				}
 
 				// need to delete all page_parts too !!
-				FrontPage::deleteParts( $page );
+				PagePart::deleteParts( $page );
 
 				if ( $page->delete() )
 				{

@@ -80,7 +80,7 @@
 			<span class="page-modify">
 				<a class="page-add" href="<?php echo get_url('page/select_type', $child->id); ?>"><img class="page-smallicon" src="images/plus.png" title="<?php echo __('Add child'); ?>" alt="" /></a>&nbsp; 
 				<?php if( !$child->is_protected || AuthUser::hasPermission('administrator') || AuthUser::hasPermission('developer') ): ?>
-				<a class="page-remove" href="<?php echo get_url('page/delete/'.$child->id); ?>" onclick="return confirm('<?php echo __('Are you sure you wish to delete'); ?> <?php echo $child->title; ?>?');"><img class="page-smallicon" src="images/icon-remove.png" title="<?php echo __('Remove'); ?>" alt="" /></a>
+				<a class="page-remove" href="#" rel="<?php echo __('Are you sure you wish to delete'); ?> <?php echo $child->title; ?>?"><img class="page-smallicon" src="images/icon-remove.png" title="<?php echo __('Remove'); ?>" alt="" /></a>
 				<?php endif; ?>
 			</span>
 		</div>

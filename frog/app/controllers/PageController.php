@@ -296,18 +296,16 @@ class PageController extends Controller {
 				if ( $page->delete() )
 				{
 					Observer::notify( 'page_delete', $page );
-					Flash::set( 'success', __( 'Page :title has been deleted!', array(':title' => $page->title) ) );
+					Flash::json( 'success', __( 'Page :title has been deleted!', array(':title' => $page->title) ) );
 				}
 				else
-					Flash::set( 'error', __( 'Page :title has not been deleted!', array(':title' => $page->title) ) );
+					FFlash::json( 'error', __( 'Page :title has not been deleted!', array(':title' => $page->title) ) );
 			}
 			else
-				Flash::set( 'error', __( 'Page not found!' ) );
+				Flash::json( 'error', __( 'Page not found!' ) );
 		}
 		else
-			Flash::set( 'error', __( 'Action disabled!' ) );
-
-		redirect( get_url( 'page' ) );
+			Flash::json( 'error', __( 'Action disabled!' ) );
 	}
 
 	public function children( $parent_id, $level, $return=false )
@@ -406,44 +404,45 @@ class PageController extends Controller {
 		}
 	}
 
-	public function newtab_dialog()
-	{
-		echo new View( 'page/newtab_dialog' );
-	}
+	/*
+	  public function newtab_dialog()
+	  {
+	  echo new View( 'page/newtab_dialog' );
+	  }
 
-	public function link_dialog()
-	{
-		echo new View( 'page/link_dialog', array(
-			'root' => Record::findByIdFrom( 'Page', 1 ),
-			'children_content' => $this->link_dialog_children( 1, 0, true )
-				) );
-	}
+	  public function link_dialog()
+	  {
+	  echo new View( 'page/link_dialog', array(
+	  'root' => Record::findByIdFrom( 'Page', 1 ),
+	  'children_content' => $this->link_dialog_children( 1, 0, true )
+	  ) );
+	  }
 
-	public function link_dialog_children( $parent_id, $level, $return=false )
-	{
-		//$expanded_rows = isset($_COOKIE['expanded_rows']) ? explode(',', $_COOKIE['expanded_rows']): array();
-		// get all children of the page (parent_id)
-		$childrens = Page::childrenOf( $parent_id );
+	  public function link_dialog_children( $parent_id, $level, $return=false )
+	  {
+	  //$expanded_rows = isset($_COOKIE['expanded_rows']) ? explode(',', $_COOKIE['expanded_rows']): array();
+	  // get all children of the page (parent_id)
+	  $childrens = Page::childrenOf( $parent_id );
 
-		foreach ( $childrens as $index => $child )
-		{
-			$childrens[$index]->has_children = Page::hasChildren( $child->id );
-			//$childrens[$index]->is_expanded = in_array($child->id, $expanded_rows);
-			//if( $childrens[$index]->is_expanded )
-			$childrens[$index]->children_rows = $this->link_dialog_children( $child->id, $level + 1, true );
-		}
+	  foreach ( $childrens as $index => $child )
+	  {
+	  $childrens[$index]->has_children = Page::hasChildren( $child->id );
+	  //$childrens[$index]->is_expanded = in_array($child->id, $expanded_rows);
+	  //if( $childrens[$index]->is_expanded )
+	  $childrens[$index]->children_rows = $this->link_dialog_children( $child->id, $level + 1, true );
+	  }
 
-		$content = new View( 'page/link_dialog_children', array(
-					'childrens' => $childrens,
-					'level' => $level + 1,
-						) );
+	  $content = new View( 'page/link_dialog_children', array(
+	  'childrens' => $childrens,
+	  'level' => $level + 1,
+	  ) );
 
-		if ( $return )
-			return $content;
+	  if ( $return )
+	  return $content;
 
-		echo $content;
-	}
-
+	  echo $content;
+	  }
+	 */
 	//  Private methods  -----------------------------------------------------
 
 	/*

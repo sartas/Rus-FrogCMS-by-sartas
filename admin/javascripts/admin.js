@@ -478,12 +478,47 @@ frogPages.init = function()
 {	
 	// Attach event for expander
 	jQuery('.page-expander').click(this.expanderClick);
+	jQuery('.page-remove').click(this.removeClick);
 	jQuery('#page_reorder').click(this.reorderClick);
 	jQuery('#page_copy').click(this.copyClick);
 	
 	// Read coockies
 	frogPages.readExpandedCookie();
 };
+
+frogPages.removeClick = function()
+{
+	if(confirm($(this).attr('rel')) == false)
+		return false;
+			
+	var row =  $(this).parent().parent().parent();
+	var page_id = frogPages.extractPageId( row );
+	
+	var eventSuccess = function( data )
+	{
+		row.remove();
+		frog.json_message(data);
+	};
+
+	var eventError = function( data )
+	{
+		frog.json_message(data);
+	};
+		
+	// Sending information
+	jQuery.ajax({
+		// options
+		url: '?/page/delete/' + page_id,
+		dataType: 'json',
+			
+		// events
+		success: eventSuccess,
+		error: eventError
+	});
+
+	
+	return false;
+}
 
 // Save expanded pages ID's when collapse
 frogPages.pageCollapse = function( page_id )
@@ -924,35 +959,35 @@ frogPageEdit.init = function()
 		}
 		
 
-		/* stop form from submitting normally */
-		//event.preventDefault(); 
+	/* stop form from submitting normally */
+	//event.preventDefault(); 
         
-//		/* get some values from elements on the page: */
-//		var $form = $( this ),
-//		url = $form.attr( 'action' );
+	//		/* get some values from elements on the page: */
+	//		var $form = $( this ),
+	//		url = $form.attr( 'action' );
 
 
 
 		
-//		/* Send the data using post and put the results in a div */
-//		$.post( url, $form.serialize(),
-//			function( data ) {
-//				frog.json_message(data);
-//				frog.json_redirect(data);
-//			//		frogFilters.switchOn();
-//			}, 'json'
-//			);
+	//		/* Send the data using post and put the results in a div */
+	//		$.post( url, $form.serialize(),
+	//			function( data ) {
+	//				frog.json_message(data);
+	//				frog.json_redirect(data);
+	//			//		frogFilters.switchOn();
+	//			}, 'json'
+	//			);
 	});
-		$('#page_edit_form').ajaxForm({
-			dataType:  'json',
-			//		beforeSubmit: function(){
-			//			return frogPageEdit.formChanged;
-			//		},
-			success: function(data) {
-				frog.json_message(data);
-				frog.json_redirect(data);
-			}
-		});
+	$('#page_edit_form').ajaxForm({
+		dataType:  'json',
+		//		beforeSubmit: function(){
+		//			return frogPageEdit.formChanged;
+		//		},
+		success: function(data) {
+			frog.json_message(data);
+			frog.json_redirect(data);
+		}
+	});
 	
 	jQuery('#page_edit_title_input')
 	.keyup(this.titleKeyup)

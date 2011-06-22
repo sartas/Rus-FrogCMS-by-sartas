@@ -38,7 +38,9 @@ class PartImages extends PagePart {
 
 	public function findOneByPartIdPageId( $part_id, $page_id )
 	{
-		$part = new PartImages();
+		$class_name = (FROG_BACKEND == true) ? 'PartImages' : 'FrontPartImages';
+
+		$part = new $class_name();
 		$part->part_id = $part_id;
 		$part->page_id = $page_id;
 
@@ -70,7 +72,6 @@ class PartImages extends PagePart {
 		}
 		return true;
 	}
-
 
 //	public function afterDelete( $result )
 //	{

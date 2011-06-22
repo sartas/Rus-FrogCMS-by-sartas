@@ -496,17 +496,21 @@ frogPages.removeClick = function()
 	
 	var eventSuccess = function( data )
 	{
-		row.animate({height: 0}, 500, function(){
-						var parent = row.parent();
+		if(frog.json_message(data) != 'success')
+			return false;
+
+		row.animate({
+			height: 0
+		}, 500, function(){
+			var parent = row.parent();
 						
-						row.remove();
+			row.remove();
 						
-						if( parent.find('li').length == 0 )
-						{
-							parent.parent().find('.page-expander:first').hide();
-						}
-					});
-		frog.json_message(data);
+			if( parent.find('li').length == 0 )
+			{
+				parent.parent().find('.page-expander:first').hide();
+			}
+		});
 	};
 
 	var eventError = function( data )

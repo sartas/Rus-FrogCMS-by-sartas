@@ -496,7 +496,16 @@ frogPages.removeClick = function()
 	
 	var eventSuccess = function( data )
 	{
-		row.remove();
+		row.animate({height: 0}, 500, function(){
+						var parent = row.parent();
+						
+						row.remove();
+						
+						if( parent.find('li').length == 0 )
+						{
+							parent.parent().find('.page-expander:first').hide();
+						}
+					});
 		frog.json_message(data);
 	};
 

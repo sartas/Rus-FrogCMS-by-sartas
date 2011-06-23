@@ -8,7 +8,7 @@ if ( !defined( 'DEBUG' ) )
 
 
 <?php foreach ( $layouts as $layout ): ?>
-	<ul><br /><br /><br /><br /><br /><br /><br /><br />
+	<ul>
 		<li><a href="<?= get_url( 'page/add/' . $parent_id . '/' . $layout->id ); ?>"><?= $layout->name; ?></a></li>
 	</ul>
 <? endforeach; ?>

@@ -303,6 +303,7 @@ frog.dialog = function( options )
 			// Set window content
 			content
 			//.height( options.height )
+		//	.width( options.width )
 			.html( data )
 			.find('input[type="text"]:first')
 			.focus();
@@ -311,12 +312,13 @@ frog.dialog = function( options )
 			//		top: $(window).height()/2.5 - (content.height() + win.height())/2, 
 			//		left: ($(window).width() / 2)-25
 			//	});	
+			
 			// Resize window
 			win.animate({
-				top: ($(window).height()/2 - (content.height())/2),
+				top: ($(window).height()/2.2 - (content.height())/2),
 				left: ($(window).width()/2 - options.width/2),
 				width: options.width,
-				height: content.height()
+				height: content.height() - win.height()
 			}, 500, function(){
 				// Show win close button
 				win
@@ -549,6 +551,8 @@ frogPages.addClick = function()
 	var row =  $(this).parent().parent().parent();
 	var page_id = frogPages.extractPageId( row );
 	
+	page_id = ( page_id == undefined ) ? 1 : page_id;
+	
 	frog.dialog({
 		// options
 		url: '?/page/select_type/' + page_id,
@@ -646,6 +650,7 @@ frogPages.expanderClick = function(){
 			
 			row.find('ul .page-expander').click(frogPages.expanderClick);
 			row.find('.page-add').click(frogPages.addClick);
+			row.find('.page-remove').click(frogPages.removeClick);
 
 			expander.addClass('page-expander-collapse');
 			row.addClass('page-children-loaded');

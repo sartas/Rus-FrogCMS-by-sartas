@@ -28,5 +28,6 @@ if ( !defined( 'DEBUG' ) )
 
 <p>
 	<input id="newtab_ok" class="input-button" type="submit" value="<?php if(isset($part->id))echo __( 'Edit' );else echo __( 'Add' ); ?>" /> <?php echo __( 'or' ); ?> <a id="newtab_cancel" href="javascript:void(0);"><?php echo __( 'Cancel' ); ?></a>
-</p>
+</p><div class="clear"></div>
 </form>
+<div class="clear"></div>

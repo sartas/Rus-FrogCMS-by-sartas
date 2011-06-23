@@ -25,13 +25,13 @@ frog.init = function()
 	/*
 		Overlay
 	 */
-	jQuery('body:first').append('<div id="overlay"></div>');
+	$('body:first').append('<div id="overlay"></div>');
 	
 	
 	/*
 		Loader
 	 */
-	jQuery('body:first').append('<div id="loader"><span>'+ frog.__('Loading') +'</span></div>');
+	$('body:first').append('<div id="loader"><span>'+ frog.__('Loading') +'</span></div>');
 	frog.messageInit();
 
 	
@@ -113,14 +113,14 @@ frog.json_redirect = function( obj )
 // Show overlay
 frog.overlayShow = function( with_animation )
 {
-	jQuery('body')
+	$('body')
 	.css({
 		overflow: 'hidden',
 		width: '100%',
 		height: '100%'
 	});
 		
-	$overlay = jQuery('#overlay');
+	$overlay = $('#overlay');
 	
 	$overlay
 	.css('opacity', 0)
@@ -135,28 +135,28 @@ frog.overlayShow = function( with_animation )
 // Hide overlay
 frog.overlayHide = function()
 {
-	jQuery('body')
+	$('body')
 	.css({
 		overflow: 'auto',
 		width: 'auto',
 		height: 'auto'
 	});
 		
-	jQuery('#overlay').hide();
+	$('#overlay').hide();
 };
 
 // Show loading screen
 frog.loaderShow = function()
 {
 	this.overlayShow();
-	jQuery('#loader').show();
+	$('#loader').show();
 };
 
 // Hise loading screen
 frog.loaderHide = function()
 {
 	this.overlayHide();
-	jQuery('#loader').hide();
+	$('#loader').hide();
 };
 
 frog.message_now = false;
@@ -164,7 +164,7 @@ frog.message = null;
 frog.messageInit = function(){
 	if( document.getElementById( 'frog-message' ) == undefined )
 	{
-		jQuery('#content').prepend('<div id="frog-message"></div>');
+		$('#content').prepend('<div id="frog-message"></div>');
 		frog.message = $('#frog-message');
 	}
 	else
@@ -244,10 +244,10 @@ frog.dialog = function( options )
 	if( this.dialogs[options.url] == undefined )
 	{
 		// Create win DOM elements
-		win = jQuery('<div class="frog-dialog frog-d-loader"><div class="frog-d-content"></div><a href="javascript:void(0);" class="frog-d-close"><!--x--></a></div>');
+		win = $('<div class="frog-dialog frog-d-loader"><div class="frog-d-content"></div><a href="javascript:void(0);" class="frog-d-close"><!--x--></a></div>');
 		
 		// append win to body
-		jQuery('body:first').append(win);
+		$('body:first').append(win);
 		
 		// Set close button event
 		win
@@ -287,8 +287,8 @@ frog.dialog = function( options )
 	{
 		// Refrash win position
 		win.css({
-			top: jQuery(window).height()/2 - (content.height())/2, 
-			left: (jQuery(window).width() / 2)-25
+			top: $(window).height()/2 - (content.height())/2, 
+			left: ($(window).width() / 2)-25
 		});
 		
 		// Success handler
@@ -308,13 +308,13 @@ frog.dialog = function( options )
 			.focus();
 			// Refrash win position
 			//	win.css({
-			//		top: jQuery(window).height()/2.5 - (content.height() + win.height())/2, 
-			//		left: (jQuery(window).width() / 2)-25
+			//		top: $(window).height()/2.5 - (content.height() + win.height())/2, 
+			//		left: ($(window).width() / 2)-25
 			//	});	
 			// Resize window
 			win.animate({
-				top: (jQuery(window).height()/2 - (content.height())/2),
-				left: (jQuery(window).width()/2 - options.width/2),
+				top: ($(window).height()/2 - (content.height())/2),
+				left: ($(window).width()/2 - options.width/2),
 				width: options.width,
 				height: content.height()
 			}, 500, function(){
@@ -338,7 +338,7 @@ frog.dialog = function( options )
 		};
 		
 		// Request
-		jQuery.ajax({
+		$.ajax({
 			// options
 			url: options.url,
 			type: 'get',
@@ -357,20 +357,20 @@ frog.dialog = function( options )
 		/*
 		// If win already exists and we should't update content - we only refrash win position
 		win.animate({
-			top: (jQuery(window).height()/2.5 - win.height()/2),
-			left: (jQuery(window).width()/2 - win.width()/2)
+			top: ($(window).height()/2.5 - win.height()/2),
+			left: ($(window).width()/2 - win.width()/2)
 		}, 500, function(){
 			// And focus first input element
 			win.find('input:first').focus();
 		});
 		 */
 		//win.show();
-//		
-//		win
-//		.css({
-//			top: (jQuery(window).height()/2 - (content.height())/2), 
-//			left: (jQuery(window).width()/2 - options.width/2)
-//		});
+		//		
+		//		win
+		//		.css({
+		//			top: ($(window).height()/2 - (content.height())/2), 
+		//			left: ($(window).width()/2 - options.width/2)
+		//		});
 			
 		// Show window
 		win.show();
@@ -411,7 +411,7 @@ frogFilters.add = function( name, to_editor_callback, to_textarea_callback )
 frogFilters.switchOn = function( textarea_id, filter )
 {
 	// Hack for rich text editors like TinyMCE
-	jQuery( '#' + textarea_id ).css( 'display', 'block' );
+	$( '#' + textarea_id ).css( 'display', 'block' );
 	
 	if( this.filters.length > 0 )
 	{
@@ -487,11 +487,11 @@ frogPages.expandedRows = [];
 frogPages.init = function()
 {	
 	// Attach event for expander
-	jQuery('.page-expander').click(this.expanderClick);
-	jQuery('.page-remove').click(this.removeClick);
-	jQuery('.page-add').click(this.addClick);
-	jQuery('#page_reorder').click(this.reorderClick);
-	jQuery('#page_copy').click(this.copyClick);
+	$('.page-expander').click(this.expanderClick);
+	$('.page-remove').click(this.removeClick);
+	$('.page-add').click(this.addClick);
+	$('#page_reorder').click(this.reorderClick);
+	$('#page_copy').click(this.copyClick);
 	
 	// Read coockies
 	frogPages.readExpandedCookie();
@@ -530,7 +530,7 @@ frogPages.removeClick = function()
 	};
 		
 	// Sending information
-	jQuery.ajax({
+	$.ajax({
 		// options
 		url: '?/page/delete/' + page_id,
 		dataType: 'json',
@@ -571,7 +571,7 @@ frogPages.pageCollapse = function( page_id )
 {
 	this.expandedRows.push( page_id );
 	
-	//this.expandedRows = jQuery.unique(this.expandedRows);
+	//this.expandedRows = $.unique(this.expandedRows);
 	
 	this.saveExpandedCookie();
 }
@@ -579,11 +579,11 @@ frogPages.pageCollapse = function( page_id )
 // Save expanded pages ID's when expand
 frogPages.pageExpand = function( page_id )
 {
-	this.expandedRows = jQuery.grep(this.expandedRows, function(value, i){
+	this.expandedRows = $.grep(this.expandedRows, function(value, i){
 		return value != page_id;
 	});
 	
-	//this.expandedRows = jQuery.unique(this.expandedRows);
+	//this.expandedRows = $.unique(this.expandedRows);
 	
 	this.saveExpandedCookie();
 }
@@ -608,7 +608,7 @@ frogPages.readExpandedCookie = function()
 // Save coockie expanded_rows
 frogPages.saveExpandedCookie = function()
 {
-	document.cookie = "expanded_rows=" + jQuery.unique(this.expandedRows).join(',');
+	document.cookie = "expanded_rows=" + $.unique(this.expandedRows).join(',');
 };
 
 // Get page list and return level depth of this list
@@ -627,7 +627,7 @@ frogPages.extractPageId = function( row )
 
 // Expander button click event
 frogPages.expanderClick = function(){
-	var expander = jQuery(this);
+	var expander = $(this);
 	var row = expander.parent().parent().parent();
 	
 	var page_id = frogPages.extractPageId( row );
@@ -645,12 +645,14 @@ frogPages.expanderClick = function(){
 			row.append( html );
 			
 			row.find('ul .page-expander').click(frogPages.expanderClick);
-			
+			row.find('.page-add').click(frogPages.addClick);
+
 			expander.addClass('page-expander-collapse');
 			row.addClass('page-children-loaded');
 			
 			frogPages.expandedRows.push( page_id );
 			frogPages.saveExpandedCookie();
+			
 			
 			page_loader.hide();
 		};
@@ -664,7 +666,7 @@ frogPages.expanderClick = function(){
 		}
 		
 		// Sending information about page position to frog
-		jQuery.ajax({
+		$.ajax({
 			// options
 			url: '?/page/children/' + page_id + '/' + page_level,
 			dataType: 'html',
@@ -690,25 +692,27 @@ frogPages.expanderClick = function(){
 		}
 	}
 	
+
+	
 	return false;
 };
 
 // Reorder button click event
 frogPages.reorderClick = function()
 {
-	if( jQuery('#site_map').hasClass('pages-drag-copy') == true )
+	if( $('#site_map').hasClass('pages-drag-copy') == true )
 	{
-		jQuery('#site_map')
+		$('#site_map')
 		.removeClass('pages-drag-copy')
 		.sortable('destroy')
 		.draggable('destroy');
 			
-		jQuery('.page-link-active').removeClass('page-link-active');
+		$('.page-link-active').removeClass('page-link-active');
 	}
 	
-	if( jQuery('#site_map').hasClass('pages-drag-reorder') == false )
+	if( $('#site_map').hasClass('pages-drag-reorder') == false )
 	{
-		jQuery(this).addClass('page-link-active');
+		$(this).addClass('page-link-active');
 		
 		// When we start draggin
 		var dragStart_handler = function( event, ui )
@@ -733,7 +737,7 @@ frogPages.reorderClick = function()
 		// When element dropped
 		var dragStopped_handler = function( event, ui )
 		{
-			// For solving Opera position bug (http://bugs.jqueryui.com/ticket/4435)
+			// For solving Opera position bug (http://bugs.$ui.com/ticket/4435)
 			ui.item.css({
 				'top':'0', 
 				'left':'0'
@@ -751,14 +755,14 @@ frogPages.reorderClick = function()
 			
 			for( var i=0; i<childrens.length; i++ )
 			{
-				pages.push( frogPages.extractPageId(jQuery(childrens[i])) );
+				pages.push( frogPages.extractPageId($(childrens[i])) );
 			}
 			
 			// Show loading screen
 			frog.loaderShow();
 			
 			// Save reordered positons
-			jQuery.ajax({
+			$.ajax({
 				// options
 				type: 'post',
 				url: '?/page/reorder/' + parent_page_id,
@@ -778,7 +782,7 @@ frogPages.reorderClick = function()
 		};
 		
 		// Begin sorting
-		jQuery('#site_map')
+		$('#site_map')
 		.addClass('pages-drag-reorder')
 		.sortable({
 			// options
@@ -800,11 +804,11 @@ frogPages.reorderClick = function()
 	}
 	else // Toggle if already switched on
 	{
-		jQuery('#site_map')
+		$('#site_map')
 		.removeClass('pages-drag-reorder')
 		.sortable('destroy');
 			
-		jQuery(this).removeClass('page-link-active');
+		$(this).removeClass('page-link-active');
 	}
 	
 	return false;
@@ -813,18 +817,18 @@ frogPages.reorderClick = function()
 // Coppy button click event
 frogPages.copyClick = function()
 {
-	if( jQuery('#site_map').hasClass('pages-drag-reorder') == true )
+	if( $('#site_map').hasClass('pages-drag-reorder') == true )
 	{
-		jQuery('#site_map')
+		$('#site_map')
 		.removeClass('pages-drag-reorder')
 		.sortable('destroy');
 			
-		jQuery('.page-link-active').removeClass('page-link-active');
+		$('.page-link-active').removeClass('page-link-active');
 	}
 
-	if( jQuery('#site_map').hasClass('pages-drag-copy') == false )
+	if( $('#site_map').hasClass('pages-drag-copy') == false )
 	{
-		jQuery(this).addClass('page-link-active');
+		$(this).addClass('page-link-active');
 	
 		// When draged element appended to container
 		var dragOver_handler = function( event, ui )
@@ -837,7 +841,7 @@ frogPages.copyClick = function()
 		// When element dropped
 		var dragStopped_handler = function( event, ui )
 		{
-			// For solving Opera position bug (http://bugs.jqueryui.com/ticket/4435)
+			// For solving Opera position bug (http://bugs.$ui.com/ticket/4435)
 			ui.item.css({
 				'top':'0', 
 				'left':'0'
@@ -855,7 +859,7 @@ frogPages.copyClick = function()
 			
 			for( var i=0; i<childrens.length; i++ )
 			{
-				var children_id = frogPages.extractPageId(jQuery(childrens[i]));
+				var children_id = frogPages.extractPageId($(childrens[i]));
 				
 				//strange bugfix. If children_id is wrong !maybe! this children is current copied page. Maybe...
 				children_id = (children_id == undefined ? page_id : children_id);
@@ -867,7 +871,7 @@ frogPages.copyClick = function()
 			frog.loaderShow();
 			
 			// Save copy
-			jQuery.ajax({
+			$.ajax({
 				// options
 				type: 'post',
 				url: '?/page/copy/' + parent_page_id,
@@ -901,7 +905,7 @@ frogPages.copyClick = function()
 		};
 		
 		// Begin draggin
-		jQuery('#site_map')
+		$('#site_map')
 		.addClass('pages-drag-copy')
 		.sortable({
 			// options
@@ -937,12 +941,12 @@ frogPages.copyClick = function()
 	}
 	else // Toggle if already switched on
 	{
-		jQuery('#site_map')
+		$('#site_map')
 		.removeClass('pages-drag-copy')
 		.sortable('destroy')
 		.draggable('destroy');
 			
-		jQuery(this).removeClass('page-link-active');
+		$(this).removeClass('page-link-active');
 	}
 	
 	return false;
@@ -982,26 +986,26 @@ frogPageEdit.init = function()
 	/*
 		Page options
 	 */
-	var $more = jQuery('#page_more');
+	var $more = $('#page_more');
 	frogPageEdit.more_height = $more.height();
 	$more.hide();
 	
-	jQuery('#page_more_button a').click( this.moreClick );
+	$('#page_more_button a').click( this.moreClick );
 	
 	
 	// When form will be submited we should switch off all filters
-	jQuery('#page_edit_form').submit(function(event){
+	$('#page_edit_form').submit(function(event){
 		
 		if(typeof(tinyMCE) != "undefined"){
 			tinyMCE.triggerSave(true, true);
 		}
 		
 		//	frogFilters.switchOff();
-		var $breadcrumbs = jQuery('#page_breadcrumb');
+		var $breadcrumbs = $('#page_breadcrumb');
 
 		if( $breadcrumbs.val() == '' )
 		{
-			$breadcrumbs.val( jQuery('#page_edit_title_input').val() );
+			$breadcrumbs.val( $('#page_edit_title_input').val() );
 		}
 		
 
@@ -1035,7 +1039,7 @@ frogPageEdit.init = function()
 		}
 	});
 	
-	jQuery('#page_edit_title_input')
+	$('#page_edit_title_input')
 	.keyup(this.titleKeyup)
 	.focus();
 	
@@ -1046,10 +1050,10 @@ frogPageEdit.init = function()
 	 */
 	/*	var tabs = [];
 	
-	jQuery('#page_edit_items .page-edit-item')
+	$('#page_edit_items .page-edit-item')
 	//.hide()
 	.each(function(){
-		var $this = jQuery(this);
+		var $this = $(this);
 		var part_id = $this.attr('id').replace('page_edit_', '');
 		var part_name = $this.attr('title').toString();
 		
@@ -1059,7 +1063,7 @@ frogPageEdit.init = function()
 	.first()
 	.addClass('page-edit-pactive');
 	
-	var $tabs = jQuery('#page_edit_tabs');
+	var $tabs = $('#page_edit_tabs');
 	
 	for( var i=0; i<tabs.length; i++ )
 	{
@@ -1072,10 +1076,10 @@ frogPageEdit.init = function()
 	
 	*/
 	// Parts filter select
-	jQuery('.page-part-filter').change(function(){
-		var textarea_id = jQuery(this).attr('id').replace('_filter_id', '_content');
+	$('.page-part-filter').change(function(){
+		var textarea_id = $(this).attr('id').replace('_filter_id', '_content');
 		
-		frogFilters.switchOn( textarea_id, jQuery(this).val() );
+		frogFilters.switchOn( textarea_id, $(this).val() );
 	});
 	
 	
@@ -1083,7 +1087,7 @@ frogPageEdit.init = function()
 	/*
 		published_on Calendar
 	 */
-	jQuery('#page_published_on').datepicker({
+	$('#page_published_on').datepicker({
 		// options
 		dateFormat: 'yy-mm-dd',
 		
@@ -1096,7 +1100,7 @@ frogPageEdit.init = function()
 	
 	
 	/*
-	jQuery('#page_edit_commit').click(function(){
+	$('#page_edit_commit').click(function(){
 		frogPageEdit.commitButton = true;
 	});
 	*/
@@ -1144,7 +1148,7 @@ frogPageEdit.init = function()
 	});
 
 */
-	jQuery('#page_edit_cancel').click(function(){
+	$('#page_edit_cancel').click(function(){
 		frogPageEdit.formChanged = false;
 	});
 /*
@@ -1154,7 +1158,7 @@ frogPageEdit.init = function()
 		{
 			event = event || window.event;
 			
-			if( jQuery.browser.ie )
+			if( $.browser.ie )
 				event.returnValue = frog.__('You have changed this form. Discard changes?');
 			else
 				return frog.__('You have changed this form. Discard changes?');
@@ -1165,12 +1169,12 @@ frogPageEdit.init = function()
 // "More options" button click event
 frogPageEdit.moreClick = function()
 {
-	$more = jQuery('#page_more');
-	$more_button = jQuery('#page_more_button');
+	$more = $('#page_more');
+	$more_button = $('#page_more_button');
 
 	if( $more.css('display') == 'none' )
 	{		
-		/*if( jQuery.browser.opera )
+		/*if( $.browser.opera )
 		{
 			$more.show();
 			
@@ -1195,7 +1199,7 @@ frogPageEdit.moreClick = function()
 	}
 	else
 	{
-		/*if( jQuery.browser.opera )
+		/*if( $.browser.opera )
 		{
 			$more.hide();
 		}
@@ -1218,19 +1222,19 @@ frogPageEdit.moreClick = function()
 // Add new part tab
 frogPageEdit.addTab = function( index, name )
 {
-	var $tabs = jQuery('#page_edit_tabs');
+	var $tabs = $('#page_edit_tabs');
 	
 	$tabs
 	.append( '<div class="page-edit-tab" id="page_edit_tab_'+ index +'"><span>'+ name +'</span> '+ (USER_IS_ADMINISTRATOR || USER_IS_DEVELOPER ? '<img src="images/icon-close.png" class="page-edit-tclose" alt="" title="'+ frog.__('Remove page part') +'" />' : '') +'</div>' )
 	.find('#page_edit_tab_'+ index)
 	.click(function(){
-		var part_id = jQuery(this).attr('id').replace('page_edit_tab_', '');
+		var part_id = $(this).attr('id').replace('page_edit_tab_', '');
 			
-		jQuery('#page_edit_items .page-edit-item').removeClass('page-edit-pactive');
+		$('#page_edit_items .page-edit-item').removeClass('page-edit-pactive');
 		$tabs.find('.page-edit-tab').removeClass('page-edit-tactive');
 			
-		jQuery('#page_edit_' + part_id).addClass('page-edit-pactive');
-		jQuery(this).addClass('page-edit-tactive');
+		$('#page_edit_' + part_id).addClass('page-edit-pactive');
+		$(this).addClass('page-edit-tactive');
 			
 		return false;
 	})
@@ -1238,16 +1242,16 @@ frogPageEdit.addTab = function( index, name )
 	.click(function(){
 		if( confirm( frog.__('Are you sure?') ) )
 		{
-			var part_index = parseInt( jQuery(this).parent().attr('id').replace('page_edit_tab_', '') );
+			var part_index = parseInt( $(this).parent().attr('id').replace('page_edit_tab_', '') );
 				
-			jQuery('#page_edit_tab_'+ index).remove();
-			jQuery('#page_edit_'+ index).remove();
+			$('#page_edit_tab_'+ index).remove();
+			$('#page_edit_'+ index).remove();
 				
 			$tabs
 			.find('.page-edit-tab:last')
 			.addClass('page-edit-tactive');
 				
-			jQuery('#page_edit_items .page-edit-item:last')
+			$('#page_edit_items .page-edit-item:last')
 			.addClass('page-edit-pactive');
 		}
 			
@@ -1283,7 +1287,7 @@ frogPageEdit.addTabClick = function(layout_id)
 				else
 				{
 					// Get last item ID
-					var lastPartIndex = parseInt( jQuery('#page_edit_items .page-edit-item:last').attr('id').replace('page_edit_', '') );
+					var lastPartIndex = parseInt( $('#page_edit_items .page-edit-item:last').attr('id').replace('page_edit_', '') );
 					
 					// Success handler
 					var pagePartLoaded_handler = function( part_source )
@@ -1291,12 +1295,12 @@ frogPageEdit.addTabClick = function(layout_id)
 						frogPageEdit.addTab( (lastPartIndex + 1), name );
 						
 						// Append new tab and attach event to filters <select>
-						jQuery('#page_edit_items')
+						$('#page_edit_items')
 						.append( part_source )
 						.find('.page-part-filter').change(function(){ // Parts filter select
-							var textarea_id = jQuery(this).attr('id').replace('_filter_id', '_content');
+							var textarea_id = $(this).attr('id').replace('_filter_id', '_content');
 								
-							frogFilters.switchOn( textarea_id, jQuery(this).val() );
+							frogFilters.switchOn( textarea_id, $(this).val() );
 						});
 						
 						// Clear win input value and hide loader
@@ -1318,7 +1322,7 @@ frogPageEdit.addTabClick = function(layout_id)
 					frog.loaderShow();	
 					
 					// Get part source code
-					jQuery.ajax({
+					$.ajax({
 						// options
 						type: 'post',
 						url: '?/page/addPart',
@@ -1517,21 +1521,21 @@ frogPlugins = {};
 // Init plugins
 frogPlugins.init = function()
 {
-	jQuery('#plugins .plugin-enabled-checkbox').change(function(){
+	$('#plugins .plugin-enabled-checkbox').change(function(){
 
-		var plugin_id = jQuery(this).val();
-		var action = (jQuery(this).attr('checked') ? 'activate' : 'deactivate');
+		var plugin_id = $(this).val();
+		var action = ($(this).attr('checked') ? 'activate' : 'deactivate');
 	
 		// When plugin request is successful
 		var pluginRequestSuccess_handler = function()
 		{
 			if( action == 'activate' )
 			{
-				jQuery('#plugin_' + plugin_id).addClass('plugin-active');
+				$('#plugin_' + plugin_id).addClass('plugin-active');
 			}
 			else
 			{
-				jQuery('#plugin_' + plugin_id).removeClass('plugin-active');
+				$('#plugin_' + plugin_id).removeClass('plugin-active');
 			}
 			
 			frog.loaderHide();
@@ -1546,13 +1550,13 @@ frogPlugins.init = function()
 			frog.loaderHide();
 		};
 	
-		var requestUrl = '?/setting/' + action + '_plugin/' + jQuery(this).val();
+		var requestUrl = '?/setting/' + action + '_plugin/' + $(this).val();
 		
 		// Show loading screen
 		frog.loaderShow();
 		
 		// Plugin request
-		jQuery.ajax({
+		$.ajax({
 			// options
 			type: 'get',
 			url: requestUrl,
@@ -1569,7 +1573,7 @@ frogPlugins.init = function()
 /*
 	When DOM ready
  */
-jQuery(document).ready(function(){
+$(document).ready(function(){
 	/*
 		Global init
 	 */
@@ -1578,7 +1582,7 @@ jQuery(document).ready(function(){
 	/*
 		Global init for specific pages
 	 */
-	switch( jQuery('body').attr('id') )
+	switch( $('body').attr('id') )
 	{
 		// Page -> index
 		case 'body_page_index':
@@ -1597,17 +1601,17 @@ jQuery(document).ready(function(){
 		case 'body_snippet_add':
 		case 'body_snippet_edit':
 			// Parts filter select
-			jQuery('#snippet_filter_id').change(function(){
-				frogFilters.switchOn( 'snippet_content', jQuery(this).val() );
+			$('#snippet_filter_id').change(function(){
+				frogFilters.switchOn( 'snippet_content', $(this).val() );
 			});
 			
 			// When form will be submited we should switch off all filters
-			jQuery('#snippet_edit_form').submit(function(){
+			$('#snippet_edit_form').submit(function(){
 				frogFilters.switchOff();
 			});
 			
 			// Focus first form element
-			jQuery('#snippet_name').focus();
+			$('#snippet_name').focus();
 			break;
 			
 		
@@ -1615,25 +1619,25 @@ jQuery(document).ready(function(){
 		case 'body_layout_add':
 		case 'body_layout_edit':
 			// When form will be submited we should switch off all filters
-			jQuery('#layout_edit_form').submit(function(){
+			$('#layout_edit_form').submit(function(){
 				frogFilters.switchOff();
 			});
 		
-			jQuery('#layout_name').focus();
+			$('#layout_name').focus();
 			break;
 			
 			
 		// User -> edit
 		case 'body_user_edit':
 			// Focus first form element
-			jQuery('#user_name').focus();
+			$('#user_name').focus();
 			break;
 			
 		
 		// Setting -> index
 		case 'body_setting_index':
 			// Focus first form element
-			jQuery('#setting_admin_title').focus();
+			$('#setting_admin_title').focus();
 			break;
 		
 		

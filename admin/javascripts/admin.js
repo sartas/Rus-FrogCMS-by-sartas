@@ -275,18 +275,22 @@ frog.dialog = function( options )
 	if( options.modal != undefined && options.modal == true )
 		this.overlayShow(true);
 	
-	// Refrash win position
-	win.css({
-		top: jQuery(window).height()/2.5 - options.height/2, 
-		left: (jQuery(window).width() / 2)-25
-	});
+
 	
 	// find content div
 	var content = win.find('.frog-d-content:first');
 	
+
+	
 	// load content
 	if( content.html() == '' || options.alwaysNew == true )
 	{
+		// Refrash win position
+		win.css({
+			top: jQuery(window).height()/2 - (content.height())/2, 
+			left: (jQuery(window).width() / 2)-25
+		});
+		
 		// Success handler
 		var onSuccess_handler = function( data )
 		{
@@ -296,24 +300,30 @@ frog.dialog = function( options )
 			if( options.className != undefined )
 				win.addClass( options.className );
 			
+			// Set window content
+			content
+			//.height( options.height )
+			.html( data )
+			.find('input[type="text"]:first')
+			.focus();
+			// Refrash win position
+			//	win.css({
+			//		top: jQuery(window).height()/2.5 - (content.height() + win.height())/2, 
+			//		left: (jQuery(window).width() / 2)-25
+			//	});	
 			// Resize window
 			win.animate({
-				top: (jQuery(window).height()/2.5 - options.height/2),
+				top: (jQuery(window).height()/2 - (content.height())/2),
 				left: (jQuery(window).width()/2 - options.width/2),
 				width: options.width,
-				height: options.height
+				height: content.height()
 			}, 500, function(){
 				// Show win close button
 				win
 				.find('.frog-d-close')
 				.show();
 				
-				// Set window content
-				content
-				.height( options.height )
-				.html( data )
-				.find('input[type="text"]:first')
-				.focus();
+
 				
 				// Run loaded enevt
 				if( typeof(options.loaded) == 'function' )
@@ -355,12 +365,12 @@ frog.dialog = function( options )
 		});
 		 */
 		//win.show();
-		
-		win
-		.css({
-			top: (jQuery(window).height()/2.5 - options.height/2),
-			left: (jQuery(window).width()/2 - options.width/2)
-		});
+//		
+//		win
+//		.css({
+//			top: (jQuery(window).height()/2 - (content.height())/2), 
+//			left: (jQuery(window).width()/2 - options.width/2)
+//		});
 			
 		// Show window
 		win.show();
@@ -479,6 +489,7 @@ frogPages.init = function()
 	// Attach event for expander
 	jQuery('.page-expander').click(this.expanderClick);
 	jQuery('.page-remove').click(this.removeClick);
+	jQuery('.page-add').click(this.addClick);
 	jQuery('#page_reorder').click(this.reorderClick);
 	jQuery('#page_copy').click(this.copyClick);
 	
@@ -504,7 +515,7 @@ frogPages.removeClick = function()
 		}, 500, function(){
 			var parent = row.parent();
 						
-			row.remove();
+			$(this).remove();
 						
 			if( parent.find('li').length == 0 )
 			{
@@ -529,6 +540,28 @@ frogPages.removeClick = function()
 		error: eventError
 	});
 
+	
+	return false;
+}
+
+frogPages.addClick = function()
+{
+	var row =  $(this).parent().parent().parent();
+	var page_id = frogPages.extractPageId( row );
+	
+	frog.dialog({
+		// options
+		url: '?/page/select_type/' + page_id,
+		modal: true,
+		alwaysNew: false,
+		width: 280,
+
+		
+		// events
+		loaded: function( content ){
+		//alert(content)
+		}
+	});
 	
 	return false;
 }
@@ -914,7 +947,7 @@ frogPages.copyClick = function()
 	
 	return false;
 };
-
+/*
 // select page link dialog
 frogPages.dialog = function()
 {
@@ -932,7 +965,7 @@ frogPages.dialog = function()
 		}
 	});
 };
-
+*/
 
 
 /*

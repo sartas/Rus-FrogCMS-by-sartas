@@ -25,16 +25,16 @@ class LayoutPartController extends Controller {
 
 			if ( $part->delete() )
 			{
-				echo json_encode( true );
+				Flash::json( true );
 			}
 			else
 			{
-				echo json_encode( false );
+				Flash::json( false );
 			}
 		}
 		else
 		{
-			echo json_encode( false );
+			Flash::json( false );
 		}
 	}
 
@@ -54,11 +54,11 @@ class LayoutPartController extends Controller {
 
 		if ( $part->save() )
 		{
-			echo json_encode( $part );
+			Flash::json( $part );
 		}
 		else
 		{
-			echo json_encode( false );
+			Flash::json( false );
 		}
 	}
 
@@ -82,11 +82,11 @@ class LayoutPartController extends Controller {
 
 		if ( $part->save() )
 		{
-			echo json_encode( $part );
+			Flash::json( $part );
 		}
 		else
 		{
-			echo json_encode( false );
+			Flash::json( false );
 		}
 	}
 

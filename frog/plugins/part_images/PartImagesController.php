@@ -52,11 +52,11 @@ class PartImagesController extends PluginController {
 		{
 			$_SESSION['ai_uploaded'][] = $image->id;
 
-			echo json_encode( true );
+			Flash::json( true );
 		}
 		else
 		{
-			echo json_encode( false );
+			Flash::json( false );
 		}
 	}
 
@@ -81,11 +81,11 @@ class PartImagesController extends PluginController {
 
 			$_SESSION['ai_uploaded'] = array();
 
-			echo json_encode( $out_images );
+			Flash::json( $out_images );
 		}
 		else
 		{
-			echo json_encode( false );
+			Flash::json( false );
 		}
 	}
 
@@ -95,11 +95,11 @@ class PartImagesController extends PluginController {
 
 		if ( $result )
 		{
-			echo json_encode( $image_id );
+			Flash::json( $image_id );
 		}
 		else
 		{
-			echo json_encode( false );
+			Flash::json( false );
 		}
 	}
 

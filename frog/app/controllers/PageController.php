@@ -37,7 +37,7 @@ class PageController extends Controller {
 
 	public function select_type( $parent_id=1 )
 	{
-		$this->setLayout( 'backend' );
+		//$this->setLayout( 'backend' );
 		$this->display( 'page/select_type', array(
 			'parent_id' => $parent_id,
 			'layouts' => Record::findAllFrom( 'Layout', '1=1 ORDER BY position' )
@@ -188,7 +188,7 @@ class PageController extends Controller {
 
 			if ( get_request_method() == 'AJAX' )
 			{
-				echo json_encode( array('error' => $error) );
+				Flash::json( array('error' => $error) );
 			}
 			else
 			{
@@ -376,7 +376,7 @@ class PageController extends Controller {
 			// fix recursive copy bug
 			if ( $dragged_id == $parent_id )
 			{
-				echo json_encode( array('error' => __( 'Page :title has not been copied!', array(':title' => $receive_page_title) )) );
+				Flash::json( array('error' => __( 'Page :title has not been copied!', array(':title' => $receive_page_title) )) );
 				exit;
 			}
 
@@ -399,7 +399,7 @@ class PageController extends Controller {
 				$page->save();
 			}
 
-			echo json_encode( array('success' => __( 'Page :title has been copied!', array(':title' => $receive_page_title) ),
+			Flash::json( array('success' => __( 'Page :title has been copied!', array(':title' => $receive_page_title) ),
 				'new_root_id' => $new_root_id) );
 		}
 	}

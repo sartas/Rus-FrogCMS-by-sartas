@@ -80,18 +80,18 @@ frogFiles.expanderClick = function()
 				.find('ul .file-remove')
 					.click(frogFiles.fileRemoveClick);
 					
-			frog.loaderHide();
+			//frog.loaderHide();
 		};
 		
 		var requestError_handler = function( answer )
 		{
 			frog.error('Filemanager: Ajax data not loaded!', answer);
 			
-			frog.loaderHide();
+			//frog.loaderHide();
 		};
 		
 		// Show loader screen
-		frog.loaderShow();
+		//frog.loaderShow();
 		
 		// Get subfoldres by Ajax
 		jQuery.ajax({

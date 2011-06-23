@@ -78,7 +78,7 @@
 			<span class="page-view"><a href="<?php echo(URL_PUBLIC . (USE_MOD_REWRITE === false ? '?/' : '') . ($uri = $child->getUri()) . (strstr($uri, '.') === false ? URL_SUFFIX : '')); ?>" target="_blank"><img src="images/icon-newwin.gif" class="page-smallicon" title="<?php echo __('View') .' ('. __('In a new window') .')'; ?>" alt="" /></a>&nbsp;</span>
 			
 			<span class="page-modify">
-				<a class="page-add" href="<?php echo get_url('page/select_type', $child->id); ?>"><img class="page-smallicon" src="images/plus.png" title="<?php echo __('Add child'); ?>" alt="" /></a>&nbsp; 
+				<a class="page-add" href="#"><img class="page-smallicon" src="images/plus.png" title="<?php echo __('Add child'); ?>" alt="" /></a>&nbsp; 
 				<?php if( !$child->is_protected || AuthUser::hasPermission('administrator') || AuthUser::hasPermission('developer') ): ?>
 				<a class="page-remove" href="#" rel="<?php echo __('Are you sure you wish to delete'); ?> <?php echo $child->title; ?>?"><img class="page-smallicon" src="images/icon-remove.png" title="<?php echo __('Remove'); ?>" alt="" /></a>
 				<?php endif; ?>
